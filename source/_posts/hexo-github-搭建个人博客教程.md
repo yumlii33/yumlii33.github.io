@@ -8,7 +8,6 @@ categories:
     - 教程
 ---
 
-[toc]
 
 ## 什么是hexo？
 
