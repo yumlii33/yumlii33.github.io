@@ -127,8 +127,7 @@
   <entry>
     <title>hexo + github 搭建个人博客教程</title>
     <url>/project/2024/01/20/hexo-github-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<p>[toc]</p>
-<h2 id="什么是hexo？"><a href="#什么是hexo？" class="headerlink" title="什么是hexo？"></a>什么是hexo？</h2><p>hexo是一个基于nodejs的静态博客框架，可以快速搭建个人博客，支持markdown语法，支持自定义主题，支持插件扩展，支持一键部署到github上，支持离线写作，支持多终端同步等等。</p>
+    <content><![CDATA[<h2 id="什么是hexo？"><a href="#什么是hexo？" class="headerlink" title="什么是hexo？"></a>什么是hexo？</h2><p>hexo是一个基于nodejs的静态博客框架，可以快速搭建个人博客，支持markdown语法，支持自定义主题，支持插件扩展，支持一键部署到github上，支持离线写作，支持多终端同步等等。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
 <li>安装git，下载地址<a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></li>
 <li>安装nodejs，下载地址<a href="https://nodejs.cn/download/">https://nodejs.cn/download/</a></li>
@@ -180,20 +179,6 @@
         <tag>hexo</tag>
         <tag>github</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>my-first-blog</title>
-    <url>/project/2024/01/03/my-first-blog/</url>
-    <content><![CDATA[<h2 id="My-First-Blog"><a href="#My-First-Blog" class="headerlink" title="My First Blog"></a>My First Blog</h2><p>这是我的第一篇博客，记录一下使用hexo+githubpages搭建个人网站时有用的参考链接~ b(￣▽￣)d</p>
-<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
-<li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
-<li><a href="https://blog.csdn.net/as480133937/article/details/100138838">Hexo-Next 主题博客个性化配置超详细，超全面(两万字)_hexo next 记录访问了ip-CSDN博客</a></li>
-<li><a href="https://oytoyt.github.io/2018/12/06/hexo%E5%BC%80%E5%90%AFtags%E6%88%96categories%E5%85%B6%E5%AE%83%E8%8F%9C%E5%8D%95%E6%97%B6%EF%BC%8C%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98/">hexo开启tags或categories其它菜单时，无法访问问题 | Yanting Ou</a></li>
-</ul>
-<h2 id="TODO："><a href="#TODO：" class="headerlink" title="TODO："></a>TODO：</h2><ul>
-<li>hexo博文中添加图片，修改hexo-asset-image插件配置</li>
-</ul>
-]]></content>
   </entry>
   <entry>
     <title>WriteUp-第六届安洵杯网络安全挑战赛-010101</title>
@@ -251,5 +236,19 @@
       <tags>
         <tag>Crypto</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>my-first-blog</title>
+    <url>/project/2024/01/03/my-first-blog/</url>
+    <content><![CDATA[<h2 id="My-First-Blog"><a href="#My-First-Blog" class="headerlink" title="My First Blog"></a>My First Blog</h2><p>这是我的第一篇博客，记录一下使用hexo+githubpages搭建个人网站时有用的参考链接~ b(￣▽￣)d</p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
+<li><a href="https://blog.csdn.net/as480133937/article/details/100138838">Hexo-Next 主题博客个性化配置超详细，超全面(两万字)_hexo next 记录访问了ip-CSDN博客</a></li>
+<li><a href="https://oytoyt.github.io/2018/12/06/hexo%E5%BC%80%E5%90%AFtags%E6%88%96categories%E5%85%B6%E5%AE%83%E8%8F%9C%E5%8D%95%E6%97%B6%EF%BC%8C%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98/">hexo开启tags或categories其它菜单时，无法访问问题 | Yanting Ou</a></li>
+</ul>
+<h2 id="TODO："><a href="#TODO：" class="headerlink" title="TODO："></a>TODO：</h2><ul>
+<li>hexo博文中添加图片，修改hexo-asset-image插件配置</li>
+</ul>
+]]></content>
   </entry>
 </search>
