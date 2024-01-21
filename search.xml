@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>CVE-2017-1297漏洞复现</title>
-    <url>/2024/01/14/CVE-2017-1297%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
+    <url>/project/2024/01/14/CVE-2017-1297%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.exploit-db.com/exploits/42260">IBM DB2 9.7&#x2F;10.1&#x2F;10.5&#x2F;11.1 - Command Line Processor Buffer Overflow - Multiple dos Exploit</a></p>
 <h2 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h2><blockquote>
 <p>IBM DB2 for Linux, UNIX and Windows 9.2, 10.1, 10.5, and 11.1 (includes DB2 Connect Server) is vulnerable to a stack-based buffer overflow, caused by improper bounds checking which could allow a local attacker to execute arbitrary code.</p>
@@ -48,7 +48,7 @@
   </entry>
   <entry>
     <title>CVE-2017-3599漏洞复现</title>
-    <url>/2024/01/14/CVE-2017-3599%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
+    <url>/project/2024/01/14/CVE-2017-3599%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.exploit-db.com/exploits/41954">MySQL &lt; 5.6.35 &#x2F; &lt; 5.7.17 - Integer Overflow - Multiple dos Exploit</a></p>
 <h2 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h2><blockquote>
 <p>Vulnerability in the MySQL Server component of Oracle MySQL (subcomponent: Server: Pluggable Auth). Supported versions that are affected are 5.6.35 and earlier and 5.7.17 and earlier. Easily “exploitable” vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise MySQL Server. Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server. CVSS 3.0 Base Score 7.5 (Availability impacts). CVSS Vector: (CVSS:3.0&#x2F;AV:N&#x2F;AC:L&#x2F;PR:N&#x2F;UI:N&#x2F;S:U&#x2F;C:N&#x2F;I:N&#x2F;A:H). NOTE: the previous information is from the April 2017 CPU. Oracle has not commented on third-party claims that this issue is an integer overflow in sql&#x2F;auth&#x2F;sql_authentication.cc which allows remote attackers to cause a denial of service via a crafted authentication packet.</p>
@@ -70,8 +70,134 @@
       </tags>
   </entry>
   <entry>
+    <title>Miniconda+Vscode Python 环境管理</title>
+    <url>/project/2024/01/07/Miniconda-Vscode-Python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h2 id="0-Miniconda-安装"><a href="#0-Miniconda-安装" class="headerlink" title="0 Miniconda 安装"></a>0 Miniconda 安装</h2><ul>
+<li>下载安装，可以安装Miniconda，也可以安装Anaconda，Miniconda轻量级。</li>
+<li>安装选项：一路next，有一页path处，全选。</li>
+</ul>
+<h2 id="1-Vscode配置"><a href="#1-Vscode配置" class="headerlink" title="1 Vscode配置"></a>1 Vscode配置</h2><ul>
+<li>安装Python扩展</li>
+<li>设置扩展，将conda path添加到设置中<br>  <img src="/project/.io//2024/01/07/Miniconda-Vscode-Python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/condapath.png" alt="Conda Path"></li>
+<li>新建终端后，默认Python环境为miniconda的base虚拟环境</li>
+</ul>
+<h2 id="2-VScode中使用conda管理python环境"><a href="#2-VScode中使用conda管理python环境" class="headerlink" title="2 VScode中使用conda管理python环境"></a>2 VScode中使用conda管理python环境</h2><ul>
+<li>在vscode中使用conda Prompt：[终端]-&gt;[新建终端]-&gt;[＋]-&gt;[command prompt]<ul>
+<li>conda info –envs 查看当前虚拟环境列表</li>
+<li>conda activate -n envsname 启动虚拟环境（默认为base）</li>
+<li>可以看到启动后前面有（envsname）</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-常用conda命令"><a href="#3-常用conda命令" class="headerlink" title="3 常用conda命令"></a>3 常用conda命令</h2><ul>
+<li>查看所有环境	conda info –envs</li>
+<li>创建新环境	conda create -n env_name python&#x3D;x.x</li>
+<li>启动虚拟环境	conda activate env_name</li>
+<li>退出虚拟环境	conda deactivate</li>
+<li>删除虚拟环境	conda remove -n env_name  –all</li>
+</ul>
+<blockquote>
+<p>本文内容首发于CSDN：<a href="https://blog.csdn.net/weixin_43694227/article/details/124099269">Miniconda+Vscode Python 环境管理</a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>Miniconda</tag>
+        <tag>Vscode</tag>
+        <tag>Python环境管理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/project/2024/01/20/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>hexo + github 搭建个人博客教程</title>
+    <url>/project/2024/01/20/hexo-github-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>[toc]</p>
+<h2 id="什么是hexo？"><a href="#什么是hexo？" class="headerlink" title="什么是hexo？"></a>什么是hexo？</h2><p>hexo是一个基于nodejs的静态博客框架，可以快速搭建个人博客，支持markdown语法，支持自定义主题，支持插件扩展，支持一键部署到github上，支持离线写作，支持多终端同步等等。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>安装git，下载地址<a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></li>
+<li>安装nodejs，下载地址<a href="https://nodejs.cn/download/">https://nodejs.cn/download/</a></li>
+<li>验证nodejs是否安装成功，打开cmd，输入<code>node -v</code>，显示版本号则安装成功</li>
+<li>npm换源，打开cmd，输入<code>npm config set registry https://registry.npm.taobao.org</code>，换源成功后，输入<code>npm config get registry</code>，显示<code>https://registry.npm.taobao.org/</code>则换源成功</li>
+<li>安装hexo，打开cmd，输入<code>npm install -g hexo-cli</code>，安装成功后，输入<code>hexo -v</code>，显示版本号则安装成功</li>
+</ul>
+<h2 id="初始化博客"><a href="#初始化博客" class="headerlink" title="初始化博客"></a>初始化博客</h2><ul>
+<li>新建一个文件夹，例如<code>Bloggg</code></li>
+<li>打开git命令行，输入<code>hexo init</code>，初始化博客</li>
+<li>执行<code>npm install</code>，安装项目依赖</li>
+<li>执行<code>hexo s</code>，启动本地服务，打开浏览器，输入<code>http://localhost:4000</code>，显示hexo默认页面，则初始化成功</li>
+</ul>
+<h2 id="新建文章"><a href="#新建文章" class="headerlink" title="新建文章"></a>新建文章</h2><ul>
+<li>在博客根目录下执行<code>hexo new &quot;文章标题&quot;</code>，会在<code>source/_posts</code>目录下生成一个md文件，例如<code>hello-world.md</code></li>
+<li>编辑博客后，执行<code>hexo s</code>，启动本地服务，打开浏览器，输入<code>http://localhost:4000</code>，显示博客，则新建文章成功</li>
+</ul>
+<h2 id="部署到github-pages"><a href="#部署到github-pages" class="headerlink" title="部署到github pages"></a>部署到github pages</h2><ul>
+<li>在github上新建一个仓库，必须以<code>username.github.io</code>命名，例如本站的仓库名为<code>yumlii33.github.io</code></li>
+<li>修改博客根目录下的<code>_config.yml</code>文件，修改<code>deploy</code>配置，例如本站的配置如下：  <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">repo:</span> <span class="string">git@github.com:yumlii33/yumlii33.github.io.git</span></span><br><span class="line"><span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure></li>
+<li>安装上传插件，执行<code>npm install hexo-deployer-git --save</code></li>
+<li>执行<code>hexo clean</code>，清除缓存</li>
+<li>执行<code>hexo g</code>，生成静态文件</li>
+<li>执行<code>hexo d</code>，部署到github</li>
+<li>访问<code>https://username.github.io</code>，显示博客，则部署成功</li>
+</ul>
+<h2 id="源码上传到github"><a href="#源码上传到github" class="headerlink" title="源码上传到github"></a>源码上传到github</h2><ul>
+<li>在本地hexo根目录下执行<code>git init</code>，初始化git仓库</li>
+<li>执行<code>git remote add origin git@github.com:username/username.github.io.git</code>，添加远程仓库</li>
+<li>创建<code>.gitignore</code>文件，添加忽略文件，例如本站的配置如下：  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">db.json</span><br><span class="line">*.log</span><br><span class="line">node_modules/</span><br><span class="line">public/</span><br><span class="line">.deploy*/</span><br></pre></td></tr></table></figure></li>
+<li>执行<code>git add .</code>，添加所有文件到暂存区</li>
+<li>执行<code>git commit -m &quot;init&quot;</code>，提交到本地仓库</li>
+<li>执行<code>git push -u origin master</code>，上传到远程仓库主分支</li>
+</ul>
+<h2 id="新环境部署"><a href="#新环境部署" class="headerlink" title="新环境部署"></a>新环境部署</h2><ul>
+<li>在新环境下，执行<code>git clone</code>，克隆仓库到本地</li>
+<li>执行<code>npm install</code>，安装项目依赖</li>
+<li>执行<code>hexo s</code>，启动本地服务，打开浏览器，输入<code>http://localhost:4000</code>，显示博客，则部署成功</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/71544809">使用git分支保存hexo博客源码到github - 知乎</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>my-first-blog</title>
+    <url>/project/2024/01/03/my-first-blog/</url>
+    <content><![CDATA[<h2 id="My-First-Blog"><a href="#My-First-Blog" class="headerlink" title="My First Blog"></a>My First Blog</h2><p>这是我的第一篇博客，记录一下使用hexo+githubpages搭建个人网站时有用的参考链接~ b(￣▽￣)d</p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
+<li><a href="https://blog.csdn.net/as480133937/article/details/100138838">Hexo-Next 主题博客个性化配置超详细，超全面(两万字)_hexo next 记录访问了ip-CSDN博客</a></li>
+<li><a href="https://oytoyt.github.io/2018/12/06/hexo%E5%BC%80%E5%90%AFtags%E6%88%96categories%E5%85%B6%E5%AE%83%E8%8F%9C%E5%8D%95%E6%97%B6%EF%BC%8C%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98/">hexo开启tags或categories其它菜单时，无法访问问题 | Yanting Ou</a></li>
+</ul>
+<h2 id="TODO："><a href="#TODO：" class="headerlink" title="TODO："></a>TODO：</h2><ul>
+<li>hexo博文中添加图片，修改hexo-asset-image插件配置</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>WriteUp-第六届安洵杯网络安全挑战赛-010101</title>
-    <url>/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/</url>
+    <url>/project/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/</url>
     <content><![CDATA[<h2 id="赛事名称"><a href="#赛事名称" class="headerlink" title="赛事名称"></a>赛事名称</h2><p>i-SOON_CTF_2023<br>第六届安洵杯网络安全挑战赛   </p>
 <h2 id="赛事描述"><a href="#赛事描述" class="headerlink" title="赛事描述"></a>赛事描述</h2><p><a href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
 <h2 id="赛事网址"><a href="#赛事网址" class="headerlink" title="赛事网址"></a>赛事网址</h2><p><a href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
@@ -111,7 +237,7 @@
 </ul>
 </li>
 <li>解题步骤：<ul>
-<li><code>nc</code>连入服务器，获取<code>random_str[4:]</code>和<code>str_sha256</code><br><img src="/.com//01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/nc%E8%BF%9E%E6%8E%A5%E5%9B%9E%E6%98%BE.png"></li>
+<li><code>nc</code>连入服务器，获取<code>random_str[4:]</code>和<code>str_sha256</code><br><img src="/project/.io//2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/nc%E8%BF%9E%E6%8E%A5%E5%9B%9E%E6%98%BE.png"></li>
 <li>通过<code>getXXXX.py</code>爆破<code>random_str[:4]</code>，并将结果发送给服务器，获得<code>n，fake_p，c</code><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> digits, ascii_letters, punctuation</span><br><span class="line">alpha_bet=digits+ascii_letters+punctuation</span><br><span class="line">strlist = itertools.product(alpha_bet, repeat=<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">sha256=<span class="string">&quot;5ccd4cda1dc33d20a072cddf2cf921c865b274da912edb7ac3f157404c3fe4e3&quot;</span></span><br><span class="line">tail=<span class="string">&quot;uLBLoFfDko5h5uA9&quot;</span></span><br><span class="line"></span><br><span class="line">xxxx=<span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> strlist:</span><br><span class="line">    data=i[<span class="number">0</span>]+i[<span class="number">1</span>]+i[<span class="number">2</span>]+i[<span class="number">3</span>]</span><br><span class="line">    data_sha=hashlib.sha256((data+<span class="built_in">str</span>(tail)).encode()).hexdigest()</span><br><span class="line">    <span class="keyword">if</span>(data_sha==<span class="built_in">str</span>(sha256)):</span><br><span class="line">        xxxx=data</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(xxxx)</span><br></pre></td></tr></table></figure></li>
 <li>基于<code>encrypt</code>函数，编写<a href="./files/decrypt.py"><code>decrypt.py</code></a>脚本，破解<code>p</code>，解密得到<code>flag</code><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> socketserver</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">n=<span class="number">909467367699122020071016988650306999295228108976638769699035391871165765547800730173871546690865275123375066230171521311068819816852640125745292539541259006023609504769135551654529045891894185101263480691408339167146959806826342796151867522273018753414683125578415962666829770904166690498846087399777025030862122796483743577214854248422262763202974262015130017066825754008160259189414818697567284326444565265735329976239935592453543076795651573576794776003238789860869381589213987112412732442793109900427324085928201408085720252507826509949584097216821241278182597257299885172782505117521436358744947983811939554943145617958259867137670519879871430621545154465019553001205911580515698810275961361004704605451591223643427530911392689056988136336912424730785373902092658701108834786609423741166892942322112744091173801215997979197781791157780385712374075574951133435122784372704793303399699730638707098947178219189508884581830248871075957102690166621382729933821529281361101591281902812061185346676660877303782149165897420682724683205662866974137418732285231256810541807361468193401184858075051706155601176563558866315093106261534227649361408522136583934234512184301782185760219449297423394506961283209453334215176208906015567865682661</span></span><br><span class="line">fake_p=<span class="string">&#x27;11100000100010111111010011100000110011001000001001111011001010011100001101000000001010000010101000011110000001000000010111000110101000101101011101111010001110110000000001101110100011101001100011101010110011111001001011101000110100011011101011110110001111100110101000010110110001001110001101111111100001101101110010011110100101110001101101101011011100111110101111000111000010011101001000011110000101111000010110000001100001111001011100011001110110110110000110000110111010111101110111100100111101111001100110010000000110011011111011111100000010010111111000010110010000110000111100011001111010101000111110011110001010101010010100001010100110111111101010010000000100101011001011100100111111001000111011111010101011111111010011101110111111110011101111001000011011000000000011100101101000001101110101100001110000110101011001000010110110000110110001101010110001100010110010110000000001110001101111011100011011110101010010011010100011010100010101100000010111100000101100010110000100001001101001001001111011011000101010001011010001100101110111111100111111001011100001100001011101011000000001101111011011001001100100111101100100111100100000000111110100011100011110001101100000100000101001101100010100000110111010001111011010110100101010101100000000001111001111010100011000010010010001010011100111100001101100111100010101111101011001100011111011000011101111110101110010100011000111010100000000111110111001111110100011100100111101001101011010110001100000101010001111000110100110101110001011100010011100111110111111010001110111000001000010111110100000110110110010111101101111010010110100011110110011011010010000000000101110101001001111100110111111001000000101101011111011110110111111001101001111011100110101101010101100000010100111101110110101101010100110011010011101101000010011101011001011110001011110011000101110000100000110100011101001100101110000001110100111010110110000101000011011010011100101101011010010010100110011011100001110001000000111101111000001010110111111010110101111000100111111111111101111001110101101111111101111011011101111111000100000110111&#x27;</span></span><br><span class="line">c=<span class="number">694500789519839583373480124753870609796624184368847740052659890684952282469412685843793893336588959688292535565388961237054382061607809034620598317779687541764120119851622500197513641485700221545824097256986828990721130988465432457926804939623885349284941907683524562179105951076405178191916974212394857571647273209891325684133975190612454243345915122493599006273649156588911638621279271660577286076492174133379924878816759449537816258877983535822071467357826352013991371273144147958254806851665648862909470014188217381547444474766611515043375595448634817257201321537710925281810846187991415244304258902323932755496219900194257710795367213151869032406828586461628113793387618900293473170817978068346842472541499877290335671510770413540109295368927586613167172537907784632075379648806105818669008103026164730513033786875076959900405998112656279798642754984874654321483935047414576483030634418889375971016788408747123075626184286939742532706576269950026208168650867226593584227608482405783125152467929531339747039920420671850985997912834217484356948372454631601487864570640693252550030654681522447089126289751692094672022733644147229926742656125552935762042624836326359406490008032106080800094693108856102201450516929541344003829402493</span></span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fake_p1=<span class="built_in">list</span>(fake_p[:<span class="number">1024</span>])</span><br><span class="line">fake_p2=<span class="built_in">list</span>(fake_p[<span class="number">1024</span>:])</span><br><span class="line">p=<span class="number">0</span></span><br><span class="line">q=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i, x <span class="keyword">in</span> <span class="built_in">enumerate</span>(fake_p1):</span><br><span class="line">    <span class="keyword">if</span> x == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">        p1=fake_p1[:i]+[<span class="string">&#x27;1&#x27;</span>]+fake_p1[i+<span class="number">1</span>:]</span><br><span class="line">        p2=fake_p2</span><br><span class="line">        p=<span class="built_in">int</span>(<span class="string">&#x27;&#x27;</span>.join(p1)+<span class="string">&#x27;&#x27;</span>.join(p2),<span class="number">2</span>)   </span><br><span class="line">        <span class="keyword">if</span> n%p==<span class="number">0</span>:</span><br><span class="line">            q=n//p</span><br><span class="line">            <span class="keyword">if</span> p.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> q.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> n.bit_length() == <span class="number">4096</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Get p q!\n&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;bad format1!&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:         </span><br><span class="line">            <span class="keyword">for</span> j,y <span class="keyword">in</span> <span class="built_in">enumerate</span>(fake_p2):</span><br><span class="line">                <span class="keyword">if</span> y== <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">                    p2=fake_p2[:j]+[<span class="string">&#x27;0&#x27;</span>]+fake_p2[j+<span class="number">1</span>:]</span><br><span class="line">                    p=<span class="built_in">int</span>(<span class="string">&#x27;&#x27;</span>.join(p1)+<span class="string">&#x27;&#x27;</span>.join(p2),<span class="number">2</span>)   </span><br><span class="line">                    <span class="keyword">if</span> n%p==<span class="number">0</span>:</span><br><span class="line">                        q=n//p</span><br><span class="line">                        <span class="keyword">if</span> p.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> q.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> n.bit_length() == <span class="number">4096</span>:</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">&quot;Get p q!\n&quot;</span>)</span><br><span class="line">                            <span class="keyword">break</span></span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">&quot;bad format2!&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(p)</span><br><span class="line"><span class="built_in">print</span>(q)</span><br><span class="line">phi_n = (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;phi_n:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(phi_n)</span><br><span class="line">d = <span class="built_in">pow</span>(e, -<span class="number">1</span>, phi_n)</span><br><span class="line">m = <span class="built_in">pow</span>(c, d, n)</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m))</span><br></pre></td></tr></table></figure></li>
 </ul>
@@ -125,74 +251,5 @@
       <tags>
         <tag>Crypto</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Miniconda+Vscode Python 环境管理</title>
-    <url>/2024/01/07/Miniconda-Vscode-Python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h2 id="0-Miniconda-安装"><a href="#0-Miniconda-安装" class="headerlink" title="0 Miniconda 安装"></a>0 Miniconda 安装</h2><ul>
-<li>下载安装，可以安装Miniconda，也可以安装Anaconda，Miniconda轻量级。</li>
-<li>安装选项：一路next，有一页path处，全选。</li>
-</ul>
-<h2 id="1-Vscode配置"><a href="#1-Vscode配置" class="headerlink" title="1 Vscode配置"></a>1 Vscode配置</h2><ul>
-<li>安装Python扩展</li>
-<li>设置扩展，将conda path添加到设置中<br>  <img src="/.com//01/07/Miniconda-Vscode-Python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/condapath.png" alt="Conda Path"></li>
-<li>新建终端后，默认Python环境为miniconda的base虚拟环境</li>
-</ul>
-<h2 id="2-VScode中使用conda管理python环境"><a href="#2-VScode中使用conda管理python环境" class="headerlink" title="2 VScode中使用conda管理python环境"></a>2 VScode中使用conda管理python环境</h2><ul>
-<li>在vscode中使用conda Prompt：[终端]-&gt;[新建终端]-&gt;[＋]-&gt;[command prompt]<ul>
-<li>conda info –envs 查看当前虚拟环境列表</li>
-<li>conda activate -n envsname 启动虚拟环境（默认为base）</li>
-<li>可以看到启动后前面有（envsname）</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-常用conda命令"><a href="#3-常用conda命令" class="headerlink" title="3 常用conda命令"></a>3 常用conda命令</h2><ul>
-<li>查看所有环境	conda info –envs</li>
-<li>创建新环境	conda create -n env_name python&#x3D;x.x</li>
-<li>启动虚拟环境	conda activate env_name</li>
-<li>退出虚拟环境	conda deactivate</li>
-<li>删除虚拟环境	conda remove -n env_name  –all</li>
-</ul>
-<blockquote>
-<p>本文内容首发于CSDN：<a href="https://blog.csdn.net/weixin_43694227/article/details/124099269">Miniconda+Vscode Python 环境管理</a></p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>Miniconda</tag>
-        <tag>Vscode</tag>
-        <tag>Python环境管理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2024/01/20/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>my-first-blog</title>
-    <url>/2024/01/03/my-first-blog/</url>
-    <content><![CDATA[<h2 id="My-First-Blog"><a href="#My-First-Blog" class="headerlink" title="My First Blog"></a>My First Blog</h2><p>这是我的第一篇博客，记录一下使用hexo+githubpages搭建个人网站时有用的参考链接~ b(￣▽￣)d</p>
-<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
-<li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
-<li><a href="https://blog.csdn.net/as480133937/article/details/100138838">Hexo-Next 主题博客个性化配置超详细，超全面(两万字)_hexo next 记录访问了ip-CSDN博客</a></li>
-<li><a href="https://oytoyt.github.io/2018/12/06/hexo%E5%BC%80%E5%90%AFtags%E6%88%96categories%E5%85%B6%E5%AE%83%E8%8F%9C%E5%8D%95%E6%97%B6%EF%BC%8C%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98/">hexo开启tags或categories其它菜单时，无法访问问题 | Yanting Ou</a></li>
-</ul>
-<h2 id="TODO："><a href="#TODO：" class="headerlink" title="TODO："></a>TODO：</h2><ul>
-<li>hexo博文中添加图片，修改hexo-asset-image插件配置</li>
-</ul>
-]]></content>
   </entry>
 </search>
