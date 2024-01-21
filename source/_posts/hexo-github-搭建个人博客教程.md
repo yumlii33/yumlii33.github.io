@@ -74,6 +74,8 @@ hexo是一个基于nodejs的静态博客框架，可以快速搭建个人博客�
 - 执行`npm install`，安装项目依赖
 - 执行`hexo s`，启动本地服务，打开浏览器，输入`http://localhost:4000`，显示博客，则部署成功
 
+> 注意：因为没有上传`node_modules`文件夹，所以需要执行`npm install`安装项目依赖，如果需要对插件进行自定义修改，需要在新环境中重新配置
+
 ## 参考资料
 
 - [【基础篇】hexo博客搭建教程 - huanhao - 博客园](https://www.cnblogs.com/huanhao/p/hexobase.html)
