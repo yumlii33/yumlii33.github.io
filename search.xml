@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>CVE-2017-1297漏洞复现</title>
-    <url>/project/2024/01/14/CVE-2017-1297%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
+    <url>/2024/01/14/CVE-2017-1297%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.exploit-db.com/exploits/42260">IBM DB2 9.7&#x2F;10.1&#x2F;10.5&#x2F;11.1 - Command Line Processor Buffer Overflow - Multiple dos Exploit</a></p>
 <h2 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h2><blockquote>
 <p>IBM DB2 for Linux, UNIX and Windows 9.2, 10.1, 10.5, and 11.1 (includes DB2 Connect Server) is vulnerable to a stack-based buffer overflow, caused by improper bounds checking which could allow a local attacker to execute arbitrary code.</p>
@@ -48,7 +48,7 @@
   </entry>
   <entry>
     <title>CVE-2017-3599漏洞复现</title>
-    <url>/project/2024/01/14/CVE-2017-3599%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
+    <url>/2024/01/14/CVE-2017-3599%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.exploit-db.com/exploits/41954">MySQL &lt; 5.6.35 &#x2F; &lt; 5.7.17 - Integer Overflow - Multiple dos Exploit</a></p>
 <h2 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h2><blockquote>
 <p>Vulnerability in the MySQL Server component of Oracle MySQL (subcomponent: Server: Pluggable Auth). Supported versions that are affected are 5.6.35 and earlier and 5.7.17 and earlier. Easily “exploitable” vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise MySQL Server. Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server. CVSS 3.0 Base Score 7.5 (Availability impacts). CVSS Vector: (CVSS:3.0&#x2F;AV:N&#x2F;AC:L&#x2F;PR:N&#x2F;UI:N&#x2F;S:U&#x2F;C:N&#x2F;I:N&#x2F;A:H). NOTE: the previous information is from the April 2017 CPU. Oracle has not commented on third-party claims that this issue is an integer overflow in sql&#x2F;auth&#x2F;sql_authentication.cc which allows remote attackers to cause a denial of service via a crafted authentication packet.</p>
@@ -71,7 +71,7 @@
   </entry>
   <entry>
     <title>Miniconda+Vscode Python 环境管理</title>
-    <url>/project/2024/01/07/Miniconda-Vscode-Python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/</url>
+    <url>/2024/01/07/Miniconda-Vscode-Python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h2 id="0-Miniconda-安装"><a href="#0-Miniconda-安装" class="headerlink" title="0 Miniconda 安装"></a>0 Miniconda 安装</h2><ul>
 <li>下载安装，可以安装Miniconda，也可以安装Anaconda，Miniconda轻量级。</li>
 <li>安装选项：一路next，有一页path处，全选。</li>
@@ -108,7 +108,7 @@
   </entry>
   <entry>
     <title>Hello World</title>
-    <url>/project/2024/01/20/hello-world/</url>
+    <url>/2024/01/20/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -126,7 +126,7 @@
   </entry>
   <entry>
     <title>hexo + github 搭建个人博客教程</title>
-    <url>/project/2024/01/20/hexo-github-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
+    <url>/2024/01/20/hexo-github-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="什么是hexo？"><a href="#什么是hexo？" class="headerlink" title="什么是hexo？"></a>什么是hexo？</h2><p>hexo是一个基于nodejs的静态博客框架，可以快速搭建个人博客，支持markdown语法，支持自定义主题，支持插件扩展，支持一键部署到github上，支持离线写作，支持多终端同步等等。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
 <li>安装git，下载地址<a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></li>
@@ -182,7 +182,7 @@
   </entry>
   <entry>
     <title>WriteUp-第六届安洵杯网络安全挑战赛-010101</title>
-    <url>/project/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/</url>
+    <url>/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/</url>
     <content><![CDATA[<h2 id="赛事名称"><a href="#赛事名称" class="headerlink" title="赛事名称"></a>赛事名称</h2><p>i-SOON_CTF_2023<br>第六届安洵杯网络安全挑战赛   </p>
 <h2 id="赛事描述"><a href="#赛事描述" class="headerlink" title="赛事描述"></a>赛事描述</h2><p><a href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
 <h2 id="赛事网址"><a href="#赛事网址" class="headerlink" title="赛事网址"></a>赛事网址</h2><p><a href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
@@ -239,7 +239,7 @@
   </entry>
   <entry>
     <title>my-first-blog</title>
-    <url>/project/2024/01/03/my-first-blog/</url>
+    <url>/2024/01/03/my-first-blog/</url>
     <content><![CDATA[<h2 id="My-First-Blog"><a href="#My-First-Blog" class="headerlink" title="My First Blog"></a>My First Blog</h2><p>这是我的第一篇博客，记录一下使用hexo+githubpages搭建个人网站时有用的参考链接~ b(￣▽￣)d</p>
 <h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
 <li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
