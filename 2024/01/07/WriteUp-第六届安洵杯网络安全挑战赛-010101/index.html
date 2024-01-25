@@ -17,19 +17,19 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"manual"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="赛事名称i-SOON_CTF_2023第六届安洵杯网络安全挑战赛    赛事描述https:&#x2F;&#x2F;dce.i-soon.net&#x2F;#&#x2F;examineDetails 赛事网址https:&#x2F;&#x2F;dce.i-soon.net&#x2F;#&#x2F;examineDetails 010101题目12345678910111213141516171819202122232425262728293031323334353637383">
+  <meta name="description" content="赛事名称i-SOON_CTF_2023第六届安洵杯网络安全挑战赛    赛事描述https:&#x2F;&#x2F;dce.i-soon.net&#x2F;#&#x2F;examineDetails">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WriteUp-第六届安洵杯网络安全挑战赛-010101">
 <meta property="og:url" content="http://example.com/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/index.html">
 <meta property="og:site_name" content="M011y&#39;s Blog">
-<meta property="og:description" content="赛事名称i-SOON_CTF_2023第六届安洵杯网络安全挑战赛    赛事描述https:&#x2F;&#x2F;dce.i-soon.net&#x2F;#&#x2F;examineDetails 赛事网址https:&#x2F;&#x2F;dce.i-soon.net&#x2F;#&#x2F;examineDetails 010101题目12345678910111213141516171819202122232425262728293031323334353637383">
+<meta property="og:description" content="赛事名称i-SOON_CTF_2023第六届安洵杯网络安全挑战赛    赛事描述https:&#x2F;&#x2F;dce.i-soon.net&#x2F;#&#x2F;examineDetails">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/nc%E8%BF%9E%E6%8E%A5%E5%9B%9E%E6%98%BE.png">
 <meta property="article:published_time" content="2024-01-07T06:19:30.000Z">
-<meta property="article:modified_time" content="2024-01-20T12:23:46.663Z">
+<meta property="article:modified_time" content="2024-01-25T13:23:58.110Z">
 <meta property="article:author" content="yumlii33">
 <meta property="article:tag" content="Crypto">
 <meta name="twitter:card" content="summary">
@@ -95,7 +95,7 @@
     </div>
   </div>
 
-  <div class="site-meta">
+  <div class="site-meta custom-logo">
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
@@ -103,6 +103,9 @@
       <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">M011y's Blog</p>
+      <a>
+        <img class="custom-logo-image" src="/uploads/无牙仔.png" alt="M011y's Blog">
+      </a>
   </div>
 
   <div class="site-nav-right">
@@ -123,17 +126,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">8</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">3</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">8</span></a>
 
   </li>
   </ul>
@@ -150,6 +153,9 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/yumlii33" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
 
     <main class="main">
@@ -177,7 +183,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          WriteUp-第六届安洵杯网络安全挑战赛-010101
+          WriteUp-第六届安洵杯网络安全挑战赛-010101<a href="https://github.com/yumlii33/yumlii33.github.io/tree/master/source/_posts/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -194,7 +200,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-01-20 20:23:46" itemprop="dateModified" datetime="2024-01-20T20:23:46+08:00">2024-01-20</time>
+                <time title="Modified: 2024-01-25 21:23:58" itemprop="dateModified" datetime="2024-01-25T21:23:58+08:00">2024-01-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,7 +212,21 @@
                 </span>
             </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>758</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
 
         </div>
       </header>
@@ -219,6 +239,8 @@
       
         <h2 id="赛事名称"><a href="#赛事名称" class="headerlink" title="赛事名称"></a>赛事名称</h2><p>i-SOON_CTF_2023<br>第六届安洵杯网络安全挑战赛   </p>
 <h2 id="赛事描述"><a href="#赛事描述" class="headerlink" title="赛事描述"></a>赛事描述</h2><p><a target="_blank" rel="noopener" href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
+<span id="more"></span>
+
 <h2 id="赛事网址"><a href="#赛事网址" class="headerlink" title="赛事网址"></a>赛事网址</h2><p><a target="_blank" rel="noopener" href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
 <h2 id="010101"><a href="#010101" class="headerlink" title="010101"></a>010101</h2><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> socketserver</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> isPrime, long_to_bytes, getStrongPrime, bytes_to_long</span><br><span class="line"></span><br><span class="line">flag = <span class="string">b&quot;D0g3&#123;******************************************&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyServer</span>(socketserver.BaseRequestHandler):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">proof</span>(<span class="params">self</span>):</span><br><span class="line">        random.seed(os.urandom(<span class="number">8</span>))</span><br><span class="line">        random_str = <span class="string">&#x27;&#x27;</span>.join([random.choice(string.ascii_letters + string.digits) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>)])</span><br><span class="line">        str_sha256 = hashlib.sha256(random_str.encode()).hexdigest()</span><br><span class="line">        self.request.sendall((<span class="string">&#x27;SHA256(XXXX + %s):%s\n&#x27;</span> % (random_str[<span class="number">4</span>:], str_sha256)).encode())</span><br><span class="line">        self.request.sendall(<span class="string">&#x27;Give Me XXXX:\n&#x27;</span>.encode())</span><br><span class="line">        XXXX = self.request.recv(<span class="number">2048</span>).strip()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> hashlib.sha256((XXXX + random_str[<span class="number">4</span>:].encode())).hexdigest() != str_sha256:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getPQN</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            p = getStrongPrime(<span class="number">2048</span>)</span><br><span class="line">            q = getStrongPrime(<span class="number">2048</span>)</span><br><span class="line">            n = p * q</span><br><span class="line">            <span class="keyword">if</span> p.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> q.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> n.bit_length() == <span class="number">4096</span>:</span><br><span class="line">                <span class="keyword">return</span> p, q, n</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">encrypt</span>(<span class="params">self</span>):</span><br><span class="line">        p, q, n = self.getPQN()</span><br><span class="line">        m = bytes_to_long(flag)</span><br><span class="line">        e = <span class="number">0x10001</span></span><br><span class="line">        c = <span class="built_in">pow</span>(m, e, n)</span><br><span class="line">        p = <span class="built_in">bin</span>(p)[<span class="number">2</span>:]</span><br><span class="line">        p1 = <span class="built_in">list</span>(p[:<span class="number">1024</span>])</span><br><span class="line">        p2 = <span class="built_in">list</span>(p[<span class="number">1024</span>:])</span><br><span class="line">        p1[random.choice([i <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(p1) <span class="keyword">if</span> c == <span class="string">&#x27;1&#x27;</span>])] = <span class="string">&#x27;0&#x27;</span></span><br><span class="line">        p2[random.choice([i <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(p1) <span class="keyword">if</span> c == <span class="string">&#x27;0&#x27;</span>])] = <span class="string">&#x27;1&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> n, <span class="string">&#x27;&#x27;</span>.join(p1) + <span class="string">&#x27;&#x27;</span>.join(p2), c</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">handle</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.proof():</span><br><span class="line">            self.request.sendall(<span class="string">b&#x27;Error Hash!&#x27;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        n, p, c = self.encrypt()</span><br><span class="line">        self.request.sendall(<span class="string">&#x27;Press 1 to get ciphertext\n&#x27;</span>.encode())</span><br><span class="line">        number = self.request.recv(<span class="number">512</span>).strip().decode()</span><br><span class="line">        <span class="keyword">if</span> number == <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">            self.request.sendall((<span class="built_in">str</span>(n) + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">            self.request.sendall((<span class="built_in">str</span>(p) + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">            self.request.sendall((<span class="built_in">str</span>(c) + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.request.sendall(<span class="string">&#x27;Incorrect input!\n&#x27;</span>.encode())</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadedTCPServer</span>(socketserver.ThreadingMixIn, socketserver.TCPServer):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    sever = socketserver.ThreadingTCPServer((<span class="string">&#x27;0.0.0.0&#x27;</span>, <span class="number">10001</span>), MyServer)</span><br><span class="line">    ThreadedTCPServer.allow_reuse_address = <span class="literal">True</span></span><br><span class="line">    ThreadedTCPServer.allow_reuse_port = <span class="literal">True</span></span><br><span class="line">    sever.serve_forever()</span><br></pre></td></tr></table></figure>
 
@@ -269,10 +291,30 @@
     
     
     
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://blog.csdn.net/weixin_43694227">
+            <span class="icon">
+              <i class="fab fa-csdnS"></i>
+            </span>
+
+            <span class="label">CSDN</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
 
       <footer class="post-footer">
+          
           <div class="post-tags">
-              <a href="/tags/Crypto/" rel="tag"># Crypto</a>
+              <a href="/tags/Crypto/" rel="tag"><i class="fa fa-tag"></i> Crypto</a>
           </div>
 
         
@@ -410,6 +452,18 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">yumlii33</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">6k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">22 mins.</span>
 </div>
 
         
