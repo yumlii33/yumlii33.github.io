@@ -6,8 +6,9 @@ tags:
     - github
 categories:
     - 教程
+description: hexo + github 搭建个人博客教程
 ---
-
+<!-- more -->
 
 ## 什么是hexo？
 
@@ -20,9 +21,6 @@ hexo是一个基于nodejs的静态博客框架，可以快速搭建个人博客�
 - 验证nodejs是否安装成功，打开cmd，输入`node -v`，显示版本号则安装成功
 - npm换源，打开cmd，输入`npm config set registry https://registry.npm.taobao.org`，换源成功后，输入`npm config get registry`，显示`https://registry.npm.taobao.org/`则换源成功
 - 安装hexo，打开cmd，输入`npm install -g hexo-cli`，安装成功后，输入`hexo -v`，显示版本号则安装成功
-
-
-<!-- more -->
 
 
 ## 初始化博客

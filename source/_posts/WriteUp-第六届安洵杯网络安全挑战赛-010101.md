@@ -5,7 +5,9 @@ categories:
     - CTF-WriteUp
 tags: 
     - Crypto
+description: 2020 | 第六届安洵杯网络安全挑战赛 | Crypto | 010101
 ---
+<!-- more -->
 
 ## 赛事名称
 
@@ -16,7 +18,6 @@ i-SOON_CTF_2023
 
 [https://dce.i-soon.net/#/examineDetails](https://dce.i-soon.net/#/examineDetails)
 
-<!-- more -->
 
 ## 赛事网址
 

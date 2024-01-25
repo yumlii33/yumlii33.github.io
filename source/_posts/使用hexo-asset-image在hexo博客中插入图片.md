@@ -5,7 +5,9 @@ tags:
     - hexo
 categories:
     - 教程
+description: 使用hexo-asset-image在hexo博客中插入图片
 ---
+<!-- more -->
 
 ## 什么是hexo-asset-image？
 
@@ -16,7 +18,6 @@ categories:
 
 - `npm install hexo-asset-image --save`
 
-<!-- more -->
 
 ## 修改hexo配置
 

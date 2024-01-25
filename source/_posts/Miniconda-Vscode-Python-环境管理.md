@@ -6,7 +6,9 @@ tags:
     - Vscode 
     - Python环境管理
 categories:
+description: Miniconda+Vscode Python 环境管理
 ---
+<!-- more -->
 
 ## 0 Miniconda 安装
 * 下载安装，可以安装Miniconda，也可以安装Anaconda，Miniconda轻量级。
