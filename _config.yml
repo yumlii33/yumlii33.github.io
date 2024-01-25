@@ -8,7 +8,7 @@ subtitle: M011y's Blog
 description: Molly's blog website.
 keywords:
 author: yumlii33
-language: en
+language: zh-CN #en
 timezone: ''
 
 # URL
@@ -116,3 +116,12 @@ search:
   field: post
   content: true
   format: html
+
+
+symbols_count_time:
+  symbols: true
+  time: true
+  total_symbols: true
+  total_time: true
+  awl: 4
+  wpm: 275

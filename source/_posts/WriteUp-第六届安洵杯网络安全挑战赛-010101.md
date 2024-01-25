@@ -16,6 +16,8 @@ i-SOON_CTF_2023
 
 [https://dce.i-soon.net/#/examineDetails](https://dce.i-soon.net/#/examineDetails)
 
+<!-- more -->
+
 ## 赛事网址
 
 [https://dce.i-soon.net/#/examineDetails](https://dce.i-soon.net/#/examineDetails)

@@ -10,6 +10,8 @@ tags:
 这是我的第一篇博客，记录一下使用hexo+githubpages搭建个人网站时有用的参考链接~ b(￣▽￣)d
 
 
+<!-- more -->
+
 ## 参考链接：
 
 - [【基础篇】hexo博客搭建教程 - huanhao - 博客园](https://www.cnblogs.com/huanhao/p/hexobase.html)

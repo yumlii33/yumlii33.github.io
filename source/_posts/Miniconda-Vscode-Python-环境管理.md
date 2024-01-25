@@ -16,6 +16,9 @@ categories:
 * 设置扩展，将conda path添加到设置中
     ![Conda Path](condapath.png)
 * 新建终端后，默认Python环境为miniconda的base虚拟环境
+
+<!-- more -->
+
 ## 2 VScode中使用conda管理python环境
 * 在vscode中使用conda Prompt：[终端]->[新建终端]->[＋]->[command prompt]
 	* conda info --envs 查看当前虚拟环境列表

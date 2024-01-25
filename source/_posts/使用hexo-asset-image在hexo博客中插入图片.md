@@ -16,6 +16,8 @@ categories:
 
 - `npm install hexo-asset-image --save`
 
+<!-- more -->
+
 ## 修改hexo配置
 
 - 修改hexo根目录下的`_config.yml`文件，添加如下配置：
