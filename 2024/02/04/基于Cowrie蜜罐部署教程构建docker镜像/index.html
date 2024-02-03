@@ -20,20 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"manual"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="2020 | CSICTF | Crypto | Rivest Shamir Adleman">
+  <meta name="description" content="参考Cowrie蜜罐部署教程，构建基于ubuntu的docker镜像">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WriteUp-CTFHub-Rivest Shamir Adleman">
-<meta property="og:url" content="http://example.com/2024/01/25/WriteUp-CTFHub-Rivest-Shamir-Adleman/index.html">
+<meta property="og:title" content="基于Cowrie蜜罐部署教程构建docker镜像">
+<meta property="og:url" content="http://example.com/2024/02/04/%E5%9F%BA%E4%BA%8ECowrie%E8%9C%9C%E7%BD%90%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F/index.html">
 <meta property="og:site_name" content="M011y&#39;s Blog">
-<meta property="og:description" content="2020 | CSICTF | Crypto | Rivest Shamir Adleman">
+<meta property="og:description" content="参考Cowrie蜜罐部署教程，构建基于ubuntu的docker镜像">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-01-25T15:20:10.000Z">
-<meta property="article:modified_time" content="2024-01-25T15:29:23.750Z">
+<meta property="article:published_time" content="2024-02-03T17:32:34.000Z">
+<meta property="article:modified_time" content="2024-02-03T17:59:59.737Z">
 <meta property="article:author" content="yumlii33">
-<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="cowrie">
+<meta property="article:tag" content="Dockerfile">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2024/01/25/WriteUp-CTFHub-Rivest-Shamir-Adleman/">
+<link rel="canonical" href="http://example.com/2024/02/04/%E5%9F%BA%E4%BA%8ECowrie%E8%9C%9C%E7%BD%90%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F/">
 
 
 <script id="page-configurations">
@@ -46,7 +47,7 @@
   };
 </script>
 
-  <title>WriteUp-CTFHub-Rivest Shamir Adleman | M011y's Blog</title>
+  <title>基于Cowrie蜜罐部署教程构建docker镜像 | M011y's Blog</title>
   
 
 
@@ -168,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/25/WriteUp-CTFHub-Rivest-Shamir-Adleman/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/04/%E5%9F%BA%E4%BA%8ECowrie%E8%9C%9C%E7%BD%90%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -181,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          WriteUp-CTFHub-Rivest Shamir Adleman<a href="https://github.com/yumlii33/yumlii33.github.io/tree/master/source/_posts/WriteUp-CTFHub-Rivest-Shamir-Adleman.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+          基于Cowrie蜜罐部署教程构建docker镜像<a href="https://github.com/yumlii33/yumlii33.github.io/tree/master/source/_posts/%E5%9F%BA%E4%BA%8ECowrie%E8%9C%9C%E7%BD%90%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -192,7 +193,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-01-25 23:20:10 / 修改时间：23:29:23" itemprop="dateCreated datePublished" datetime="2024-01-25T23:20:10+08:00">2024-01-25</time>
+              <time title="创建时间：2024-02-04 01:32:34 / 修改时间：01:59:59" itemprop="dateCreated datePublished" datetime="2024-02-04T01:32:34+08:00">2024-02-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -200,7 +201,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF-WriteUp/" itemprop="url" rel="index"><span itemprop="name">CTF-WriteUp</span></a>
+                  <a href="/categories/honeypot/" itemprop="url" rel="index"><span itemprop="name">honeypot</span></a>
                 </span>
             </span>
 
@@ -210,7 +211,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>141</span>
+              <span>362</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -219,7 +220,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>1 分钟</span>
             </span>
-            <div class="post-description">2020 | CSICTF | Crypto | Rivest Shamir Adleman</div>
+            <div class="post-description">参考Cowrie蜜罐部署教程，构建基于ubuntu的docker镜像</div>
 
         </div>
       </header>
@@ -232,16 +233,19 @@
       
         <span id="more"></span>
 
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>在使用cowrie官网的镜像搭建蜜罐时，无法访问蜜罐容器里的日志文件，所以决定自己构建一个镜像，方便后续的操作。</p>
+<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基于ubuntu22.04构建</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:jammy</span><br><span class="line"></span><br><span class="line"><span class="comment"># （root权限下）换源并安装必要的包，否则安装软件包会很慢，甚至超时报错</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">test</span> ! -f /etc/apt/source.list.save &amp;&amp; <span class="built_in">cp</span>  /etc/apt/sources.list /etc/apt/sources.list.save \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; sed -i <span class="string">&quot;s@security.ubuntu.com@mirrors.ustc.edu.cn@g&quot;</span> /etc/apt/sources.list \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; sed -i <span class="string">&quot;s@archive.ubuntu.com@mirrors.ustc.edu.cn@g&quot;</span> /etc/apt/sources.list \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get update \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get install -y wget python3.10-venv python-is-python3 git python3-virtualenv libssl-dev libffi-dev build-essential libpython3-dev python3-minimal authbind virtualenv \ </span></span><br><span class="line">    &amp;&amp; adduser --disabled-password --gecos <span class="string">&quot;&quot;</span> cowrie</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基于cowrie官网的安装教程，在ubuntu上安装cowrie</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> su - cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">cd</span> /home/cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; wget https://github.com/cowrie/cowrie/archive/refs/tags/v2.5.0.tar.gz \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; tar -zxvf v2.5.0.tar.gz \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">mv</span> cowrie-2.5.0/ cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">cd</span> cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">pwd</span> \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; python -m venv cowrie-env \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; . cowrie-env/bin/activate \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; python -m pip install --upgrade pip -i http://pypi.douban.com/simple --trusted-host pypi.douban.com \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; python -m pip install --upgrade -r requirements.txt -i http://pypi.douban.com/simple --trusted-host pypi.douban.com \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">chown</span> -R cowrie:cowrie .</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">2222</span> <span class="number">2223</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置容器的默认用户和工作目录</span></span><br><span class="line"><span class="keyword">USER</span> cowrie</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /home/cowrie/cowrie</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动蜜罐命令</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;bin/cowrie&quot;</span>, <span class="string">&quot;start&quot;</span>,<span class="string">&quot;-n&quot;</span>]</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="题目考点"><a href="#题目考点" class="headerlink" title="题目考点"></a>题目考点</h2><ul>
-<li>RSA</li>
+<h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t cowrie_from_ubuntu:20240202 .</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行方式"><a href="#运行方式" class="headerlink" title="运行方式"></a>运行方式</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd -p 2222:2222 -p 2223:2223 cowrie_from_ubuntu:20240202</span><br></pre></td></tr></table></figure>
+
+<h2 id="上传镜像"><a href="#上传镜像" class="headerlink" title="上传镜像"></a>上传镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 登录到Docker Hub</span></span><br><span class="line">docker login</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为镜像添加标签</span></span><br><span class="line">docker tag cowrie_from_ubuntu:20240202 mollyyuu/cowrie_from_ubuntu:20240202</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将镜像推送到Docker Hub</span></span><br><span class="line">docker push mollyyuu/cowrie_from_ubuntu:20240202</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://cowrie.readthedocs.io/en/latest/INSTALL.html">Installing Cowrie in seven steps — cowrie 2.5.0 documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jingjingxyk/p/16825510.html">alpine、debian、ubuntu brew 常用的换源命令 - jingjingxyk - 博客园</a></li>
 </ul>
-<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ul>
-<li>下载题目附件，解压后得到n，e，c：  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n = 408579146706567976063586763758203051093687666875502812646277701560732347095463873824829467529879836457478436098685606552992513164224712398195503564207485938278827523972139196070431397049700119503436522251010430918143933255323117421712000644324381094600257291929523792609421325002527067471808992410166917641057703562860663026873111322556414272297111644069436801401012920448661637616392792337964865050210799542881102709109912849797010633838067759525247734892916438373776477679080154595973530904808231</span><br><span class="line">e = 65537</span><br><span class="line">c = 226582271940094442087193050781730854272200420106419489092394544365159707306164351084355362938310978502945875712496307487367548451311593283589317511213656234433015906518135430048027246548193062845961541375898496150123721180020417232872212026782286711541777491477220762823620612241593367070405349675337889270277102235298455763273194540359004938828819546420083966793260159983751717798236019327334525608143172073795095665271013295322241504491351162010517033995871502259721412160906176911277416194406909</span><br></pre></td></tr></table></figure></li>
-<li>通过在线工具<a target="_blank" rel="noopener" href="http://factordb.com/">factordb</a>分解n，得到p，q：  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p = 15485863</span><br><span class="line">q = 26384008867091745294633354547835212741691416673097444594871961708606898246191631284922865941012124184327243247514562575750057530808887589809848089461174100421708982184082294675500577336225957797988818721372546749131380876566137607036301473435764031659085276159909447255824316991731559776281695919056426990285120277950325598700770588152330565774546219611360167747900967511378709576366056727866239359744484343099322440674434020874200594041033926202578941508969596229398159965581521326643115137</span><br></pre></td></tr></table></figure></li>
-<li>编写RSA解密脚本：  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 已知参数</span></span><br><span class="line">p = <span class="number">15485863</span></span><br><span class="line">q = <span class="number">26384008867091745294633354547835212741691416673097444594871961708606898246191631284922865941012124184327243247514562575750057530808887589809848089461174100421708982184082294675500577336225957797988818721372546749131380876566137607036301473435764031659085276159909447255824316991731559776281695919056426990285120277950325598700770588152330565774546219611360167747900967511378709576366056727866239359744484343099322440674434020874200594041033926202578941508969596229398159965581521326643115137</span></span><br><span class="line">n = <span class="number">408579146706567976063586763758203051093687666875502812646277701560732347095463873824829467529879836457478436098685606552992513164224712398195503564207485938278827523972139196070431397049700119503436522251010430918143933255323117421712000644324381094600257291929523792609421325002527067471808992410166917641057703562860663026873111322556414272297111644069436801401012920448661637616392792337964865050210799542881102709109912849797010633838067759525247734892916438373776477679080154595973530904808231</span></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">c = <span class="number">226582271940094442087193050781730854272200420106419489092394544365159707306164351084355362938310978502945875712496307487367548451311593283589317511213656234433015906518135430048027246548193062845961541375898496150123721180020417232872212026782286711541777491477220762823620612241593367070405349675337889270277102235298455763273194540359004938828819546420083966793260159983751717798236019327334525608143172073795095665271013295322241504491351162010517033995871502259721412160906176911277416194406909</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算phi(n)</span></span><br><span class="line">phi_n = (p-<span class="number">1</span>) * (q-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算d</span></span><br><span class="line">d = gmpy2.invert(e, phi_n)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密得到m</span></span><br><span class="line">m = <span class="built_in">pow</span>(c, d, n)</span><br><span class="line"><span class="built_in">print</span>(m)</span><br><span class="line"></span><br><span class="line">plaintext = <span class="built_in">bytes</span>.fromhex(<span class="built_in">hex</span>(m)[<span class="number">2</span>:]).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(plaintext)</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">csictf&#123;sh0uld&#x27;v3_t4k3n_b1gg3r_pr1m3s&#125;</span><br><span class="line"># CTFHub平台似乎有问题，提交flag后显示为错误，但是flag是正确的</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -271,7 +275,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/Crypto/" rel="tag"><i class="fa fa-tag"></i> Crypto</a>
+              <a href="/tags/cowrie/" rel="tag"><i class="fa fa-tag"></i> cowrie</a>
+              <a href="/tags/Dockerfile/" rel="tag"><i class="fa fa-tag"></i> Dockerfile</a>
           </div>
 
         
@@ -280,13 +285,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/01/25/WriteUp-CTFHub-%E5%9B%9E%E8%BD%AC%E5%8D%81%E4%B8%89%E4%BD%8D/" rel="prev" title="WriteUp-CTFHub-回转十三位">
-      <i class="fa fa-chevron-left"></i> WriteUp-CTFHub-回转十三位
+    <a href="/2024/01/25/WriteUp-CTFHub-Rivest-Shamir-Adleman/" rel="prev" title="WriteUp-CTFHub-Rivest Shamir Adleman">
+      <i class="fa fa-chevron-left"></i> WriteUp-CTFHub-Rivest Shamir Adleman
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2024/02/04/%E5%9F%BA%E4%BA%8ECowrie%E8%9C%9C%E7%BD%90%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F/" rel="next" title="基于Cowrie蜜罐部署教程构建docker镜像">
-      基于Cowrie蜜罐部署教程构建docker镜像 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -345,7 +347,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E8%80%83%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">题目考点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FLAG"><span class="nav-number">3.</span> <span class="nav-text">FLAG</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dockerfile"><span class="nav-number">2.</span> <span class="nav-text">Dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">3.</span> <span class="nav-text">构建镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">运行方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E9%95%9C%E5%83%8F"><span class="nav-number">5.</span> <span class="nav-text">上传镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
