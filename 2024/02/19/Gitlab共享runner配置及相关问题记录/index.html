@@ -21,16 +21,20 @@
   </script>
 
   <meta name="description" content="Molly&#39;s blog website.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="M011y&#39;s Blog">
-<meta property="og:url" content="http://example.com/archives/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gitlab共享runner配置及相关问题记录">
+<meta property="og:url" content="http://example.com/2024/02/19/Gitlab%E5%85%B1%E4%BA%ABrunner%E9%85%8D%E7%BD%AE%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="M011y&#39;s Blog">
 <meta property="og:description" content="Molly&#39;s blog website.">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-02-19T11:35:38.000Z">
+<meta property="article:modified_time" content="2024-02-19T11:35:58.425Z">
 <meta property="article:author" content="yumlii33">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="ci&#x2F;cd">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/archives/">
+<link rel="canonical" href="http://example.com/2024/02/19/Gitlab%E5%85%B1%E4%BA%ABrunner%E9%85%8D%E7%BD%AE%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
 
 
 <script id="page-configurations">
@@ -38,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | M011y's Blog</title>
+  <title>Gitlab共享runner配置及相关问题记录 | M011y's Blog</title>
   
 
 
@@ -158,234 +162,118 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 16 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/19/Gitlab%E5%85%B1%E4%BA%ABrunner%E9%85%8D%E7%BD%AE%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yumlii33">
+      <meta itemprop="description" content="Molly's blog website.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="M011y's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gitlab共享runner配置及相关问题记录<a href="https://github.com/yumlii33/yumlii33.github.io/tree/master/source/_posts/Gitlab%E5%85%B1%E4%BA%ABrunner%E9%85%8D%E7%BD%AE%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-02-19 19:35:38 / 修改时间：19:35:58" itemprop="dateCreated datePublished" datetime="2024-02-19T19:35:38+08:00">2024-02-19</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
+        
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+        
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-02-20T22:25:58+08:00"
-              content="2024-02-20">
-          02-20
-        </time>
-      </div>
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/02/20/WriteUp-CTFHub-XSS%E9%97%AF%E5%85%B3/" itemprop="url">
-            <span itemprop="name">WriteUp-CTFHub-XSS闯关</span>
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://blog.csdn.net/weixin_43694227">
+            <span class="icon">
+              <i class="fab fa-csdnS"></i>
+            </span>
+
+            <span class="label">CSDN</span>
           </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-02-19T19:35:38+08:00"
-              content="2024-02-19">
-          02-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/02/19/Gitlab%E5%85%B1%E4%BA%ABrunner%E9%85%8D%E7%BD%AE%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" itemprop="url">
-            <span itemprop="name">Gitlab共享runner配置及相关问题记录</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-02-12T00:09:40+08:00"
-              content="2024-02-12">
-          02-12
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/02/12/WriteUp-CTFHub-%E6%8A%80%E8%83%BD%E6%A0%91-XSS%E7%B3%BB%E5%88%97/" itemprop="url">
-            <span itemprop="name">WriteUp-CTFHub-技能树-XSS系列</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-02-06T18:14:46+08:00"
-              content="2024-02-06">
-          02-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/02/06/WriteUp-CTFHub-you-raise-me-up/" itemprop="url">
-            <span itemprop="name">WriteUp-CTFHub-you raise me up</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-02-04T03:16:33+08:00"
-              content="2024-02-04">
-          02-04
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/02/04/WriteUp-CTFHub-Quick-Math/" itemprop="url">
-            <span itemprop="name">WriteUp-CTFHub-Quick Math</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-02-04T01:32:34+08:00"
-              content="2024-02-04">
-          02-04
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/02/04/%E5%9F%BA%E4%BA%8ECowrie%E8%9C%9C%E7%BD%90%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F/" itemprop="url">
-            <span itemprop="name">基于Cowrie蜜罐部署教程构建docker镜像</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-01-25T23:20:10+08:00"
-              content="2024-01-25">
-          01-25
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/01/25/WriteUp-CTFHub-Rivest-Shamir-Adleman/" itemprop="url">
-            <span itemprop="name">WriteUp-CTFHub-Rivest Shamir Adleman</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-01-25T21:51:52+08:00"
-              content="2024-01-25">
-          01-25
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/01/25/WriteUp-CTFHub-%E5%9B%9E%E8%BD%AC%E5%8D%81%E4%B8%89%E4%BD%8D/" itemprop="url">
-            <span itemprop="name">WriteUp-CTFHub-回转十三位</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-01-21T17:07:00+08:00"
-              content="2024-01-21">
-          01-21
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/01/21/%E4%BD%BF%E7%94%A8hexo-asset-image%E5%9C%A8hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/" itemprop="url">
-            <span itemprop="name">使用hexo-asset-image在hexo博客中插入图片</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-01-20T21:10:25+08:00"
-              content="2024-01-20">
-          01-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/01/20/hexo-github-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/" itemprop="url">
-            <span itemprop="name">hexo + github 搭建个人博客教程</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-
+        </div>
     </div>
   </div>
-  
-  
-  
 
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 教程</a>
+              <a href="/tags/ci-cd/" rel="tag"><i class="fa fa-tag"></i> ci/cd</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/02/12/WriteUp-CTFHub-%E6%8A%80%E8%83%BD%E6%A0%91-XSS%E7%B3%BB%E5%88%97/" rel="prev" title="WriteUp-CTFHub-技能树-XSS系列">
+      <i class="fa fa-chevron-left"></i> WriteUp-CTFHub-技能树-XSS系列
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/02/20/WriteUp-CTFHub-XSS%E9%97%AF%E5%85%B3/" rel="next" title="WriteUp-CTFHub-XSS闯关">
+      WriteUp-CTFHub-XSS闯关 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
+  
+  
 
 
 
