@@ -30,6 +30,20 @@ description: 使用hexo-asset-image在hexo博客中插入图片
 ## 修改hexo-asset-image插件
 
 - 修改`node_modules\hexo-asset-image\index.js`：
+  ```js
+  // 注释掉以下代码
+  // if(srcArray.length > 1)
+  // srcArray.shift();
+  // src = srcArray.join('/');
+
+  // $(this).attr('src', config.root + link + src);
+  // console.info&&console.info("update link as:-->"+config.root + link + src);
+
+  // 添加以下代码
+  $(this).attr('src', src);
+  console.info&&console.info("update link as:-->"+src);
+  ```
+- 修改后的`index.js`文件如下：
   ![](修改hexo-asset-image的index文件.jpg)
 
 ## 使用hexo-asset-image插入图片
