@@ -21,4 +21,6 @@ tags:
 
 ## TODO：
 
-- hexo博文中添加图片，修改hexo-asset-image插件配置
+- [x] hexo博文中添加图片，修改hexo-asset-image插件配置
+- [ ] sql注入笔记整理
+- [ ] runner相关笔记整理
