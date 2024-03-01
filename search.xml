@@ -59,6 +59,59 @@
       </tags>
   </entry>
   <entry>
+    <title>WriteUp-CTFHub-Rivest Shamir Adleman</title>
+    <url>/2024/01/25/WriteUp-CTFHub-Rivest-Shamir-Adleman/</url>
+    <content><![CDATA[<span id="more"></span>
+
+
+<h2 id="题目考点"><a href="#题目考点" class="headerlink" title="题目考点"></a>题目考点</h2><ul>
+<li>RSA</li>
+</ul>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ul>
+<li>下载题目附件，解压后得到n，e，c：  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">n = 408579146706567976063586763758203051093687666875502812646277701560732347095463873824829467529879836457478436098685606552992513164224712398195503564207485938278827523972139196070431397049700119503436522251010430918143933255323117421712000644324381094600257291929523792609421325002527067471808992410166917641057703562860663026873111322556414272297111644069436801401012920448661637616392792337964865050210799542881102709109912849797010633838067759525247734892916438373776477679080154595973530904808231</span><br><span class="line">e = 65537</span><br><span class="line">c = 226582271940094442087193050781730854272200420106419489092394544365159707306164351084355362938310978502945875712496307487367548451311593283589317511213656234433015906518135430048027246548193062845961541375898496150123721180020417232872212026782286711541777491477220762823620612241593367070405349675337889270277102235298455763273194540359004938828819546420083966793260159983751717798236019327334525608143172073795095665271013295322241504491351162010517033995871502259721412160906176911277416194406909</span><br></pre></td></tr></table></figure></li>
+<li>通过在线工具<a href="http://factordb.com/">factordb</a>分解n，得到p，q：  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">p = 15485863</span><br><span class="line">q = 26384008867091745294633354547835212741691416673097444594871961708606898246191631284922865941012124184327243247514562575750057530808887589809848089461174100421708982184082294675500577336225957797988818721372546749131380876566137607036301473435764031659085276159909447255824316991731559776281695919056426990285120277950325598700770588152330565774546219611360167747900967511378709576366056727866239359744484343099322440674434020874200594041033926202578941508969596229398159965581521326643115137</span><br></pre></td></tr></table></figure></li>
+<li>编写RSA解密脚本：  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 已知参数</span></span><br><span class="line">p = <span class="number">15485863</span></span><br><span class="line">q = <span class="number">26384008867091745294633354547835212741691416673097444594871961708606898246191631284922865941012124184327243247514562575750057530808887589809848089461174100421708982184082294675500577336225957797988818721372546749131380876566137607036301473435764031659085276159909447255824316991731559776281695919056426990285120277950325598700770588152330565774546219611360167747900967511378709576366056727866239359744484343099322440674434020874200594041033926202578941508969596229398159965581521326643115137</span></span><br><span class="line">n = <span class="number">408579146706567976063586763758203051093687666875502812646277701560732347095463873824829467529879836457478436098685606552992513164224712398195503564207485938278827523972139196070431397049700119503436522251010430918143933255323117421712000644324381094600257291929523792609421325002527067471808992410166917641057703562860663026873111322556414272297111644069436801401012920448661637616392792337964865050210799542881102709109912849797010633838067759525247734892916438373776477679080154595973530904808231</span></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">c = <span class="number">226582271940094442087193050781730854272200420106419489092394544365159707306164351084355362938310978502945875712496307487367548451311593283589317511213656234433015906518135430048027246548193062845961541375898496150123721180020417232872212026782286711541777491477220762823620612241593367070405349675337889270277102235298455763273194540359004938828819546420083966793260159983751717798236019327334525608143172073795095665271013295322241504491351162010517033995871502259721412160906176911277416194406909</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算phi(n)</span></span><br><span class="line">phi_n = (p-<span class="number">1</span>) * (q-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算d</span></span><br><span class="line">d = gmpy2.invert(e, phi_n)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密得到m</span></span><br><span class="line">m = <span class="built_in">pow</span>(c, d, n)</span><br><span class="line"><span class="built_in">print</span>(m)</span><br><span class="line"></span><br><span class="line">plaintext = <span class="built_in">bytes</span>.fromhex(<span class="built_in">hex</span>(m)[<span class="number">2</span>:]).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(plaintext)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">csictf&#123;sh0uld&#x27;v3_t4k3n_b1gg3r_pr1m3s&#125;</span><br><span class="line"># CTFHub平台似乎有问题，提交flag后显示为错误，但是flag是正确的</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CTF-WriteUp</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WriteUp-CTFHub-Quick Math</title>
+    <url>/2024/02/04/WriteUp-CTFHub-Quick-Math/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="题目内容"><a href="#题目内容" class="headerlink" title="题目内容"></a>题目内容</h2><p>Ben has encrypted a message with the same value of ‘e’ for 3 public moduli - n1 &#x3D; 86812553978993 n2 &#x3D; 81744303091421 n3 &#x3D; 83695120256591 and got the cipher texts - c1 &#x3D; 8875674977048 c2 &#x3D; 70744354709710 c3 &#x3D; 29146719498409. Find the original message. (Wrap it with csictf{})</p>
+<h2 id="题目考点"><a href="#题目考点" class="headerlink" title="题目考点"></a>题目考点</h2><ul>
+<li>RSA</li>
+<li>中国剩余定理</li>
+</ul>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ul>
+<li>由题目和RSA原理可知：  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">c1=m^3 mod n1</span><br><span class="line">c2=m^3 mod n2</span><br><span class="line">c3=m^3 mod n3</span><br><span class="line">👇</span><br><span class="line">m^3 = c1 mod n1</span><br><span class="line">m^3 = c2 mod n2</span><br><span class="line">m^3 = c3 mod n3</span><br></pre></td></tr></table></figure></li>
+<li>根据中国剩余定理，可以求出m^3，然后开立方根即可得到m</li>
+<li>python代码：  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 导入所需的模块和函数</span></span><br><span class="line"><span class="keyword">from</span> sympy.ntheory.modular <span class="keyword">import</span> crt</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> iroot</span><br><span class="line"></span><br><span class="line"><span class="comment"># RSA加密的指数e</span></span><br><span class="line">e = <span class="number">3</span></span><br><span class="line"><span class="comment"># 三个不同的模数N和对应的密文C</span></span><br><span class="line">N = [<span class="number">86812553978993</span>, <span class="number">81744303091421</span>, <span class="number">83695120256591</span>]</span><br><span class="line">C = [<span class="number">8875674977048</span>, <span class="number">70744354709710</span>, <span class="number">29146719498409</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用中国剩余定理解决模数不同的同余方程组</span></span><br><span class="line">resultant, mod = crt(N,C)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算resultant的e次根，即对resultant进行e次方根运算</span></span><br><span class="line">value, is_perfect = iroot(resultant,e)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将计算得到的明文值转换成字节并打印出来</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">bytes</span>.fromhex(<span class="built_in">str</span>(value)).decode())</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">csictf&#123;h45t4d&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://ctftime.org/writeup/22431">CTFtime.org &#x2F; csictf 2020 &#x2F; Quick Math &#x2F; Writeup</a></li>
+<li>中国剩余定理</li>
+</ul>
+]]></content>
+      <categories>
+        <category>CTF-WriteUp</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Miniconda+Vscode Python 环境管理</title>
     <url>/2024/01/07/Miniconda-Vscode-Python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<span id="more"></span>
@@ -97,6 +150,35 @@
         <tag>Miniconda</tag>
         <tag>Vscode</tag>
         <tag>Python环境管理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WriteUp-CTFHub-you raise me up</title>
+    <url>/2024/02/06/WriteUp-CTFHub-you-raise-me-up/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="题目考点"><a href="#题目考点" class="headerlink" title="题目考点"></a>题目考点</h2><ul>
+<li>离散对数</li>
+</ul>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ul>
+<li>下载题目附件：  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">n = <span class="number">2</span> ** <span class="number">512</span>    <span class="comment"># 2^512</span></span><br><span class="line">m = random.randint(<span class="number">2</span>, n-<span class="number">1</span>) | <span class="number">1</span>  <span class="comment"># 随机生成一个奇数（使用random.randint()函数生成一个大于等于2且小于n-1的随机整数，并通过按位或操作符&quot;| 1&quot;将其转换为奇数）</span></span><br><span class="line">c = <span class="built_in">pow</span>(m, bytes_to_long(flag), n)  <span class="comment"># c = m^flag mod n</span></span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;m = &#x27;</span> + <span class="built_in">str</span>(m)</span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;c = &#x27;</span> + <span class="built_in">str</span>(c)</span><br><span class="line"></span><br><span class="line"><span class="comment"># m = 391190709124527428959489662565274039318305952172936859403855079581402770986890308469084735451207885386318986881041563704825943945069343345307381099559075</span></span><br><span class="line"><span class="comment"># c = 6665851394203214245856789450723658632520816791621796775909766895233000234023642878786025644953797995373211308485605397024123180085924117610802485972584499</span></span><br></pre></td></tr></table></figure></li>
+<li>对于<code>c = m^flag mod n</code>，已知c，m，n，求flag，这是典型的离散对数问题。</li>
+<li>使用sympy库进行求解：  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sympy.ntheory <span class="keyword">import</span> discrete_log  <span class="comment"># conda update sympy</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes    <span class="comment"># pip install pycryptodome</span></span><br><span class="line">m = <span class="number">391190709124527428959489662565274039318305952172936859403855079581402770986890308469084735451207885386318986881041563704825943945069343345307381099559075</span></span><br><span class="line">c = <span class="number">6665851394203214245856789450723658632520816791621796775909766895233000234023642878786025644953797995373211308485605397024123180085924117610802485972584499</span></span><br><span class="line">n = <span class="number">2</span> ** <span class="number">512</span></span><br><span class="line"></span><br><span class="line">flag=discrete_log(n, c, m)  <span class="comment"># 求解离散对数</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> long_to_bytes(flag)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">flag&#123;5f95ca93-1594-762d-ed0b-a9139692cb4a&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://geek.csdn.net/65bf0517b8e5f01e1e45ee3d.html?dp_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTE1MDY0MSwiZXhwIjoxNzA3ODE4ODQwLCJpYXQiOjE3MDcyMTQwNDAsInVzZXJuYW1lIjoid2VpeGluXzQzNjk0MjI3In0.aWF6bJIklpo13OKZ1nCptqIYY6aOcOfjf-FBMc02mr8">2020网鼎杯——you_raise_me_up wp_安全_lnjoy-CSDN学习社区</a></li>
+<li><a href="https://blog.csdn.net/qq_40648358/article/details/106045483">使用sagemath的解法</a></li>
+<li><a href="https://docs.sympy.org/latest/install.html#anaconda">Installation - SymPy 1.12 documentation</a></li>
+<li><a href="https://blog.csdn.net/wukai0909/article/details/109772278">from Crypto.Util.number import * ImportError: No module named Crypto.Util.number-CSDN博客</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>CTF-WriteUp</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
       </tags>
   </entry>
   <entry>
@@ -187,88 +269,6 @@
       </tags>
   </entry>
   <entry>
-    <title>WriteUp-CTFHub-Rivest Shamir Adleman</title>
-    <url>/2024/01/25/WriteUp-CTFHub-Rivest-Shamir-Adleman/</url>
-    <content><![CDATA[<span id="more"></span>
-
-
-<h2 id="题目考点"><a href="#题目考点" class="headerlink" title="题目考点"></a>题目考点</h2><ul>
-<li>RSA</li>
-</ul>
-<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ul>
-<li>下载题目附件，解压后得到n，e，c：  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">n = 408579146706567976063586763758203051093687666875502812646277701560732347095463873824829467529879836457478436098685606552992513164224712398195503564207485938278827523972139196070431397049700119503436522251010430918143933255323117421712000644324381094600257291929523792609421325002527067471808992410166917641057703562860663026873111322556414272297111644069436801401012920448661637616392792337964865050210799542881102709109912849797010633838067759525247734892916438373776477679080154595973530904808231</span><br><span class="line">e = 65537</span><br><span class="line">c = 226582271940094442087193050781730854272200420106419489092394544365159707306164351084355362938310978502945875712496307487367548451311593283589317511213656234433015906518135430048027246548193062845961541375898496150123721180020417232872212026782286711541777491477220762823620612241593367070405349675337889270277102235298455763273194540359004938828819546420083966793260159983751717798236019327334525608143172073795095665271013295322241504491351162010517033995871502259721412160906176911277416194406909</span><br></pre></td></tr></table></figure></li>
-<li>通过在线工具<a href="http://factordb.com/">factordb</a>分解n，得到p，q：  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">p = 15485863</span><br><span class="line">q = 26384008867091745294633354547835212741691416673097444594871961708606898246191631284922865941012124184327243247514562575750057530808887589809848089461174100421708982184082294675500577336225957797988818721372546749131380876566137607036301473435764031659085276159909447255824316991731559776281695919056426990285120277950325598700770588152330565774546219611360167747900967511378709576366056727866239359744484343099322440674434020874200594041033926202578941508969596229398159965581521326643115137</span><br></pre></td></tr></table></figure></li>
-<li>编写RSA解密脚本：  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 已知参数</span></span><br><span class="line">p = <span class="number">15485863</span></span><br><span class="line">q = <span class="number">26384008867091745294633354547835212741691416673097444594871961708606898246191631284922865941012124184327243247514562575750057530808887589809848089461174100421708982184082294675500577336225957797988818721372546749131380876566137607036301473435764031659085276159909447255824316991731559776281695919056426990285120277950325598700770588152330565774546219611360167747900967511378709576366056727866239359744484343099322440674434020874200594041033926202578941508969596229398159965581521326643115137</span></span><br><span class="line">n = <span class="number">408579146706567976063586763758203051093687666875502812646277701560732347095463873824829467529879836457478436098685606552992513164224712398195503564207485938278827523972139196070431397049700119503436522251010430918143933255323117421712000644324381094600257291929523792609421325002527067471808992410166917641057703562860663026873111322556414272297111644069436801401012920448661637616392792337964865050210799542881102709109912849797010633838067759525247734892916438373776477679080154595973530904808231</span></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">c = <span class="number">226582271940094442087193050781730854272200420106419489092394544365159707306164351084355362938310978502945875712496307487367548451311593283589317511213656234433015906518135430048027246548193062845961541375898496150123721180020417232872212026782286711541777491477220762823620612241593367070405349675337889270277102235298455763273194540359004938828819546420083966793260159983751717798236019327334525608143172073795095665271013295322241504491351162010517033995871502259721412160906176911277416194406909</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算phi(n)</span></span><br><span class="line">phi_n = (p-<span class="number">1</span>) * (q-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算d</span></span><br><span class="line">d = gmpy2.invert(e, phi_n)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密得到m</span></span><br><span class="line">m = <span class="built_in">pow</span>(c, d, n)</span><br><span class="line"><span class="built_in">print</span>(m)</span><br><span class="line"></span><br><span class="line">plaintext = <span class="built_in">bytes</span>.fromhex(<span class="built_in">hex</span>(m)[<span class="number">2</span>:]).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(plaintext)</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">csictf&#123;sh0uld&#x27;v3_t4k3n_b1gg3r_pr1m3s&#125;</span><br><span class="line"># CTFHub平台似乎有问题，提交flag后显示为错误，但是flag是正确的</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>CTF-WriteUp</category>
-      </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>WriteUp-CTFHub-Quick Math</title>
-    <url>/2024/02/04/WriteUp-CTFHub-Quick-Math/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="题目内容"><a href="#题目内容" class="headerlink" title="题目内容"></a>题目内容</h2><p>Ben has encrypted a message with the same value of ‘e’ for 3 public moduli - n1 &#x3D; 86812553978993 n2 &#x3D; 81744303091421 n3 &#x3D; 83695120256591 and got the cipher texts - c1 &#x3D; 8875674977048 c2 &#x3D; 70744354709710 c3 &#x3D; 29146719498409. Find the original message. (Wrap it with csictf{})</p>
-<h2 id="题目考点"><a href="#题目考点" class="headerlink" title="题目考点"></a>题目考点</h2><ul>
-<li>RSA</li>
-<li>中国剩余定理</li>
-</ul>
-<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ul>
-<li>由题目和RSA原理可知：  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">c1=m^3 mod n1</span><br><span class="line">c2=m^3 mod n2</span><br><span class="line">c3=m^3 mod n3</span><br><span class="line">👇</span><br><span class="line">m^3 = c1 mod n1</span><br><span class="line">m^3 = c2 mod n2</span><br><span class="line">m^3 = c3 mod n3</span><br></pre></td></tr></table></figure></li>
-<li>根据中国剩余定理，可以求出m^3，然后开立方根即可得到m</li>
-<li>python代码：  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 导入所需的模块和函数</span></span><br><span class="line"><span class="keyword">from</span> sympy.ntheory.modular <span class="keyword">import</span> crt</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> iroot</span><br><span class="line"></span><br><span class="line"><span class="comment"># RSA加密的指数e</span></span><br><span class="line">e = <span class="number">3</span></span><br><span class="line"><span class="comment"># 三个不同的模数N和对应的密文C</span></span><br><span class="line">N = [<span class="number">86812553978993</span>, <span class="number">81744303091421</span>, <span class="number">83695120256591</span>]</span><br><span class="line">C = [<span class="number">8875674977048</span>, <span class="number">70744354709710</span>, <span class="number">29146719498409</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用中国剩余定理解决模数不同的同余方程组</span></span><br><span class="line">resultant, mod = crt(N,C)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算resultant的e次根，即对resultant进行e次方根运算</span></span><br><span class="line">value, is_perfect = iroot(resultant,e)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将计算得到的明文值转换成字节并打印出来</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">bytes</span>.fromhex(<span class="built_in">str</span>(value)).decode())</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">csictf&#123;h45t4d&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://ctftime.org/writeup/22431">CTFtime.org &#x2F; csictf 2020 &#x2F; Quick Math &#x2F; Writeup</a></li>
-<li>中国剩余定理</li>
-</ul>
-]]></content>
-      <categories>
-        <category>CTF-WriteUp</category>
-      </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>WriteUp-CTFHub-you raise me up</title>
-    <url>/2024/02/06/WriteUp-CTFHub-you-raise-me-up/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="题目考点"><a href="#题目考点" class="headerlink" title="题目考点"></a>题目考点</h2><ul>
-<li>离散对数</li>
-</ul>
-<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ul>
-<li>下载题目附件：  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">n = <span class="number">2</span> ** <span class="number">512</span>    <span class="comment"># 2^512</span></span><br><span class="line">m = random.randint(<span class="number">2</span>, n-<span class="number">1</span>) | <span class="number">1</span>  <span class="comment"># 随机生成一个奇数（使用random.randint()函数生成一个大于等于2且小于n-1的随机整数，并通过按位或操作符&quot;| 1&quot;将其转换为奇数）</span></span><br><span class="line">c = <span class="built_in">pow</span>(m, bytes_to_long(flag), n)  <span class="comment"># c = m^flag mod n</span></span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;m = &#x27;</span> + <span class="built_in">str</span>(m)</span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;c = &#x27;</span> + <span class="built_in">str</span>(c)</span><br><span class="line"></span><br><span class="line"><span class="comment"># m = 391190709124527428959489662565274039318305952172936859403855079581402770986890308469084735451207885386318986881041563704825943945069343345307381099559075</span></span><br><span class="line"><span class="comment"># c = 6665851394203214245856789450723658632520816791621796775909766895233000234023642878786025644953797995373211308485605397024123180085924117610802485972584499</span></span><br></pre></td></tr></table></figure></li>
-<li>对于<code>c = m^flag mod n</code>，已知c，m，n，求flag，这是典型的离散对数问题。</li>
-<li>使用sympy库进行求解：  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sympy.ntheory <span class="keyword">import</span> discrete_log  <span class="comment"># conda update sympy</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes    <span class="comment"># pip install pycryptodome</span></span><br><span class="line">m = <span class="number">391190709124527428959489662565274039318305952172936859403855079581402770986890308469084735451207885386318986881041563704825943945069343345307381099559075</span></span><br><span class="line">c = <span class="number">6665851394203214245856789450723658632520816791621796775909766895233000234023642878786025644953797995373211308485605397024123180085924117610802485972584499</span></span><br><span class="line">n = <span class="number">2</span> ** <span class="number">512</span></span><br><span class="line"></span><br><span class="line">flag=discrete_log(n, c, m)  <span class="comment"># 求解离散对数</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> long_to_bytes(flag)</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">flag&#123;5f95ca93-1594-762d-ed0b-a9139692cb4a&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://geek.csdn.net/65bf0517b8e5f01e1e45ee3d.html?dp_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTE1MDY0MSwiZXhwIjoxNzA3ODE4ODQwLCJpYXQiOjE3MDcyMTQwNDAsInVzZXJuYW1lIjoid2VpeGluXzQzNjk0MjI3In0.aWF6bJIklpo13OKZ1nCptqIYY6aOcOfjf-FBMc02mr8">2020网鼎杯——you_raise_me_up wp_安全_lnjoy-CSDN学习社区</a></li>
-<li><a href="https://blog.csdn.net/qq_40648358/article/details/106045483">使用sagemath的解法</a></li>
-<li><a href="https://docs.sympy.org/latest/install.html#anaconda">Installation - SymPy 1.12 documentation</a></li>
-<li><a href="https://blog.csdn.net/wukai0909/article/details/109772278">from Crypto.Util.number import * ImportError: No module named Crypto.Util.number-CSDN博客</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>CTF-WriteUp</category>
-      </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>WriteUp-CTFHub-回转十三位</title>
     <url>/2024/01/25/WriteUp-CTFHub-%E5%9B%9E%E8%BD%AC%E5%8D%81%E4%B8%89%E4%BD%8D/</url>
     <content><![CDATA[<span id="more"></span>
@@ -291,204 +291,6 @@
 <li>然后再用base64解码，解出来的内容为：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FlagIS6cvkrhFpVEHAK8Ap</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">flag&#123;6cvkrhFpVEHAK8Ap&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>CTF-WriteUp</category>
-      </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo + github 搭建个人博客教程</title>
-    <url>/2024/01/20/hexo-github-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="什么是hexo？"><a href="#什么是hexo？" class="headerlink" title="什么是hexo？"></a>什么是hexo？</h2><p>hexo是一个基于nodejs的静态博客框架，可以快速搭建个人博客，支持markdown语法，支持自定义主题，支持插件扩展，支持一键部署到github上，支持离线写作，支持多终端同步等等。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
-<li>安装git，下载地址<a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></li>
-<li>安装nodejs，下载地址<a href="https://nodejs.cn/download/">https://nodejs.cn/download/</a></li>
-<li>验证nodejs是否安装成功，打开cmd，输入<code>node -v</code>，显示版本号则安装成功</li>
-<li>npm换源，打开cmd，输入<code>npm config set registry https://registry.npm.taobao.org</code>，换源成功后，输入<code>npm config get registry</code>，显示<code>https://registry.npm.taobao.org/</code>则换源成功</li>
-<li>安装hexo，打开cmd，输入<code>npm install -g hexo-cli</code>，安装成功后，输入<code>hexo -v</code>，显示版本号则安装成功</li>
-</ul>
-<h2 id="初始化博客"><a href="#初始化博客" class="headerlink" title="初始化博客"></a>初始化博客</h2><ul>
-<li>新建一个文件夹，例如<code>Bloggg</code></li>
-<li>打开git命令行，输入<code>hexo init</code>，初始化博客</li>
-<li>执行<code>npm install</code>，安装项目依赖</li>
-<li>执行<code>hexo s</code>，启动本地服务，打开浏览器，输入<code>http://localhost:4000</code>，显示hexo默认页面，则初始化成功</li>
-</ul>
-<h2 id="新建文章"><a href="#新建文章" class="headerlink" title="新建文章"></a>新建文章</h2><ul>
-<li>在博客根目录下执行<code>hexo new &quot;文章标题&quot;</code>，会在<code>source/_posts</code>目录下生成一个md文件，例如<code>hello-world.md</code></li>
-<li>编辑博客后，执行<code>hexo s</code>，启动本地服务，打开浏览器，输入<code>http://localhost:4000</code>，显示博客，则新建文章成功</li>
-</ul>
-<h2 id="部署到github-pages"><a href="#部署到github-pages" class="headerlink" title="部署到github pages"></a>部署到github pages</h2><ul>
-<li>在github上新建一个仓库，必须以<code>username.github.io</code>命名，例如本站的仓库名为<code>yumlii33.github.io</code></li>
-<li>修改博客根目录下的<code>_config.yml</code>文件，修改<code>deploy</code>配置，例如本站的配置如下：  <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">repo:</span> <span class="string">git@github.com:yumlii33/yumlii33.github.io.git</span></span><br><span class="line"><span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure></li>
-<li>安装上传插件，执行<code>npm install hexo-deployer-git --save</code></li>
-<li>执行<code>hexo clean</code>，清除缓存</li>
-<li>执行<code>hexo g</code>，生成静态文件</li>
-<li>执行<code>hexo d</code>，部署到github</li>
-<li>访问<code>https://username.github.io</code>，显示博客，则部署成功</li>
-</ul>
-<h2 id="源码上传到github"><a href="#源码上传到github" class="headerlink" title="源码上传到github"></a>源码上传到github</h2><ul>
-<li>在本地hexo根目录下执行<code>git init</code>，初始化git仓库</li>
-<li>执行<code>git remote add origin git@github.com:username/username.github.io.git</code>，添加远程仓库</li>
-<li>创建<code>.gitignore</code>文件，添加忽略文件，例如本站的配置如下：  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">db.json</span><br><span class="line">*.log</span><br><span class="line">node_modules/</span><br><span class="line">public/</span><br><span class="line">.deploy*/</span><br></pre></td></tr></table></figure></li>
-<li>执行<code>git add .</code>，添加所有文件到暂存区</li>
-<li>执行<code>git commit -m &quot;init&quot;</code>，提交到本地仓库</li>
-<li>执行<code>git push -u origin master</code>，上传到远程仓库主分支</li>
-</ul>
-<h2 id="新环境部署"><a href="#新环境部署" class="headerlink" title="新环境部署"></a>新环境部署</h2><ul>
-<li>在新环境下，执行<code>git clone</code>，克隆仓库到本地</li>
-<li>执行<code>npm install</code>，安装项目依赖</li>
-<li>执行<code>hexo s</code>，启动本地服务，打开浏览器，输入<code>http://localhost:4000</code>，显示博客，则部署成功</li>
-</ul>
-<blockquote>
-<p>注意：因为没有上传<code>node_modules</code>文件夹，所以需要执行<code>npm install</code>安装项目依赖，如果需要对插件进行自定义修改，需要在新环境中重新配置</p>
-</blockquote>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/71544809">使用git分支保存hexo博客源码到github - 知乎</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>教程</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>my-first-blog</title>
-    <url>/2024/01/03/my-first-blog/</url>
-    <content><![CDATA[<h2 id="My-First-Blog"><a href="#My-First-Blog" class="headerlink" title="My First Blog"></a>My First Blog</h2><p>这是我的第一篇博客，记录一下使用hexo+githubpages搭建个人网站时有用的参考链接~ b(￣▽￣)d</p>
-<span id="more"></span>
-
-<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
-<li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
-<li><a href="https://blog.csdn.net/as480133937/article/details/100138838">Hexo-Next 主题博客个性化配置超详细，超全面(两万字)_hexo next 记录访问了ip-CSDN博客</a></li>
-<li><a href="https://oytoyt.github.io/2018/12/06/hexo%E5%BC%80%E5%90%AFtags%E6%88%96categories%E5%85%B6%E5%AE%83%E8%8F%9C%E5%8D%95%E6%97%B6%EF%BC%8C%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98/">hexo开启tags或categories其它菜单时，无法访问问题 | Yanting Ou</a></li>
-</ul>
-<h2 id="TODO："><a href="#TODO：" class="headerlink" title="TODO："></a>TODO：</h2><ul>
-<li><input checked disabled type="checkbox"> hexo博文中添加图片，修改hexo-asset-image插件配置</li>
-<li><input disabled type="checkbox"> sql注入笔记整理</li>
-<li><input disabled type="checkbox"> runner相关笔记整理</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>使用hexo-asset-image在hexo博客中插入图片</title>
-    <url>/2024/01/21/%E4%BD%BF%E7%94%A8hexo-asset-image%E5%9C%A8hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="什么是hexo-asset-image？"><a href="#什么是hexo-asset-image？" class="headerlink" title="什么是hexo-asset-image？"></a>什么是hexo-asset-image？</h2><ul>
-<li>Give asset image in hexo a absolutely path automatically.</li>
-<li><a href="https://github.com/CodeFalling/hexo-asset-image">CodeFalling&#x2F;hexo-asset-image</a></li>
-</ul>
-<h2 id="安装hexo-asset-image"><a href="#安装hexo-asset-image" class="headerlink" title="安装hexo-asset-image"></a>安装hexo-asset-image</h2><ul>
-<li><code>npm install hexo-asset-image --save</code></li>
-</ul>
-<h2 id="修改hexo配置"><a href="#修改hexo配置" class="headerlink" title="修改hexo配置"></a>修改hexo配置</h2><ul>
-<li><p>修改hexo根目录下的<code>_config.yml</code>文件，添加如下配置：</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="修改hexo-asset-image插件"><a href="#修改hexo-asset-image插件" class="headerlink" title="修改hexo-asset-image插件"></a>修改hexo-asset-image插件</h2><ul>
-<li>修改<code>node_modules\hexo-asset-image\index.js</code>：<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注释掉以下代码</span></span><br><span class="line"><span class="comment">// if(srcArray.length &gt; 1)</span></span><br><span class="line"><span class="comment">// srcArray.shift();</span></span><br><span class="line"><span class="comment">// src = srcArray.join(&#x27;/&#x27;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// $(this).attr(&#x27;src&#x27;, config.root + link + src);</span></span><br><span class="line"><span class="comment">// console.info&amp;&amp;console.info(&quot;update link as:--&gt;&quot;+config.root + link + src);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加以下代码</span></span><br><span class="line">$(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>, src);</span><br><span class="line"><span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&quot;update link as:--&gt;&quot;</span>+src);</span><br></pre></td></tr></table></figure></li>
-<li>修改后的<code>index.js</code>文件如下：<br><img src="/2024/01/21/%E4%BD%BF%E7%94%A8hexo-asset-image%E5%9C%A8hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/%E4%BF%AE%E6%94%B9hexo-asset-image%E7%9A%84index%E6%96%87%E4%BB%B6.jpg"></li>
-</ul>
-<h2 id="使用hexo-asset-image插入图片"><a href="#使用hexo-asset-image插入图片" class="headerlink" title="使用hexo-asset-image插入图片"></a>使用hexo-asset-image插入图片</h2><ul>
-<li>创建新的文章，例如<code>hexo new &quot;xx&quot;</code>，会在<code>source/_posts</code>目录下生成一个md文件以及同名文件夹</li>
-<li>示例:  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">MacGesture2-Publish</span><br><span class="line">├── apppicker.jpg</span><br><span class="line">├── logo.jpg</span><br><span class="line">└── rules.jpg</span><br><span class="line">MacGesture2-Publish.md</span><br></pre></td></tr></table></figure></li>
-<li>在md文件中插入图片，例如：<code>![](appicker.jpg)</code>，图片名称就是图片路径</li>
-</ul>
-]]></content>
-      <categories>
-        <category>教程</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基于Cowrie蜜罐部署教程构建docker镜像</title>
-    <url>/2024/02/04/%E5%9F%BA%E4%BA%8ECowrie%E8%9C%9C%E7%BD%90%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>在使用cowrie官网的镜像搭建蜜罐时，无法访问蜜罐容器里的日志文件，所以决定自己构建一个镜像，方便后续的操作。</p>
-<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基于ubuntu22.04构建</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:jammy</span><br><span class="line"></span><br><span class="line"><span class="comment"># （root权限下）换源并安装必要的包，否则安装软件包会很慢，甚至超时报错</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">test</span> ! -f /etc/apt/source.list.save &amp;&amp; <span class="built_in">cp</span>  /etc/apt/sources.list /etc/apt/sources.list.save \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; sed -i <span class="string">&quot;s@security.ubuntu.com@mirrors.ustc.edu.cn@g&quot;</span> /etc/apt/sources.list \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; sed -i <span class="string">&quot;s@archive.ubuntu.com@mirrors.ustc.edu.cn@g&quot;</span> /etc/apt/sources.list \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get update \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get install -y wget python3.10-venv python-is-python3 git python3-virtualenv libssl-dev libffi-dev build-essential libpython3-dev python3-minimal authbind virtualenv \ </span></span><br><span class="line">    &amp;&amp; adduser --disabled-password --gecos <span class="string">&quot;&quot;</span> cowrie</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基于cowrie官网的安装教程，在ubuntu上安装cowrie</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> su - cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">cd</span> /home/cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; wget https://github.com/cowrie/cowrie/archive/refs/tags/v2.5.0.tar.gz \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; tar -zxvf v2.5.0.tar.gz \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">mv</span> cowrie-2.5.0/ cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">cd</span> cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">pwd</span> \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; python -m venv cowrie-env \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; . cowrie-env/bin/activate \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; python -m pip install --upgrade pip -i http://pypi.douban.com/simple --trusted-host pypi.douban.com \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; python -m pip install --upgrade -r requirements.txt -i http://pypi.douban.com/simple --trusted-host pypi.douban.com \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">chown</span> -R cowrie:cowrie .</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">2222</span> <span class="number">2223</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置容器的默认用户和工作目录</span></span><br><span class="line"><span class="keyword">USER</span> cowrie</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /home/cowrie/cowrie</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动蜜罐命令</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;bin/cowrie&quot;</span>, <span class="string">&quot;start&quot;</span>,<span class="string">&quot;-n&quot;</span>]</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t cowrie_from_ubuntu:20240202 .</span><br></pre></td></tr></table></figure>
-
-<h2 id="运行方式"><a href="#运行方式" class="headerlink" title="运行方式"></a>运行方式</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd -p 2222:2222 -p 2223:2223 cowrie_from_ubuntu:20240202</span><br></pre></td></tr></table></figure>
-
-<h2 id="上传镜像"><a href="#上传镜像" class="headerlink" title="上传镜像"></a>上传镜像</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 登录到Docker Hub</span></span><br><span class="line">docker login</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为镜像添加标签</span></span><br><span class="line">docker tag cowrie_from_ubuntu:20240202 mollyyuu/cowrie_from_ubuntu:20240202</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将镜像推送到Docker Hub</span></span><br><span class="line">docker push mollyyuu/cowrie_from_ubuntu:20240202</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://cowrie.readthedocs.io/en/latest/INSTALL.html">Installing Cowrie in seven steps — cowrie 2.5.0 documentation</a></li>
-<li><a href="https://www.cnblogs.com/jingjingxyk/p/16825510.html">alpine、debian、ubuntu brew 常用的换源命令 - jingjingxyk - 博客园</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>honeypot</category>
-      </categories>
-      <tags>
-        <tag>cowrie</tag>
-        <tag>Dockerfile</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>WriteUp-第六届安洵杯网络安全挑战赛-010101</title>
-    <url>/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="赛事名称"><a href="#赛事名称" class="headerlink" title="赛事名称"></a>赛事名称</h2><p>i-SOON_CTF_2023<br>第六届安洵杯网络安全挑战赛   </p>
-<h2 id="赛事描述"><a href="#赛事描述" class="headerlink" title="赛事描述"></a>赛事描述</h2><p><a href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
-<h2 id="赛事网址"><a href="#赛事网址" class="headerlink" title="赛事网址"></a>赛事网址</h2><p><a href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
-<h2 id="010101"><a href="#010101" class="headerlink" title="010101"></a>010101</h2><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> socketserver</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> isPrime, long_to_bytes, getStrongPrime, bytes_to_long</span><br><span class="line"></span><br><span class="line">flag = <span class="string">b&quot;D0g3&#123;******************************************&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyServer</span>(socketserver.BaseRequestHandler):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">proof</span>(<span class="params">self</span>):</span><br><span class="line">        random.seed(os.urandom(<span class="number">8</span>))</span><br><span class="line">        random_str = <span class="string">&#x27;&#x27;</span>.join([random.choice(string.ascii_letters + string.digits) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>)])</span><br><span class="line">        str_sha256 = hashlib.sha256(random_str.encode()).hexdigest()</span><br><span class="line">        self.request.sendall((<span class="string">&#x27;SHA256(XXXX + %s):%s\n&#x27;</span> % (random_str[<span class="number">4</span>:], str_sha256)).encode())</span><br><span class="line">        self.request.sendall(<span class="string">&#x27;Give Me XXXX:\n&#x27;</span>.encode())</span><br><span class="line">        XXXX = self.request.recv(<span class="number">2048</span>).strip()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> hashlib.sha256((XXXX + random_str[<span class="number">4</span>:].encode())).hexdigest() != str_sha256:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getPQN</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            p = getStrongPrime(<span class="number">2048</span>)</span><br><span class="line">            q = getStrongPrime(<span class="number">2048</span>)</span><br><span class="line">            n = p * q</span><br><span class="line">            <span class="keyword">if</span> p.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> q.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> n.bit_length() == <span class="number">4096</span>:</span><br><span class="line">                <span class="keyword">return</span> p, q, n</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">encrypt</span>(<span class="params">self</span>):</span><br><span class="line">        p, q, n = self.getPQN()</span><br><span class="line">        m = bytes_to_long(flag)</span><br><span class="line">        e = <span class="number">0x10001</span></span><br><span class="line">        c = <span class="built_in">pow</span>(m, e, n)</span><br><span class="line">        p = <span class="built_in">bin</span>(p)[<span class="number">2</span>:]</span><br><span class="line">        p1 = <span class="built_in">list</span>(p[:<span class="number">1024</span>])</span><br><span class="line">        p2 = <span class="built_in">list</span>(p[<span class="number">1024</span>:])</span><br><span class="line">        p1[random.choice([i <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(p1) <span class="keyword">if</span> c == <span class="string">&#x27;1&#x27;</span>])] = <span class="string">&#x27;0&#x27;</span></span><br><span class="line">        p2[random.choice([i <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(p1) <span class="keyword">if</span> c == <span class="string">&#x27;0&#x27;</span>])] = <span class="string">&#x27;1&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> n, <span class="string">&#x27;&#x27;</span>.join(p1) + <span class="string">&#x27;&#x27;</span>.join(p2), c</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">handle</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.proof():</span><br><span class="line">            self.request.sendall(<span class="string">b&#x27;Error Hash!&#x27;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        n, p, c = self.encrypt()</span><br><span class="line">        self.request.sendall(<span class="string">&#x27;Press 1 to get ciphertext\n&#x27;</span>.encode())</span><br><span class="line">        number = self.request.recv(<span class="number">512</span>).strip().decode()</span><br><span class="line">        <span class="keyword">if</span> number == <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">            self.request.sendall((<span class="built_in">str</span>(n) + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">            self.request.sendall((<span class="built_in">str</span>(p) + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">            self.request.sendall((<span class="built_in">str</span>(c) + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.request.sendall(<span class="string">&#x27;Incorrect input!\n&#x27;</span>.encode())</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadedTCPServer</span>(socketserver.ThreadingMixIn, socketserver.TCPServer):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    sever = socketserver.ThreadingTCPServer((<span class="string">&#x27;0.0.0.0&#x27;</span>, <span class="number">10001</span>), MyServer)</span><br><span class="line">    ThreadedTCPServer.allow_reuse_address = <span class="literal">True</span></span><br><span class="line">    ThreadedTCPServer.allow_reuse_port = <span class="literal">True</span></span><br><span class="line">    sever.serve_forever()</span><br></pre></td></tr></table></figure>
-
-<h3 id="考点"><a href="#考点" class="headerlink" title="考点"></a>考点</h3><ul>
-<li><code>crypto</code></li>
-<li><code>SHA256</code></li>
-<li><code>RSA</code></li>
-</ul>
-<h3 id="WriteUp"><a href="#WriteUp" class="headerlink" title="WriteUp"></a>WriteUp</h3><ul>
-<li>分析代码逻辑：<ul>
-<li><code>proof</code>：<ul>
-<li>随机生成一个字符串<code>random_str</code></li>
-<li>计算字符串的哈希值<code>str_sha256</code></li>
-<li>给出<code>random_str[4:]</code>和<code>str_sha256</code>，让用户计算<code>random_str[:4]</code></li>
-<li>如果用户给定的<code>random_str[:4]</code>和<code>random_str[4:]</code>的哈希值相同，则验证通过</li>
-</ul>
-</li>
-<li><code>getPQN</code>：<ul>
-<li>随机生成两个大素数<code>p</code>和<code>q</code>，满足以下要求：<code>p.bit_length() == 2048 and q.bit_length() == 2048 and (p*q).bit_length() == 4096</code></li>
-<li><code>return p, q, n</code></li>
-</ul>
-</li>
-<li><code>encrypt</code>：<ul>
-<li>通过<code>getPQN</code>生成<code>p</code>和<code>q</code>和<code>n</code></li>
-<li>计算密文<code>c = pow(m, e, n)</code></li>
-<li>对<code>p</code>进行变换：前1024位随机挑选一个1变成0，后1024位随机挑选一位变成1，得到<code>fake_p</code></li>
-<li><code>return n, fake_p, c</code></li>
-</ul>
-</li>
-<li><code>handle</code>：   <ul>
-<li>通过<code>proof</code>函数判断用户输入的<code>XXXX</code>和<code>random_str[4:]</code>的哈希值是否相同         </li>
-<li>相同的话，通过<code>encrypt</code>函数对<code>flag</code>进行加密，返回<code>n, fake_p, c</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>解题步骤：<ul>
-<li><code>nc</code>连入服务器，获取<code>random_str[4:]</code>和<code>str_sha256</code><br><img src="/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/nc%E8%BF%9E%E6%8E%A5%E5%9B%9E%E6%98%BE.png"></li>
-<li>通过<code>getXXXX.py</code>爆破<code>random_str[:4]</code>，并将结果发送给服务器，获得<code>n，fake_p，c</code><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> digits, ascii_letters, punctuation</span><br><span class="line">alpha_bet=digits+ascii_letters+punctuation</span><br><span class="line">strlist = itertools.product(alpha_bet, repeat=<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">sha256=<span class="string">&quot;5ccd4cda1dc33d20a072cddf2cf921c865b274da912edb7ac3f157404c3fe4e3&quot;</span></span><br><span class="line">tail=<span class="string">&quot;uLBLoFfDko5h5uA9&quot;</span></span><br><span class="line"></span><br><span class="line">xxxx=<span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> strlist:</span><br><span class="line">    data=i[<span class="number">0</span>]+i[<span class="number">1</span>]+i[<span class="number">2</span>]+i[<span class="number">3</span>]</span><br><span class="line">    data_sha=hashlib.sha256((data+<span class="built_in">str</span>(tail)).encode()).hexdigest()</span><br><span class="line">    <span class="keyword">if</span>(data_sha==<span class="built_in">str</span>(sha256)):</span><br><span class="line">        xxxx=data</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(xxxx)</span><br></pre></td></tr></table></figure></li>
-<li>基于<code>encrypt</code>函数，编写<a href="./files/decrypt.py"><code>decrypt.py</code></a>脚本，破解<code>p</code>，解密得到<code>flag</code><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> socketserver</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">n=<span class="number">909467367699122020071016988650306999295228108976638769699035391871165765547800730173871546690865275123375066230171521311068819816852640125745292539541259006023609504769135551654529045891894185101263480691408339167146959806826342796151867522273018753414683125578415962666829770904166690498846087399777025030862122796483743577214854248422262763202974262015130017066825754008160259189414818697567284326444565265735329976239935592453543076795651573576794776003238789860869381589213987112412732442793109900427324085928201408085720252507826509949584097216821241278182597257299885172782505117521436358744947983811939554943145617958259867137670519879871430621545154465019553001205911580515698810275961361004704605451591223643427530911392689056988136336912424730785373902092658701108834786609423741166892942322112744091173801215997979197781791157780385712374075574951133435122784372704793303399699730638707098947178219189508884581830248871075957102690166621382729933821529281361101591281902812061185346676660877303782149165897420682724683205662866974137418732285231256810541807361468193401184858075051706155601176563558866315093106261534227649361408522136583934234512184301782185760219449297423394506961283209453334215176208906015567865682661</span></span><br><span class="line">fake_p=<span class="string">&#x27;11100000100010111111010011100000110011001000001001111011001010011100001101000000001010000010101000011110000001000000010111000110101000101101011101111010001110110000000001101110100011101001100011101010110011111001001011101000110100011011101011110110001111100110101000010110110001001110001101111111100001101101110010011110100101110001101101101011011100111110101111000111000010011101001000011110000101111000010110000001100001111001011100011001110110110110000110000110111010111101110111100100111101111001100110010000000110011011111011111100000010010111111000010110010000110000111100011001111010101000111110011110001010101010010100001010100110111111101010010000000100101011001011100100111111001000111011111010101011111111010011101110111111110011101111001000011011000000000011100101101000001101110101100001110000110101011001000010110110000110110001101010110001100010110010110000000001110001101111011100011011110101010010011010100011010100010101100000010111100000101100010110000100001001101001001001111011011000101010001011010001100101110111111100111111001011100001100001011101011000000001101111011011001001100100111101100100111100100000000111110100011100011110001101100000100000101001101100010100000110111010001111011010110100101010101100000000001111001111010100011000010010010001010011100111100001101100111100010101111101011001100011111011000011101111110101110010100011000111010100000000111110111001111110100011100100111101001101011010110001100000101010001111000110100110101110001011100010011100111110111111010001110111000001000010111110100000110110110010111101101111010010110100011110110011011010010000000000101110101001001111100110111111001000000101101011111011110110111111001101001111011100110101101010101100000010100111101110110101101010100110011010011101101000010011101011001011110001011110011000101110000100000110100011101001100101110000001110100111010110110000101000011011010011100101101011010010010100110011011100001110001000000111101111000001010110111111010110101111000100111111111111101111001110101101111111101111011011101111111000100000110111&#x27;</span></span><br><span class="line">c=<span class="number">694500789519839583373480124753870609796624184368847740052659890684952282469412685843793893336588959688292535565388961237054382061607809034620598317779687541764120119851622500197513641485700221545824097256986828990721130988465432457926804939623885349284941907683524562179105951076405178191916974212394857571647273209891325684133975190612454243345915122493599006273649156588911638621279271660577286076492174133379924878816759449537816258877983535822071467357826352013991371273144147958254806851665648862909470014188217381547444474766611515043375595448634817257201321537710925281810846187991415244304258902323932755496219900194257710795367213151869032406828586461628113793387618900293473170817978068346842472541499877290335671510770413540109295368927586613167172537907784632075379648806105818669008103026164730513033786875076959900405998112656279798642754984874654321483935047414576483030634418889375971016788408747123075626184286939742532706576269950026208168650867226593584227608482405783125152467929531339747039920420671850985997912834217484356948372454631601487864570640693252550030654681522447089126289751692094672022733644147229926742656125552935762042624836326359406490008032106080800094693108856102201450516929541344003829402493</span></span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fake_p1=<span class="built_in">list</span>(fake_p[:<span class="number">1024</span>])</span><br><span class="line">fake_p2=<span class="built_in">list</span>(fake_p[<span class="number">1024</span>:])</span><br><span class="line">p=<span class="number">0</span></span><br><span class="line">q=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i, x <span class="keyword">in</span> <span class="built_in">enumerate</span>(fake_p1):</span><br><span class="line">    <span class="keyword">if</span> x == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">        p1=fake_p1[:i]+[<span class="string">&#x27;1&#x27;</span>]+fake_p1[i+<span class="number">1</span>:]</span><br><span class="line">        p2=fake_p2</span><br><span class="line">        p=<span class="built_in">int</span>(<span class="string">&#x27;&#x27;</span>.join(p1)+<span class="string">&#x27;&#x27;</span>.join(p2),<span class="number">2</span>)   </span><br><span class="line">        <span class="keyword">if</span> n%p==<span class="number">0</span>:</span><br><span class="line">            q=n//p</span><br><span class="line">            <span class="keyword">if</span> p.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> q.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> n.bit_length() == <span class="number">4096</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Get p q!\n&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;bad format1!&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:         </span><br><span class="line">            <span class="keyword">for</span> j,y <span class="keyword">in</span> <span class="built_in">enumerate</span>(fake_p2):</span><br><span class="line">                <span class="keyword">if</span> y== <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">                    p2=fake_p2[:j]+[<span class="string">&#x27;0&#x27;</span>]+fake_p2[j+<span class="number">1</span>:]</span><br><span class="line">                    p=<span class="built_in">int</span>(<span class="string">&#x27;&#x27;</span>.join(p1)+<span class="string">&#x27;&#x27;</span>.join(p2),<span class="number">2</span>)   </span><br><span class="line">                    <span class="keyword">if</span> n%p==<span class="number">0</span>:</span><br><span class="line">                        q=n//p</span><br><span class="line">                        <span class="keyword">if</span> p.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> q.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> n.bit_length() == <span class="number">4096</span>:</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">&quot;Get p q!\n&quot;</span>)</span><br><span class="line">                            <span class="keyword">break</span></span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">&quot;bad format2!&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(p)</span><br><span class="line"><span class="built_in">print</span>(q)</span><br><span class="line">phi_n = (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;phi_n:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(phi_n)</span><br><span class="line">d = <span class="built_in">pow</span>(e, -<span class="number">1</span>, phi_n)</span><br><span class="line">m = <span class="built_in">pow</span>(c, d, n)</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m))</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ul>
-<h3 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">D0g3&#123;sYuWzkFk12A1gcWxG9pymFcjJL7CqN4Cq8PAIACObJ&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
       <categories>
         <category>CTF-WriteUp</category>
       </categories>
@@ -661,5 +463,352 @@
       <tags>
         <tag>XSS</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>WriteUp-portswigger-SQL注入系列</title>
+    <url>/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="SQL注入学习"><a href="#SQL注入学习" class="headerlink" title="SQL注入学习"></a>SQL注入学习</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><a href="https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ">SQL 注入就是借助网站上不健全的 SQL 拼接语句，将攻击者自己的 payload 拼接到原有的 SQL 语句中，使其在服务器上执行恶意 SQL 语句，使得攻击者可以对数据库进行网站运营者预料之外的增、删、改、查操作。</a></p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><a href="https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ">简单来说，造成SQL注入的原因就是由于应用程序在构造SQL查询语句时未正确过滤或转义用户输入的数据、或未使用预编译等方法，造成了攻击者构造的恶意语句被应用程序执行。</a></p>
+<h3 id="危害"><a href="#危害" class="headerlink" title="危害"></a>危害</h3><ol>
+<li>脱库</li>
+<li>查询隐藏数据</li>
+<li>新增管理账户</li>
+<li>getshell，获取服务器权限</li>
+</ol>
+<blockquote>
+<p>脱库:本来是数据库领域的专用语，指从数据库中导出数据。而现在它被用来指网站遭到入侵后，黑客窃取数据库的行为。也就是网站被入侵以后数据库信息泄露了。</p>
+</blockquote>
+<h3 id="测试方法（简单）"><a href="#测试方法（简单）" class="headerlink" title="测试方法（简单）"></a>测试方法（简单）</h3><table>
+<thead>
+<tr>
+<th>测试方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单双引号</td>
+<td>‘ “ ，查看是否报错</td>
+</tr>
+<tr>
+<td>算数运算</td>
+<td>比如在id&#x3D;2的地方输入id&#x3D;1+1，查看返回数据是否一致，一致说明可能存在注入点</td>
+</tr>
+<tr>
+<td>布尔条件</td>
+<td>比如 OR 1&#x3D;1 和 OR 1&#x3D;2 ，比较两个响应是否有差异，如果存在注入点，前者返回的数据通常是比后者多的</td>
+</tr>
+<tr>
+<td>时间延迟</td>
+<td>比如 sleep(5)，如果存在注入点，那么携带 payload 的请求，其响应时间应该会比正常的请求慢 5 秒</td>
+</tr>
+<tr>
+<td>带外测试（？）</td>
+<td>查看你的带外平台是否收到了对应的数据</td>
+</tr>
+</tbody></table>
+<h3 id="修复方法"><a href="#修复方法" class="headerlink" title="修复方法"></a>修复方法</h3><ul>
+<li>使用参数化查询或预编译语句</li>
+<li>输入验证和过滤</li>
+<li>最小化特权</li>
+<li>使用ORM框架</li>
+<li>避免动态拼接SQL语句</li>
+<li>错误处理和日志记录</li>
+</ul>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
+<li>基于攻击原理进行分类<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>报错注入</td>
+<td>页面会返回报错信息，或把SQL语句直接返回在页面中。常用的函数有：ExtractValue、UpdateXml、concat</td>
+</tr>
+<tr>
+<td>联合注入</td>
+<td>可以执行<code>UNICON SELECT</code>语句</td>
+</tr>
+<tr>
+<td>延时注入</td>
+<td>又叫时间型盲注，通过执行如 sleep(5) 之类的函数，使得存在漏洞的响应会明显慢于正常响应</td>
+</tr>
+<tr>
+<td>布尔盲注</td>
+<td>布尔盲注不会直接返回查询结果，而是通过应用程序的响应或行为差异来推断查询结果的真假</td>
+</tr>
+<tr>
+<td>堆叠注入</td>
+<td>简单地说就是使用<code>;</code>分号分隔两个SQL语句，在应用程序执行完原有语句之后，再执行我们的 payload</td>
+</tr>
+<tr>
+<td>二次注入</td>
+<td><a href="https://blog.csdn.net/kongzhian/article/details/110001836">SQL注入——二次注入的原理 利用以及防御</a></td>
+</tr>
+</tbody></table>
+</li>
+<li>基于数据类型进行分类<ul>
+<li>数字型</li>
+<li>字符型</li>
+<li>搜索型</li>
+</ul>
+</li>
+<li>基于提交方式进行分类<ul>
+<li>GET</li>
+<li>POST</li>
+<li>Cookie</li>
+<li>Header</li>
+</ul>
+</li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ">一篇文章学会手工注入（万字介绍SQL注入）</a></li>
+<li><a href="https://blog.csdn.net/weixin_52796034/article/details/133746733">渗透测试—手把手教你SQL注入(4)–DNSLOG外带注入</a></li>
+<li><a href="https://blog.csdn.net/kongzhian/article/details/110001836">SQL注入——二次注入的原理 利用以及防御</a></li>
+</ul>
+<h2 id="什么是SQL注入？"><a href="#什么是SQL注入？" class="headerlink" title="什么是SQL注入？"></a>什么是SQL注入？</h2><p><a href="https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ">SQL 注入就是借助网站上不健全的 SQL 拼接语句，将攻击者自己的 payload 拼接到原有的 SQL 语句中，使其在服务器上执行恶意 SQL 语句，使得攻击者可以对数据库进行网站运营者预料之外的增、删、改、查操作。</a></p>
+<h2 id="如何检测SQL注入漏洞"><a href="#如何检测SQL注入漏洞" class="headerlink" title="如何检测SQL注入漏洞"></a>如何检测SQL注入漏洞</h2><ul>
+<li>手工SQL注入测试：<ul>
+<li>单双引号：’ “ ，查看是否报错</li>
+<li>算数运算：比如在id&#x3D;2的地方输入id&#x3D;1+1，查看返回数据是否一致，一致说明可能存在注入点</li>
+<li>布尔条件：比如 OR 1&#x3D;1 和 OR 1&#x3D;2 ，比较两个响应是否有差异，如果存在注入点，前者返回的数据通常是比后者多的</li>
+<li>时间延迟：比如 sleep(5)，如果存在注入点，那么携带 payload 的请求，其响应时间应该会比正常的请求慢 5 秒</li>
+<li>带外测试（？）：查看你的带外平台是否收到了对应的数据</li>
+</ul>
+</li>
+<li>自动化测试：<ul>
+<li>burp scanner：burp suite 自带的扫描器，自动化检测SQL注入漏洞</li>
+</ul>
+</li>
+<li>SQL注入点：<ul>
+<li><code>SELECT</code>语句：<code>WHERE</code>的子句</li>
+<li><code>UPDATE</code>语句：<code>UPDATE</code>的值或者<code>WHERE</code>的子句</li>
+<li><code>INSERT</code>语句：<code>INSERT</code>的值</li>
+<li><code>SELECT</code>语句：表名或列名</li>
+<li><code>SELECT</code>语句：<code>ORDER BY</code>子句</li>
+</ul>
+</li>
+</ul>
+<h2 id="检索隐藏数据"><a href="#检索隐藏数据" class="headerlink" title="检索隐藏数据"></a>检索隐藏数据</h2><ul>
+<li><code>--</code>是SQL注释符，可以注释掉后面的内容</li>
+<li>在使用<code>OR 1=1</code>的时候要小心，如果在update或delete语句中使用，可能会导致数据意外丢失</li>
+</ul>
+<h3 id="🧪实验：WHERE子句中的SQL注入漏洞允许检索隐藏数据"><a href="#🧪实验：WHERE子句中的SQL注入漏洞允许检索隐藏数据" class="headerlink" title="🧪实验：WHERE子句中的SQL注入漏洞允许检索隐藏数据"></a>🧪实验：WHERE子句中的SQL注入漏洞允许检索隐藏数据</h3><h4 id="实验说明"><a href="#实验说明" class="headerlink" title="实验说明"></a>实验说明</h4><p>本实验在产品类别筛选器中包含一个SQL注入漏洞。当用户选择一个类别时，应用程序执行如下的SQL查询：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> category <span class="operator">=</span> <span class="string">&#x27;Gifts&#x27;</span> <span class="keyword">AND</span> released <span class="operator">=</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>任务：执行SQL注入攻击，使应用程序显示一个或多个未发布的产品</p>
+<h4 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
+<li>选择一个类别，然后查看URL中的参数<br><code>filter?category=Accessories</code></li>
+<li>修改URL中的参数，尝试使用<code>&#39;</code>和<code>&quot;</code>，没报错，说明存在注入点</li>
+<li>构造payload：<code>&#39; OR 1=1--</code>，查看返回数据，发现产品数量变多，完成实验✅<br><img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB1-1-%E6%B3%A8%E5%85%A5%E6%88%90%E5%8A%9F.png"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>CTF-WriteUp</category>
+      </categories>
+      <tags>
+        <tag>XSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WriteUp-第六届安洵杯网络安全挑战赛-010101</title>
+    <url>/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="赛事名称"><a href="#赛事名称" class="headerlink" title="赛事名称"></a>赛事名称</h2><p>i-SOON_CTF_2023<br>第六届安洵杯网络安全挑战赛   </p>
+<h2 id="赛事描述"><a href="#赛事描述" class="headerlink" title="赛事描述"></a>赛事描述</h2><p><a href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
+<h2 id="赛事网址"><a href="#赛事网址" class="headerlink" title="赛事网址"></a>赛事网址</h2><p><a href="https://dce.i-soon.net/#/examineDetails">https://dce.i-soon.net/#/examineDetails</a></p>
+<h2 id="010101"><a href="#010101" class="headerlink" title="010101"></a>010101</h2><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> socketserver</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> isPrime, long_to_bytes, getStrongPrime, bytes_to_long</span><br><span class="line"></span><br><span class="line">flag = <span class="string">b&quot;D0g3&#123;******************************************&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyServer</span>(socketserver.BaseRequestHandler):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">proof</span>(<span class="params">self</span>):</span><br><span class="line">        random.seed(os.urandom(<span class="number">8</span>))</span><br><span class="line">        random_str = <span class="string">&#x27;&#x27;</span>.join([random.choice(string.ascii_letters + string.digits) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>)])</span><br><span class="line">        str_sha256 = hashlib.sha256(random_str.encode()).hexdigest()</span><br><span class="line">        self.request.sendall((<span class="string">&#x27;SHA256(XXXX + %s):%s\n&#x27;</span> % (random_str[<span class="number">4</span>:], str_sha256)).encode())</span><br><span class="line">        self.request.sendall(<span class="string">&#x27;Give Me XXXX:\n&#x27;</span>.encode())</span><br><span class="line">        XXXX = self.request.recv(<span class="number">2048</span>).strip()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> hashlib.sha256((XXXX + random_str[<span class="number">4</span>:].encode())).hexdigest() != str_sha256:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getPQN</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            p = getStrongPrime(<span class="number">2048</span>)</span><br><span class="line">            q = getStrongPrime(<span class="number">2048</span>)</span><br><span class="line">            n = p * q</span><br><span class="line">            <span class="keyword">if</span> p.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> q.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> n.bit_length() == <span class="number">4096</span>:</span><br><span class="line">                <span class="keyword">return</span> p, q, n</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">encrypt</span>(<span class="params">self</span>):</span><br><span class="line">        p, q, n = self.getPQN()</span><br><span class="line">        m = bytes_to_long(flag)</span><br><span class="line">        e = <span class="number">0x10001</span></span><br><span class="line">        c = <span class="built_in">pow</span>(m, e, n)</span><br><span class="line">        p = <span class="built_in">bin</span>(p)[<span class="number">2</span>:]</span><br><span class="line">        p1 = <span class="built_in">list</span>(p[:<span class="number">1024</span>])</span><br><span class="line">        p2 = <span class="built_in">list</span>(p[<span class="number">1024</span>:])</span><br><span class="line">        p1[random.choice([i <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(p1) <span class="keyword">if</span> c == <span class="string">&#x27;1&#x27;</span>])] = <span class="string">&#x27;0&#x27;</span></span><br><span class="line">        p2[random.choice([i <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(p1) <span class="keyword">if</span> c == <span class="string">&#x27;0&#x27;</span>])] = <span class="string">&#x27;1&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> n, <span class="string">&#x27;&#x27;</span>.join(p1) + <span class="string">&#x27;&#x27;</span>.join(p2), c</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">handle</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.proof():</span><br><span class="line">            self.request.sendall(<span class="string">b&#x27;Error Hash!&#x27;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        n, p, c = self.encrypt()</span><br><span class="line">        self.request.sendall(<span class="string">&#x27;Press 1 to get ciphertext\n&#x27;</span>.encode())</span><br><span class="line">        number = self.request.recv(<span class="number">512</span>).strip().decode()</span><br><span class="line">        <span class="keyword">if</span> number == <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">            self.request.sendall((<span class="built_in">str</span>(n) + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">            self.request.sendall((<span class="built_in">str</span>(p) + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">            self.request.sendall((<span class="built_in">str</span>(c) + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.request.sendall(<span class="string">&#x27;Incorrect input!\n&#x27;</span>.encode())</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadedTCPServer</span>(socketserver.ThreadingMixIn, socketserver.TCPServer):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    sever = socketserver.ThreadingTCPServer((<span class="string">&#x27;0.0.0.0&#x27;</span>, <span class="number">10001</span>), MyServer)</span><br><span class="line">    ThreadedTCPServer.allow_reuse_address = <span class="literal">True</span></span><br><span class="line">    ThreadedTCPServer.allow_reuse_port = <span class="literal">True</span></span><br><span class="line">    sever.serve_forever()</span><br></pre></td></tr></table></figure>
+
+<h3 id="考点"><a href="#考点" class="headerlink" title="考点"></a>考点</h3><ul>
+<li><code>crypto</code></li>
+<li><code>SHA256</code></li>
+<li><code>RSA</code></li>
+</ul>
+<h3 id="WriteUp"><a href="#WriteUp" class="headerlink" title="WriteUp"></a>WriteUp</h3><ul>
+<li>分析代码逻辑：<ul>
+<li><code>proof</code>：<ul>
+<li>随机生成一个字符串<code>random_str</code></li>
+<li>计算字符串的哈希值<code>str_sha256</code></li>
+<li>给出<code>random_str[4:]</code>和<code>str_sha256</code>，让用户计算<code>random_str[:4]</code></li>
+<li>如果用户给定的<code>random_str[:4]</code>和<code>random_str[4:]</code>的哈希值相同，则验证通过</li>
+</ul>
+</li>
+<li><code>getPQN</code>：<ul>
+<li>随机生成两个大素数<code>p</code>和<code>q</code>，满足以下要求：<code>p.bit_length() == 2048 and q.bit_length() == 2048 and (p*q).bit_length() == 4096</code></li>
+<li><code>return p, q, n</code></li>
+</ul>
+</li>
+<li><code>encrypt</code>：<ul>
+<li>通过<code>getPQN</code>生成<code>p</code>和<code>q</code>和<code>n</code></li>
+<li>计算密文<code>c = pow(m, e, n)</code></li>
+<li>对<code>p</code>进行变换：前1024位随机挑选一个1变成0，后1024位随机挑选一位变成1，得到<code>fake_p</code></li>
+<li><code>return n, fake_p, c</code></li>
+</ul>
+</li>
+<li><code>handle</code>：   <ul>
+<li>通过<code>proof</code>函数判断用户输入的<code>XXXX</code>和<code>random_str[4:]</code>的哈希值是否相同         </li>
+<li>相同的话，通过<code>encrypt</code>函数对<code>flag</code>进行加密，返回<code>n, fake_p, c</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>解题步骤：<ul>
+<li><code>nc</code>连入服务器，获取<code>random_str[4:]</code>和<code>str_sha256</code><br><img src="/2024/01/07/WriteUp-%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-010101/nc%E8%BF%9E%E6%8E%A5%E5%9B%9E%E6%98%BE.png"></li>
+<li>通过<code>getXXXX.py</code>爆破<code>random_str[:4]</code>，并将结果发送给服务器，获得<code>n，fake_p，c</code><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> digits, ascii_letters, punctuation</span><br><span class="line">alpha_bet=digits+ascii_letters+punctuation</span><br><span class="line">strlist = itertools.product(alpha_bet, repeat=<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">sha256=<span class="string">&quot;5ccd4cda1dc33d20a072cddf2cf921c865b274da912edb7ac3f157404c3fe4e3&quot;</span></span><br><span class="line">tail=<span class="string">&quot;uLBLoFfDko5h5uA9&quot;</span></span><br><span class="line"></span><br><span class="line">xxxx=<span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> strlist:</span><br><span class="line">    data=i[<span class="number">0</span>]+i[<span class="number">1</span>]+i[<span class="number">2</span>]+i[<span class="number">3</span>]</span><br><span class="line">    data_sha=hashlib.sha256((data+<span class="built_in">str</span>(tail)).encode()).hexdigest()</span><br><span class="line">    <span class="keyword">if</span>(data_sha==<span class="built_in">str</span>(sha256)):</span><br><span class="line">        xxxx=data</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(xxxx)</span><br></pre></td></tr></table></figure></li>
+<li>基于<code>encrypt</code>函数，编写<a href="./files/decrypt.py"><code>decrypt.py</code></a>脚本，破解<code>p</code>，解密得到<code>flag</code><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> socketserver</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">n=<span class="number">909467367699122020071016988650306999295228108976638769699035391871165765547800730173871546690865275123375066230171521311068819816852640125745292539541259006023609504769135551654529045891894185101263480691408339167146959806826342796151867522273018753414683125578415962666829770904166690498846087399777025030862122796483743577214854248422262763202974262015130017066825754008160259189414818697567284326444565265735329976239935592453543076795651573576794776003238789860869381589213987112412732442793109900427324085928201408085720252507826509949584097216821241278182597257299885172782505117521436358744947983811939554943145617958259867137670519879871430621545154465019553001205911580515698810275961361004704605451591223643427530911392689056988136336912424730785373902092658701108834786609423741166892942322112744091173801215997979197781791157780385712374075574951133435122784372704793303399699730638707098947178219189508884581830248871075957102690166621382729933821529281361101591281902812061185346676660877303782149165897420682724683205662866974137418732285231256810541807361468193401184858075051706155601176563558866315093106261534227649361408522136583934234512184301782185760219449297423394506961283209453334215176208906015567865682661</span></span><br><span class="line">fake_p=<span class="string">&#x27;11100000100010111111010011100000110011001000001001111011001010011100001101000000001010000010101000011110000001000000010111000110101000101101011101111010001110110000000001101110100011101001100011101010110011111001001011101000110100011011101011110110001111100110101000010110110001001110001101111111100001101101110010011110100101110001101101101011011100111110101111000111000010011101001000011110000101111000010110000001100001111001011100011001110110110110000110000110111010111101110111100100111101111001100110010000000110011011111011111100000010010111111000010110010000110000111100011001111010101000111110011110001010101010010100001010100110111111101010010000000100101011001011100100111111001000111011111010101011111111010011101110111111110011101111001000011011000000000011100101101000001101110101100001110000110101011001000010110110000110110001101010110001100010110010110000000001110001101111011100011011110101010010011010100011010100010101100000010111100000101100010110000100001001101001001001111011011000101010001011010001100101110111111100111111001011100001100001011101011000000001101111011011001001100100111101100100111100100000000111110100011100011110001101100000100000101001101100010100000110111010001111011010110100101010101100000000001111001111010100011000010010010001010011100111100001101100111100010101111101011001100011111011000011101111110101110010100011000111010100000000111110111001111110100011100100111101001101011010110001100000101010001111000110100110101110001011100010011100111110111111010001110111000001000010111110100000110110110010111101101111010010110100011110110011011010010000000000101110101001001111100110111111001000000101101011111011110110111111001101001111011100110101101010101100000010100111101110110101101010100110011010011101101000010011101011001011110001011110011000101110000100000110100011101001100101110000001110100111010110110000101000011011010011100101101011010010010100110011011100001110001000000111101111000001010110111111010110101111000100111111111111101111001110101101111111101111011011101111111000100000110111&#x27;</span></span><br><span class="line">c=<span class="number">694500789519839583373480124753870609796624184368847740052659890684952282469412685843793893336588959688292535565388961237054382061607809034620598317779687541764120119851622500197513641485700221545824097256986828990721130988465432457926804939623885349284941907683524562179105951076405178191916974212394857571647273209891325684133975190612454243345915122493599006273649156588911638621279271660577286076492174133379924878816759449537816258877983535822071467357826352013991371273144147958254806851665648862909470014188217381547444474766611515043375595448634817257201321537710925281810846187991415244304258902323932755496219900194257710795367213151869032406828586461628113793387618900293473170817978068346842472541499877290335671510770413540109295368927586613167172537907784632075379648806105818669008103026164730513033786875076959900405998112656279798642754984874654321483935047414576483030634418889375971016788408747123075626184286939742532706576269950026208168650867226593584227608482405783125152467929531339747039920420671850985997912834217484356948372454631601487864570640693252550030654681522447089126289751692094672022733644147229926742656125552935762042624836326359406490008032106080800094693108856102201450516929541344003829402493</span></span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fake_p1=<span class="built_in">list</span>(fake_p[:<span class="number">1024</span>])</span><br><span class="line">fake_p2=<span class="built_in">list</span>(fake_p[<span class="number">1024</span>:])</span><br><span class="line">p=<span class="number">0</span></span><br><span class="line">q=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i, x <span class="keyword">in</span> <span class="built_in">enumerate</span>(fake_p1):</span><br><span class="line">    <span class="keyword">if</span> x == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">        p1=fake_p1[:i]+[<span class="string">&#x27;1&#x27;</span>]+fake_p1[i+<span class="number">1</span>:]</span><br><span class="line">        p2=fake_p2</span><br><span class="line">        p=<span class="built_in">int</span>(<span class="string">&#x27;&#x27;</span>.join(p1)+<span class="string">&#x27;&#x27;</span>.join(p2),<span class="number">2</span>)   </span><br><span class="line">        <span class="keyword">if</span> n%p==<span class="number">0</span>:</span><br><span class="line">            q=n//p</span><br><span class="line">            <span class="keyword">if</span> p.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> q.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> n.bit_length() == <span class="number">4096</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Get p q!\n&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;bad format1!&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:         </span><br><span class="line">            <span class="keyword">for</span> j,y <span class="keyword">in</span> <span class="built_in">enumerate</span>(fake_p2):</span><br><span class="line">                <span class="keyword">if</span> y== <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">                    p2=fake_p2[:j]+[<span class="string">&#x27;0&#x27;</span>]+fake_p2[j+<span class="number">1</span>:]</span><br><span class="line">                    p=<span class="built_in">int</span>(<span class="string">&#x27;&#x27;</span>.join(p1)+<span class="string">&#x27;&#x27;</span>.join(p2),<span class="number">2</span>)   </span><br><span class="line">                    <span class="keyword">if</span> n%p==<span class="number">0</span>:</span><br><span class="line">                        q=n//p</span><br><span class="line">                        <span class="keyword">if</span> p.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> q.bit_length() == <span class="number">2048</span> <span class="keyword">and</span> n.bit_length() == <span class="number">4096</span>:</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">&quot;Get p q!\n&quot;</span>)</span><br><span class="line">                            <span class="keyword">break</span></span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">&quot;bad format2!&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(p)</span><br><span class="line"><span class="built_in">print</span>(q)</span><br><span class="line">phi_n = (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;phi_n:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(phi_n)</span><br><span class="line">d = <span class="built_in">pow</span>(e, -<span class="number">1</span>, phi_n)</span><br><span class="line">m = <span class="built_in">pow</span>(c, d, n)</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m))</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">D0g3&#123;sYuWzkFk12A1gcWxG9pymFcjJL7CqN4Cq8PAIACObJ&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CTF-WriteUp</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo + github 搭建个人博客教程</title>
+    <url>/2024/01/20/hexo-github-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="什么是hexo？"><a href="#什么是hexo？" class="headerlink" title="什么是hexo？"></a>什么是hexo？</h2><p>hexo是一个基于nodejs的静态博客框架，可以快速搭建个人博客，支持markdown语法，支持自定义主题，支持插件扩展，支持一键部署到github上，支持离线写作，支持多终端同步等等。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>安装git，下载地址<a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></li>
+<li>安装nodejs，下载地址<a href="https://nodejs.cn/download/">https://nodejs.cn/download/</a></li>
+<li>验证nodejs是否安装成功，打开cmd，输入<code>node -v</code>，显示版本号则安装成功</li>
+<li>npm换源，打开cmd，输入<code>npm config set registry https://registry.npm.taobao.org</code>，换源成功后，输入<code>npm config get registry</code>，显示<code>https://registry.npm.taobao.org/</code>则换源成功</li>
+<li>安装hexo，打开cmd，输入<code>npm install -g hexo-cli</code>，安装成功后，输入<code>hexo -v</code>，显示版本号则安装成功</li>
+</ul>
+<h2 id="初始化博客"><a href="#初始化博客" class="headerlink" title="初始化博客"></a>初始化博客</h2><ul>
+<li>新建一个文件夹，例如<code>Bloggg</code></li>
+<li>打开git命令行，输入<code>hexo init</code>，初始化博客</li>
+<li>执行<code>npm install</code>，安装项目依赖</li>
+<li>执行<code>hexo s</code>，启动本地服务，打开浏览器，输入<code>http://localhost:4000</code>，显示hexo默认页面，则初始化成功</li>
+</ul>
+<h2 id="新建文章"><a href="#新建文章" class="headerlink" title="新建文章"></a>新建文章</h2><ul>
+<li>在博客根目录下执行<code>hexo new &quot;文章标题&quot;</code>，会在<code>source/_posts</code>目录下生成一个md文件，例如<code>hello-world.md</code></li>
+<li>编辑博客后，执行<code>hexo s</code>，启动本地服务，打开浏览器，输入<code>http://localhost:4000</code>，显示博客，则新建文章成功</li>
+</ul>
+<h2 id="部署到github-pages"><a href="#部署到github-pages" class="headerlink" title="部署到github pages"></a>部署到github pages</h2><ul>
+<li>在github上新建一个仓库，必须以<code>username.github.io</code>命名，例如本站的仓库名为<code>yumlii33.github.io</code></li>
+<li>修改博客根目录下的<code>_config.yml</code>文件，修改<code>deploy</code>配置，例如本站的配置如下：  <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">repo:</span> <span class="string">git@github.com:yumlii33/yumlii33.github.io.git</span></span><br><span class="line"><span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure></li>
+<li>安装上传插件，执行<code>npm install hexo-deployer-git --save</code></li>
+<li>执行<code>hexo clean</code>，清除缓存</li>
+<li>执行<code>hexo g</code>，生成静态文件</li>
+<li>执行<code>hexo d</code>，部署到github</li>
+<li>访问<code>https://username.github.io</code>，显示博客，则部署成功</li>
+</ul>
+<h2 id="源码上传到github"><a href="#源码上传到github" class="headerlink" title="源码上传到github"></a>源码上传到github</h2><ul>
+<li>在本地hexo根目录下执行<code>git init</code>，初始化git仓库</li>
+<li>执行<code>git remote add origin git@github.com:username/username.github.io.git</code>，添加远程仓库</li>
+<li>创建<code>.gitignore</code>文件，添加忽略文件，例如本站的配置如下：  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">db.json</span><br><span class="line">*.log</span><br><span class="line">node_modules/</span><br><span class="line">public/</span><br><span class="line">.deploy*/</span><br></pre></td></tr></table></figure></li>
+<li>执行<code>git add .</code>，添加所有文件到暂存区</li>
+<li>执行<code>git commit -m &quot;init&quot;</code>，提交到本地仓库</li>
+<li>执行<code>git push -u origin master</code>，上传到远程仓库主分支</li>
+</ul>
+<h2 id="新环境部署"><a href="#新环境部署" class="headerlink" title="新环境部署"></a>新环境部署</h2><ul>
+<li>在新环境下，执行<code>git clone</code>，克隆仓库到本地</li>
+<li>执行<code>npm install</code>，安装项目依赖</li>
+<li>执行<code>hexo s</code>，启动本地服务，打开浏览器，输入<code>http://localhost:4000</code>，显示博客，则部署成功</li>
+</ul>
+<blockquote>
+<p>注意：因为没有上传<code>node_modules</code>文件夹，所以需要执行<code>npm install</code>安装项目依赖，如果需要对插件进行自定义修改，需要在新环境中重新配置</p>
+</blockquote>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/71544809">使用git分支保存hexo博客源码到github - 知乎</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用hexo-asset-image在hexo博客中插入图片</title>
+    <url>/2024/01/21/%E4%BD%BF%E7%94%A8hexo-asset-image%E5%9C%A8hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="什么是hexo-asset-image？"><a href="#什么是hexo-asset-image？" class="headerlink" title="什么是hexo-asset-image？"></a>什么是hexo-asset-image？</h2><ul>
+<li>Give asset image in hexo a absolutely path automatically.</li>
+<li><a href="https://github.com/CodeFalling/hexo-asset-image">CodeFalling&#x2F;hexo-asset-image</a></li>
+</ul>
+<h2 id="安装hexo-asset-image"><a href="#安装hexo-asset-image" class="headerlink" title="安装hexo-asset-image"></a>安装hexo-asset-image</h2><ul>
+<li><code>npm install hexo-asset-image --save</code></li>
+</ul>
+<h2 id="修改hexo配置"><a href="#修改hexo配置" class="headerlink" title="修改hexo配置"></a>修改hexo配置</h2><ul>
+<li><p>修改hexo根目录下的<code>_config.yml</code>文件，添加如下配置：</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="修改hexo-asset-image插件"><a href="#修改hexo-asset-image插件" class="headerlink" title="修改hexo-asset-image插件"></a>修改hexo-asset-image插件</h2><ul>
+<li>修改<code>node_modules\hexo-asset-image\index.js</code>：<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注释掉以下代码</span></span><br><span class="line"><span class="comment">// if(srcArray.length &gt; 1)</span></span><br><span class="line"><span class="comment">// srcArray.shift();</span></span><br><span class="line"><span class="comment">// src = srcArray.join(&#x27;/&#x27;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// $(this).attr(&#x27;src&#x27;, config.root + link + src);</span></span><br><span class="line"><span class="comment">// console.info&amp;&amp;console.info(&quot;update link as:--&gt;&quot;+config.root + link + src);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加以下代码</span></span><br><span class="line">$(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>, src);</span><br><span class="line"><span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&quot;update link as:--&gt;&quot;</span>+src);</span><br></pre></td></tr></table></figure></li>
+<li>修改后的<code>index.js</code>文件如下：<br><img src="/2024/01/21/%E4%BD%BF%E7%94%A8hexo-asset-image%E5%9C%A8hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/%E4%BF%AE%E6%94%B9hexo-asset-image%E7%9A%84index%E6%96%87%E4%BB%B6.jpg"></li>
+</ul>
+<h2 id="使用hexo-asset-image插入图片"><a href="#使用hexo-asset-image插入图片" class="headerlink" title="使用hexo-asset-image插入图片"></a>使用hexo-asset-image插入图片</h2><ul>
+<li>创建新的文章，例如<code>hexo new &quot;xx&quot;</code>，会在<code>source/_posts</code>目录下生成一个md文件以及同名文件夹</li>
+<li>示例:  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">MacGesture2-Publish</span><br><span class="line">├── apppicker.jpg</span><br><span class="line">├── logo.jpg</span><br><span class="line">└── rules.jpg</span><br><span class="line">MacGesture2-Publish.md</span><br></pre></td></tr></table></figure></li>
+<li>在md文件中插入图片，例如：<code>![](appicker.jpg)</code>，图片名称就是图片路径</li>
+</ul>
+]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于Cowrie蜜罐部署教程构建docker镜像</title>
+    <url>/2024/02/04/%E5%9F%BA%E4%BA%8ECowrie%E8%9C%9C%E7%BD%90%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>在使用cowrie官网的镜像搭建蜜罐时，无法访问蜜罐容器里的日志文件，所以决定自己构建一个镜像，方便后续的操作。</p>
+<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基于ubuntu22.04构建</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:jammy</span><br><span class="line"></span><br><span class="line"><span class="comment"># （root权限下）换源并安装必要的包，否则安装软件包会很慢，甚至超时报错</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">test</span> ! -f /etc/apt/source.list.save &amp;&amp; <span class="built_in">cp</span>  /etc/apt/sources.list /etc/apt/sources.list.save \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; sed -i <span class="string">&quot;s@security.ubuntu.com@mirrors.ustc.edu.cn@g&quot;</span> /etc/apt/sources.list \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; sed -i <span class="string">&quot;s@archive.ubuntu.com@mirrors.ustc.edu.cn@g&quot;</span> /etc/apt/sources.list \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get update \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get install -y wget python3.10-venv python-is-python3 git python3-virtualenv libssl-dev libffi-dev build-essential libpython3-dev python3-minimal authbind virtualenv \ </span></span><br><span class="line">    &amp;&amp; adduser --disabled-password --gecos <span class="string">&quot;&quot;</span> cowrie</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基于cowrie官网的安装教程，在ubuntu上安装cowrie</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> su - cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">cd</span> /home/cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; wget https://github.com/cowrie/cowrie/archive/refs/tags/v2.5.0.tar.gz \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; tar -zxvf v2.5.0.tar.gz \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">mv</span> cowrie-2.5.0/ cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">cd</span> cowrie \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">pwd</span> \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; python -m venv cowrie-env \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; . cowrie-env/bin/activate \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; python -m pip install --upgrade pip -i http://pypi.douban.com/simple --trusted-host pypi.douban.com \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; python -m pip install --upgrade -r requirements.txt -i http://pypi.douban.com/simple --trusted-host pypi.douban.com \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">chown</span> -R cowrie:cowrie .</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">2222</span> <span class="number">2223</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置容器的默认用户和工作目录</span></span><br><span class="line"><span class="keyword">USER</span> cowrie</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /home/cowrie/cowrie</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动蜜罐命令</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;bin/cowrie&quot;</span>, <span class="string">&quot;start&quot;</span>,<span class="string">&quot;-n&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t cowrie_from_ubuntu:20240202 .</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行方式"><a href="#运行方式" class="headerlink" title="运行方式"></a>运行方式</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd -p 2222:2222 -p 2223:2223 cowrie_from_ubuntu:20240202</span><br></pre></td></tr></table></figure>
+
+<h2 id="上传镜像"><a href="#上传镜像" class="headerlink" title="上传镜像"></a>上传镜像</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 登录到Docker Hub</span></span><br><span class="line">docker login</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为镜像添加标签</span></span><br><span class="line">docker tag cowrie_from_ubuntu:20240202 mollyyuu/cowrie_from_ubuntu:20240202</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将镜像推送到Docker Hub</span></span><br><span class="line">docker push mollyyuu/cowrie_from_ubuntu:20240202</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://cowrie.readthedocs.io/en/latest/INSTALL.html">Installing Cowrie in seven steps — cowrie 2.5.0 documentation</a></li>
+<li><a href="https://www.cnblogs.com/jingjingxyk/p/16825510.html">alpine、debian、ubuntu brew 常用的换源命令 - jingjingxyk - 博客园</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>honeypot</category>
+      </categories>
+      <tags>
+        <tag>cowrie</tag>
+        <tag>Dockerfile</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>my-first-blog</title>
+    <url>/2024/01/03/my-first-blog/</url>
+    <content><![CDATA[<h2 id="My-First-Blog"><a href="#My-First-Blog" class="headerlink" title="My First Blog"></a>My First Blog</h2><p>这是我的第一篇博客，记录一下使用hexo+githubpages搭建个人网站时有用的参考链接~ b(￣▽￣)d</p>
+<span id="more"></span>
+
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><a href="https://www.cnblogs.com/huanhao/p/hexobase.html">【基础篇】hexo博客搭建教程 - huanhao - 博客园</a></li>
+<li><a href="https://blog.csdn.net/as480133937/article/details/100138838">Hexo-Next 主题博客个性化配置超详细，超全面(两万字)_hexo next 记录访问了ip-CSDN博客</a></li>
+<li><a href="https://oytoyt.github.io/2018/12/06/hexo%E5%BC%80%E5%90%AFtags%E6%88%96categories%E5%85%B6%E5%AE%83%E8%8F%9C%E5%8D%95%E6%97%B6%EF%BC%8C%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98/">hexo开启tags或categories其它菜单时，无法访问问题 | Yanting Ou</a></li>
+</ul>
+<h2 id="TODO："><a href="#TODO：" class="headerlink" title="TODO："></a>TODO：</h2><ul>
+<li><input checked disabled type="checkbox"> hexo博文中添加图片，修改hexo-asset-image插件配置</li>
+<li><input disabled type="checkbox"> sql注入笔记整理</li>
+<li><input disabled type="checkbox"> runner相关笔记整理</li>
+</ul>
+]]></content>
   </entry>
 </search>
