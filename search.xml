@@ -771,7 +771,7 @@
         <category>CTF-WriteUp</category>
       </categories>
       <tags>
-        <tag>XSS</tag>
+        <tag>SQL注入</tag>
       </tags>
   </entry>
   <entry>
