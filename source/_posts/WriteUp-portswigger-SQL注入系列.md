@@ -4,7 +4,7 @@ date: 2024-03-01 15:48:17
 categories: 
     - CTF-WriteUp
 tags: 
-    - XSS
+    - SQL注入
 description: 基于portswigger靶场学习并练习SQL注入
 ---
 <!--more-->
