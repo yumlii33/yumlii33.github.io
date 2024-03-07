@@ -401,12 +401,69 @@ SELECT * FROM products WHERE category = 'Gifts' AND released = 1
 
 ## SQL盲注
 
-x
+- 当应用程序易受SQL注入攻击，但其HTTP响应不包含相关SQL查询的结果或任何数据库错误的详细信息时，就会发生SQL盲注。
+- 许多技术（如`UNION`攻击）对SQL盲注漏洞无效，因为它们依赖于应用程序的响应中包含有关查询结果的信息。但是，可以使用其他技术来利用SQL盲注漏洞。
 
+## 通过触发条件响应利用SQL盲注
 
+- 考虑一个应用程序，它使用跟踪Cookie来收集有关使用情况的分析。对应用程序的请求包括一个cookie头，如下所示：
+  ```
+  Cookie: TrackingId=u5YD3PapBcR4lN3e7Tj4
+  ```
+- 当处理包含`TrackingId`的cookie的请求时，应用程序使用SQL查询来确定这是否时已知用户：
+  ```sql
+  SELECT TrackingId FROM TrackedUsers WHERE TrackingId = 'u5YD3PapBcR4lN3e7Tj4'
+  ```
+- 此查询易受SQL注入攻击，但查询结果不会返回给用户。但是应用程序的行为确实会有所不同，具体取决于查询是否返回数据。如果提交一个已识别的`TrackingId`，查询将返回数据，并且将在响应中收到一条“welcome back”的消息。
+- 这种行为足以利用SQL盲注漏洞。可以通过有条件地触发不同的响应来检索信息，具体取决于注入的条件。
+- 要确定漏洞是怎么工作的，假设发送了两个请求，cookie值中分别包含以下`TrackingId`：
+  ```
+  …xyz' AND '1'='1
+  …xyz' AND '1'='2
+  ```
+- 第一个请求将返回数据，因为注入的`AND '1'='1`条件为真。
+- 第二个请求将不返回数据，因为注入的`AND '1'='2`条件为假。
+- 这使我们能够确定任何单个注入条件的答案，并一次提取一个数据。
+- 例如：
+  - 假设有一个名为`Users`的表，其中包含`username`和`password`列，以及一个名为`Administators`的用户。我们可以通过发送一系列输入来确定此用户的密码，以便每次测试密码的一个字符。
+  - 首先可以输入：
+    ```
+    xyz' AND SUBSTRING((SELECT Password FROM Users WHERE Username = 'Administrator'), 1, 1) > 'm
+    ```
+  - 这将返回`Welcome back`，表明注入的条件为真，因此密码的第一个字符大于`m`。
+  - 然后可以输入：
+    ```
+    xyz' AND SUBSTRING((SELECT Password FROM Users WHERE Username = 'Administrator'), 1, 1) > 't
+    ```
+  - 这将不返回`Welcome back`，表明注入的条件为假，因此密码的第一个字符不大于`t`。
+  - 最后输入以下信息，它返回`Welcome back`，表明密码的第一个字符是`s`：
+    ```
+    xyz' AND SUBSTRING((SELECT Password FROM Users WHERE Username = 'Administrator'), 1, 1) = 's
+    ```
+  - 通过重复这个过程，可以确定密码的每个字符。
 
+- 注意：在Oracle数据库中，`SUBSTRING`函数被称为`SUBSTR`。详细可以参考[SQL injection cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 
+### 🧪实验9：带条件响应的SQL盲注
 
+- 实验说明
+  - 本实验包含一个SQL盲注漏洞。应用程序使用跟踪cookie进行分析，并执行包含提交cookie值的SQL查询。
+  - SQL查询的结果不会返回，也不显示错误消息。但是如果查询有返回，应用程序会在页面中显示“Welcome back”消息。
+  - 数据库包含一个名为`users`的表，其中包含`username`和`password`列。
+  - 任务：利用SQL盲注漏洞，确定`administrator`用户的密码，以`administrator`的身份登录。
+- 解题过程
+  - 首先，确定注入点：在cookie的`TrackingId`中注入`' AND '1'='1`和`' AND '1'='2`，发现返回的结果不一样，说明存在注入点
+    ![](./WriteUp-portswigger-SQL注入系列/LAB9-1-测试注入点.png)
+    ![](./WriteUp-portswigger-SQL注入系列/LAB9-2-测试注入点.png)
+  - 拼接`TrackingId`，使用`AND`条件来判断密码的每一位
+    ```
+    ' AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 1) = 'm
+    ```
+    ![](./WriteUp-portswigger-SQL注入系列/LAB9-3-测试密码第一位.png)
+    ![](./WriteUp-portswigger-SQL注入系列/LAB9-3-得到密码第一位.png)
+  - 其他位同理，通过输入`a-zA-Z0-9`来判断密码的每一位
+  - 最终得到密码为`v13jnszie4……`，登录成功(应该有20位密码，需要熟练使用burpsuite或者编程实现，也可以使用sqlmap)
+  - 
 ## 参考资料
 
 - [PortSwigger之SQL注入实验室笔记 - FreeBuf网络安全行业门户](https://www.freebuf.com/articles/web/287481.html)
