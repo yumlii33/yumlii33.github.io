@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"manual"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Molly&#39;s blog website.">
+  <meta name="description" content="Gitlab Group Runner配置使用，以及相关问题记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Gitlab共享runner配置及相关问题记录">
+<meta property="og:title" content="Gitlab Group Runner配置及相关问题记录">
 <meta property="og:url" content="http://example.com/2024/02/19/Gitlab%E5%85%B1%E4%BA%ABrunner%E9%85%8D%E7%BD%AE%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="M011y&#39;s Blog">
-<meta property="og:description" content="Molly&#39;s blog website.">
+<meta property="og:description" content="Gitlab Group Runner配置使用，以及相关问题记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-02-19T11:35:38.000Z">
-<meta property="article:modified_time" content="2024-02-19T11:35:58.425Z">
+<meta property="article:modified_time" content="2024-03-07T08:52:16.896Z">
 <meta property="article:author" content="yumlii33">
 <meta property="article:tag" content="教程">
 <meta property="article:tag" content="ci&#x2F;cd">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>Gitlab共享runner配置及相关问题记录 | M011y's Blog</title>
+  <title>Gitlab Group Runner配置及相关问题记录 | M011y's Blog</title>
   
 
 
@@ -182,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Gitlab共享runner配置及相关问题记录<a href="https://github.com/yumlii33/yumlii33.github.io/tree/master/source/_posts/Gitlab%E5%85%B1%E4%BA%ABrunner%E9%85%8D%E7%BD%AE%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+          Gitlab Group Runner配置及相关问题记录<a href="https://github.com/yumlii33/yumlii33.github.io/tree/master/source/_posts/Gitlab%E5%85%B1%E4%BA%ABrunner%E9%85%8D%E7%BD%AE%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -191,10 +191,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-02-19 19:35:38 / 修改时间：19:35:58" itemprop="dateCreated datePublished" datetime="2024-02-19T19:35:38+08:00">2024-02-19</time>
+              <time title="创建时间：2024-02-19 19:35:38" itemprop="dateCreated datePublished" datetime="2024-02-19T19:35:38+08:00">2024-02-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-03-07 16:52:16" itemprop="dateModified" datetime="2024-03-07T16:52:16+08:00">2024-03-07</time>
+              </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -202,15 +208,16 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>7 分钟</span>
             </span>
+            <div class="post-description">Gitlab Group Runner配置使用，以及相关问题记录</div>
 
         </div>
       </header>
@@ -221,7 +228,198 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <span id="more"></span>
+
+<h2 id="CI-CD概述"><a href="#CI-CD概述" class="headerlink" title="CI&#x2F;CD概述"></a>CI&#x2F;CD概述</h2><ul>
+<li>CI&#x2F;CD是指持续集成（Continuous Integration）和持续交付（Continuous Delivery）。</li>
+<li>CI&#x2F;CD是一种持续的软件开发方法，可以在其中持续构建、测试、部署和监视迭代代码更改。</li>
+<li>这种迭代过程有助于减少基于错误或失败的就版本开发新代码的机会。GitLab CI&#x2F;CD可以在开发周期的早期捕获bug，并帮助确保部署到生产环境的所有代码都符合自定的代码标准。</li>
+</ul>
+<h2 id="常用术语"><a href="#常用术语" class="headerlink" title="常用术语"></a>常用术语</h2><ul>
+<li><code>.gitlab-ci.yml</code>：<ul>
+<li>CI&#x2F;CD配置文件，可以在项目的根目录中创建，用于定义CI&#x2F;CD流程</li>
+<li>此文件遵循<code>YAML</code>格式，存在自己的语法规则。</li>
+</ul>
+</li>
+<li><code>Runners</code>：<ul>
+<li>Runner是执行CI&#x2F;CD作业的实体。</li>
+<li>Runner可以是一个虚拟机、容器或者物理机器。Runner可以在GitLab实例中的所有组和项目中使用，也可以在特定组或项目中使用。</li>
+</ul>
+</li>
+<li><code>Pipelines</code>：Pipelines由jobs和stages组成:<ul>
+<li><code>Jobs</code>：定义了CI&#x2F;CD流程中的一个任务。每个job都是一个独立的实体，可以在不同的runner上运行。</li>
+<li><code>Stages</code>：定义了CI&#x2F;CD流程中的一个阶段。每个stage包含一个或多个job。典型的stages包括<code>build</code>、<code>test</code>、<code>deploy</code>等。</li>
+</ul>
+</li>
+<li><code>CI/CD variables</code>：可以用于pipeline配置和job配置的环境变量。可以在<code>.gitlab-ci.yml</code>文件中定义，也可以在GitLab中的<code>Settings-&gt;CI/CD-&gt;Variables</code>中定义。</li>
+<li><code>CI/CD components</code></li>
+</ul>
+<h2 id="Runner的类型"><a href="#Runner的类型" class="headerlink" title="Runner的类型"></a>Runner的类型</h2><ul>
+<li>GitLab Runner有以下类型：<ul>
+<li>Instance Runners：适用于GitLab实例中的所有组和项目。</li>
+<li>Group Runners：可用于组中的所有项目和子组。</li>
+<li>Project Runners：与具体项目有关。通常<code>project runner</code>一次只由一个项目使用。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Instance-Runner"><a href="#Instance-Runner" class="headerlink" title="Instance Runner"></a>Instance Runner</h3><ul>
+<li><p>当有多个具有类似要求的作业时，可以使用Instance Runner。与其让多个runner为多个项目空闲，不如让几个runner处理多个项目。</p>
+</li>
+<li><p>如果使用的是自管理的GitLab实例，管理员（Administrator）可以：</p>
+<ul>
+<li>安装GitLab Runner并注册一个实例运行器。</li>
+<li>为每个组配置实例运行程序计算分钟数的最大值。</li>
+</ul>
+</li>
+<li><p>如果使用的是GitLab.com：</p>
+<ul>
+<li>可以从GitLab维护的实例运行器列表中进行选择。</li>
+<li>实例运行者消耗帐户中包含的计算分钟数。</li>
+</ul>
+</li>
+<li><p>必要条件：</p>
+<ul>
+<li>必须是Administrator角色。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Group-Runner"><a href="#Group-Runner" class="headerlink" title="Group Runner"></a>Group Runner</h3><ul>
+<li>当您希望组中的所有项目都可以访问一组runner时，请使用group runner。</li>
+<li>组运行者使用先进先出队列处理作业。</li>
+<li>必要条件：<ul>
+<li>必须是目标组的Owner角色。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Project-Runner"><a href="#Project-Runner" class="headerlink" title="Project Runner"></a>Project Runner</h3><ul>
+<li><p>当希望将runner用于特定项目时，使用project runner。</p>
+</li>
+<li><p>特定项目一般具有以下特征：</p>
+<ul>
+<li>具有特定要求的作业，如需要凭据的部署作业。</li>
+<li>具有大量CI活动的项目，可以从与其他跑步者的分离中受益。</li>
+</ul>
+</li>
+<li><p>project runner使用先进先出队列处理作业。</p>
+</li>
+<li><p>必要条件：</p>
+<ul>
+<li>必须是目标组的Maintainer角色。</li>
+</ul>
+</li>
+</ul>
+<h2 id="⭐Group-Runner-配置及使用"><a href="#⭐Group-Runner-配置及使用" class="headerlink" title="⭐Group Runner 配置及使用"></a>⭐Group Runner 配置及使用</h2><h3 id="创建group-runner"><a href="#创建group-runner" class="headerlink" title="创建group runner"></a>创建group runner</h3><ul>
+<li>首先确认具备目标组的<code>Owner</code>权限。</li>
+<li>在目标组的侧边栏选择<code>Builds-&gt;Runners</code>。</li>
+<li>可以看到<code>Runners</code>中有<code>Group Runners</code>和<code>Project Runners</code>，选择<code>New group runner</code>。</li>
+<li>选择安装<code>GitLab Runner</code>的操作系统。</li>
+<li>在<code>Tags</code>中输入作业标签，可以指定某些作业只能在带有特定标签的<code>runner</code>上运行。</li>
+<li>勾选<code>Run untagged jobs</code>，允许运行没有标签的作业。</li>
+<li>（可选）在<code>Runner description</code>中，可以添加一个在<code>GitLab</code>中显示的<code>runner</code>描述。</li>
+<li>（可选）在<code>Configuration</code>部分可以选择其他配置，例如最大作业超时时间。</li>
+<li>选择<code>Create runner</code></li>
+<li>注册<code>runner</code>(在目标机器上执行)：<ul>
+<li>首先需要在目标机器上安装<code>GitLab Runner</code>，执行<code>apt install gitlab-runner</code>。【BUG1】</li>
+<li>执行<code>gitlab-runner register</code>命令，按照提示输入相关信息，包括<code>GitLab instance URL</code>、<code>Runner token</code>等。【BUG2】</li>
+<li>在选择<code>executor</code>时，可以选择<code>shell</code>、<code>docker</code>、<code>docker+machine</code>等。<ul>
+<li>当选择<code>shell</code>时，<code>runner</code>会在目标机器上直接执行作业。</li>
+<li>当选择<code>docker</code>时，<code>runner</code>会在<code>docker</code>容器中执行作业，因此需要确保目标机器上已经安装了<code>docker</code>。【BUG3&amp;BUG4】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>注册成功后，可以在gitlab平台看到新注册的<code>Group Runner</code>。</li>
+</ul>
+<h3 id="查看-暂停-恢复-删除-清理group-runner"><a href="#查看-暂停-恢复-删除-清理group-runner" class="headerlink" title="查看&#x2F;暂停&#x2F;恢复&#x2F;删除&#x2F;清理group runner"></a>查看&#x2F;暂停&#x2F;恢复&#x2F;删除&#x2F;清理group runner</h3><ul>
+<li>查看:<ul>
+<li>必要条件：<code>Maintainer of the group</code> &#x2F; <code>Owner of the group</code></li>
+<li>在<code>Group sidebar-&gt;Builds-&gt;Runners</code>中可以看到所有的group runner，在该组的每一个项目的<code>Settings-&gt;CI/CD-&gt;Runners</code>中也可以看到所有的group runner。</li>
+</ul>
+</li>
+<li>暂停：<ul>
+<li>必要条件：<code>Administrator</code> &#x2F; <code>Owner of the group</code></li>
+<li>在<code>Group sidebar-&gt;Builds-&gt;Runners-&gt;Group Runners</code>中选择要暂停的runner，然后点击<code>Pause</code>。</li>
+</ul>
+</li>
+<li>恢复：<ul>
+<li>必要条件：<code>Administrator</code> &#x2F; <code>Owner of the group</code></li>
+<li>在<code>Group sidebar-&gt;Builds-&gt;Runners-&gt;Group Runners</code>中选择要恢复的runner，然后点击<code>Resume</code>。</li>
+</ul>
+</li>
+<li>删除：<ul>
+<li>必要条件：<code>Administrator</code> &#x2F; <code>Owner of the group</code></li>
+<li>在<code>Group sidebar-&gt;Builds-&gt;Runners-&gt;Group Runners</code>中选择要删除的runner，然后点击<code>Delete</code>。</li>
+</ul>
+</li>
+<li>清理：<ul>
+<li>必要条件：<code>Owner of the group</code></li>
+<li>（？没看到这个）在<code>Group sidebar-&gt;Settings-&gt;CI/CD-&gt;Runners</code>，然后点击<code>Enable stale runner cleanup</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Project-Runner-配置及使用"><a href="#Project-Runner-配置及使用" class="headerlink" title="Project Runner 配置及使用"></a>Project Runner 配置及使用</h2><ul>
+<li>project runner的配置与group runner类似，需要在特定项目的<code>Settings-&gt;CI/CD-&gt;Runners</code>中选择<code>New project runner</code>。</li>
+<li>project runner虽然与特定项目相关，但是可以通过手动的方式将其开放非给同组的其他项目。</li>
+<li>并且，project runner使用docker执行作业没有问题。</li>
+</ul>
+<h2 id="简单的-gitlab-ci-yml示例"><a href="#简单的-gitlab-ci-yml示例" class="headerlink" title="简单的.gitlab-ci.yml示例"></a>简单的.gitlab-ci.yml示例</h2><ul>
+<li>示例：<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span> <span class="comment"># 定义流程阶段, 顺序执行，通常包括build、test、deploy等</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span> <span class="comment"># 构建</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span> <span class="comment"># 测试</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">deploy</span> <span class="comment"># 部署</span></span><br><span class="line"></span><br><span class="line"><span class="attr">build-job:</span>   <span class="comment"># 定义job</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span>  <span class="comment"># 指定job所属的stage</span></span><br><span class="line">  <span class="attr">tag:</span> <span class="string">ubuntu-shell</span> <span class="comment"># 指定runner的tag</span></span><br><span class="line">  <span class="attr">script:</span> <span class="comment"># 定义job的执行脚本</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Building the app&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">test-job-1:</span> </span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Testing the app&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">test-job-2:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Testing the app&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Deploying the app&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="⭐问题记录"><a href="#⭐问题记录" class="headerlink" title="⭐问题记录"></a>⭐问题记录</h2><ol>
+<li><p>BUG1：无法安装<code>GitLab Runner</code></p>
+<ul>
+<li>问题描述：   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@dd-group-runner:~# apt install gitlab-runner</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">E: Unable to locate package gitlab-runner</span><br></pre></td></tr></table></figure></li>
+<li>解决方案：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/590406526">参考</a>，先去官网下载安装密钥，然后安装。   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L &quot;https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh&quot; | bash</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>BUG2：注册时认证问题</p>
+<ul>
+<li>问题描述：x.509证书问题   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@shell-2:~# gitlab-runner register  --url https://gitee.xxxx.lab  --token glrt-xxxxxGndzm3iDm</span><br><span class="line">Runtime platform                                    arch=amd64 os=linux pid=31185 revision=782c6ecb version=16.9.1</span><br><span class="line">Running in system-mode.</span><br><span class="line"></span><br><span class="line">Enter the GitLab instance URL (for example, https://gitlab.com/):</span><br><span class="line">[https://gitee.xxxxx.lab]: https://gitee.xxxxx.lab</span><br><span class="line">ERROR: Verifying runner... failed                   runner=zoYseyDEo status=couldn&#x27;t execute POST against https://gitee.xxxxx.lab/api/v4/runners/verify: Post &quot;https://gitee.xxxxx.lab/api/v4/runners/verify&quot;: tls: failed to verify certificate: x509: certificate signed by unknown authority</span><br><span class="line">PANIC: Failed to verify the runner.</span><br></pre></td></tr></table></figure></li>
+<li>解决方案：手动添加gitlab证书并更新<code>ca-certificates</code>。<ul>
+<li>首先，获取服务器的证书。可以使用<code>openssl s_client</code>命令连接到服务器并输出证书信息: <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl s_client -showcerts -connect xxxx:443 &lt;/dev/null</span><br></pre></td></tr></table></figure></li>
+<li>复制输出的证书信息，包括第一个<code>-----BEGIN CERTIFICATE-----</code>和最后一个<code>-----END CERTIFICATE-----</code>之间的内容。</li>
+<li>将证书内容保存到一个文件，例如<code>server.crt</code>。</li>
+<li>将证书文件复制到<code>/etc/ssl/certs/</code>目录下： <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp server.crt /etc/ssl/certs/</span><br></pre></td></tr></table></figure></li>
+<li>更新<code>ca-certificates</code>: <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-ca-certificates</span><br></pre></td></tr></table></figure></li>
+<li>执行完以上步骤后，服务器的证书就会被添加到系统的信任列表中，gitlab-runner应该能够验证服务器证书并连接到指定的git仓库了。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>BUG3：docker 容器内无法获取gitlab 仓库代码</p>
+<ul>
+<li>问题描述： <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal: unable to access &#x27;https://xxxx/dd/test-cicd.git/&#x27;: Could not resolve host: xxxx</span><br></pre></td></tr></table></figure></li>
+<li>解决方案：<ul>
+<li>方法1：<ul>
+<li>设置 network_mode 为 host，<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50325932/gitlab-runner-docker-could-not-resolve-host">参考</a> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi  /etc/gitlab-runner/config.toml</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">   [runners.docker]</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">       network_mode = <span class="string">&quot;host&quot;</span></span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>重启<code>gitlab runner</code>，执行<code>gitlab-runner restart</code></li>
+</ul>
+</li>
+<li>方法2：<ul>
+<li>在<code>/etc/gitlab-runner/config.toml</code>中<code>[runners.docker]</code>下添加<code>extra_hosts</code>字段<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extra_hosts = [&quot;host:ip&quot;]</span><br></pre></td></tr></table></figure></li>
+<li>重启<code>gitlab runner</code>，执行<code>gitlab-runner restart</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>BUG4：docker容器无法获取git仓库代码</p>
+</li>
+</ol>
+<ul>
+<li>问题描述：<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Getting source from Git repository</span><br><span class="line">00:01</span><br><span class="line">Fetching changes with git depth set to 20...</span><br><span class="line">Reinitialized existing Git repository in /builds/xxxxx/.git/</span><br><span class="line">fatal: unable to access &#x27;https://xxxx.git/&#x27;: HTTP/2 stream 1 was not closed cleanly: PROTOCOL_ERROR (err 1)</span><br><span class="line">Cleaning up project directory and file based variables</span><br></pre></td></tr></table></figure></li>
+<li>解决方案：暂未解决</li>
+<li>尝试的解决方法：<ul>
+<li>搜索该报错，有些解决方法是配置git参数，使用基于ubuntu:jammy创建配置好git参数的镜像，但是还是报错。</li>
+<li>使用ssh方式clone，失败。</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/ci/runners/runners_scope.html#group-runners">Manage runners | GitLab</a></li>
+</ul>
+
     </div>
 
     
@@ -325,6 +523,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CI-CD%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">CI&#x2F;CD概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">常用术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runner%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">Runner的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Instance-Runner"><span class="nav-number">3.1.</span> <span class="nav-text">Instance Runner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Group-Runner"><span class="nav-number">3.2.</span> <span class="nav-text">Group Runner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Project-Runner"><span class="nav-number">3.3.</span> <span class="nav-text">Project Runner</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%AD%90Group-Runner-%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">⭐Group Runner 配置及使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAgroup-runner"><span class="nav-number">4.1.</span> <span class="nav-text">创建group runner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-%E6%9A%82%E5%81%9C-%E6%81%A2%E5%A4%8D-%E5%88%A0%E9%99%A4-%E6%B8%85%E7%90%86group-runner"><span class="nav-number">4.2.</span> <span class="nav-text">查看&#x2F;暂停&#x2F;恢复&#x2F;删除&#x2F;清理group runner</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Project-Runner-%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">Project Runner 配置及使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84-gitlab-ci-yml%E7%A4%BA%E4%BE%8B"><span class="nav-number">6.</span> <span class="nav-text">简单的.gitlab-ci.yml示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%AD%90%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95"><span class="nav-number">7.</span> <span class="nav-text">⭐问题记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">8.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -393,13 +592,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">15k</span>
+    <span title="站点总字数">17k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">54 分钟</span>
+    <span title="站点阅读时长">1:01</span>
 </div>
 
         
