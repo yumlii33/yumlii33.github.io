@@ -215,16 +215,16 @@ description: Gitlab Group Runner配置使用，以及相关问题记录
       - 重启`gitlab runner`，执行`gitlab-runner restart`
 
 4. BUG4：docker容器无法获取git仓库代码
-  - 问题描述：
-    ```shell
-    Getting source from Git repository
-    00:01
-    Fetching changes with git depth set to 20...
-    Reinitialized existing Git repository in /builds/xxxxx/.git/
-    fatal: unable to access 'https://xxxx.git/': HTTP/2 stream 1 was not closed cleanly: PROTOCOL_ERROR (err 1)
-    Cleaning up project directory and file based variables
-    ```
-  - 解决方案：这个报错是由于错误的域名解析导致的，在【BUG3】的解决方案中，之前错误的配置了`192.168.55.1 gitee.xxxx.lab`，通过执行`ping gitee.xxxx.lab`发现实际的ip是`192.168.55.142`。因此正确解决【BUG3】后，这个问题就不存在了。
+   - 问题描述：
+       ```shell
+       Getting source from Git repository
+       00:01
+       Fetching changes with git depth set to 20...
+       Reinitialized existing Git repository in /builds/xxxxx/.git/
+       fatal: unable to access 'https://xxxx.git/': HTTP/2 stream 1 was not closed cleanly: PROTOCOL_ERROR (err 1)
+       Cleaning up project directory and file based variables
+       ```
+   - 解决方案：这个报错是由于错误的域名解析导致的，在【BUG3】的解决方案中，之前错误的配置了`192.168.55.1 gitee.xxxx.lab`，通过执行`ping gitee.xxxx.lab`发现实际的ip是`192.168.55.142`。因此正确解决【BUG3】后，这个问题就不存在了。
 
 ## 参考资料
 
