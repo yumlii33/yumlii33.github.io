@@ -89,7 +89,7 @@ description: Gitlab Group Runner配置使用，以及相关问题记录
 - 注册`runner`(在目标机器上执行)：
   - 首先需要在目标机器上安装`GitLab Runner`，执行`apt install gitlab-runner`。【BUG1】
   - 执行`gitlab-runner register`命令，按照提示输入相关信息，包括`GitLab instance URL`、`Runner token`等。【BUG2】
-  - 在选择`executor`时，可以选择`shell`、`docker`、`docker+machine`等。
+  - 在选择`executor`时，可以选择`shell`、`docker`、`docker+machine`等，如果不确定要选择哪个执行器，请参阅[Selecting the executor](https://docs.gitlab.com/runner/executors/#selecting-the-executor)。
     - 当选择`shell`时，`runner`会在目标机器上直接执行作业。
     - 当选择`docker`时，`runner`会在`docker`容器中执行作业，因此需要确保目标机器上已经安装了`docker`。【BUG3&BUG4】
 - 注册成功后，可以在gitlab平台看到新注册的`Group Runner`。
@@ -224,11 +224,9 @@ description: Gitlab Group Runner配置使用，以及相关问题记录
     fatal: unable to access 'https://xxxx.git/': HTTP/2 stream 1 was not closed cleanly: PROTOCOL_ERROR (err 1)
     Cleaning up project directory and file based variables
     ```
-  - 解决方案：暂未解决
-  - 尝试的解决方法：
-    - 搜索该报错，有些解决方法是配置git参数，使用基于ubuntu:jammy创建配置好git参数的镜像，但是还是报错。
-    - 使用ssh方式clone，失败。
+  - 解决方案：这个报错是由于错误的域名解析导致的，在【BUG3】的解决方案中，之前错误的配置了`192.168.55.1 gitee.xxxx.lab`，通过执行`ping gitee.xxxx.lab`发现实际的ip是`192.168.55.142`。因此正确解决【BUG3】后，这个问题就不存在了。
 
 ## 参考资料
 
 - [Manage runners | GitLab](https://docs.gitlab.com/ee/ci/runners/runners_scope.html#group-runners)
+- [Executors | GitLab](https://docs.gitlab.com/runner/executors/#selecting-the-executor)
