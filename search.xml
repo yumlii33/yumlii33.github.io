@@ -332,12 +332,12 @@
 </ul>
 </li>
 <li><p>BUG4：docker容器无法获取git仓库代码</p>
-</li>
-</ol>
 <ul>
-<li>问题描述：<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Getting source from Git repository</span><br><span class="line">00:01</span><br><span class="line">Fetching changes with git depth set to 20...</span><br><span class="line">Reinitialized existing Git repository in /builds/xxxxx/.git/</span><br><span class="line">fatal: unable to access &#x27;https://xxxx.git/&#x27;: HTTP/2 stream 1 was not closed cleanly: PROTOCOL_ERROR (err 1)</span><br><span class="line">Cleaning up project directory and file based variables</span><br></pre></td></tr></table></figure></li>
+<li>问题描述：  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Getting source from Git repository</span><br><span class="line">00:01</span><br><span class="line">Fetching changes with git depth set to 20...</span><br><span class="line">Reinitialized existing Git repository in /builds/xxxxx/.git/</span><br><span class="line">fatal: unable to access &#x27;https://xxxx.git/&#x27;: HTTP/2 stream 1 was not closed cleanly: PROTOCOL_ERROR (err 1)</span><br><span class="line">Cleaning up project directory and file based variables</span><br></pre></td></tr></table></figure></li>
 <li>解决方案：这个报错是由于错误的域名解析导致的，在【BUG3】的解决方案中，之前错误的配置了<code>192.168.55.1 gitee.xxxx.lab</code>，通过执行<code>ping gitee.xxxx.lab</code>发现实际的ip是<code>192.168.55.142</code>。因此正确解决【BUG3】后，这个问题就不存在了。</li>
 </ul>
+</li>
+</ol>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="https://docs.gitlab.com/ee/ci/runners/runners_scope.html#group-runners">Manage runners | GitLab</a></li>
 <li><a href="https://docs.gitlab.com/runner/executors/#selecting-the-executor">Executors | GitLab</a></li>
