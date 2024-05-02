@@ -803,10 +803,10 @@
 <li>当应用程序易受SQL注入攻击，但其HTTP响应不包含相关SQL查询的结果或任何数据库错误的详细信息时，就会发生SQL盲注。</li>
 <li>许多技术（如<code>UNION</code>攻击）对SQL盲注漏洞无效，因为它们依赖于应用程序的响应中包含有关查询结果的信息。但是，可以使用其他技术来利用SQL盲注漏洞。</li>
 </ul>
-<h2 id="通过触发条件响应利用SQL盲注"><a href="#通过触发条件响应利用SQL盲注" class="headerlink" title="通过触发条件响应利用SQL盲注"></a>通过触发条件响应利用SQL盲注</h2><ul>
+<h2 id="通过触发条件响应利用SQL盲注（布尔盲注）"><a href="#通过触发条件响应利用SQL盲注（布尔盲注）" class="headerlink" title="通过触发条件响应利用SQL盲注（布尔盲注）"></a>通过触发条件响应利用SQL盲注（布尔盲注）</h2><ul>
 <li><p>考虑一个应用程序，它使用跟踪Cookie来收集有关使用情况的分析。对应用程序的请求包括一个cookie头，如下所示：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Cookie: TrackingId=u5YD3PapBcR4lN3e7Tj4</span><br></pre></td></tr></table></figure></li>
-<li><p>当处理包含<code>TrackingId</code>的cookie的请求时，应用程序使用SQL查询来确定这是否时已知用户：</p>
+<li><p>当处理包含<code>TrackingId</code>的cookie的请求时，应用程序使用SQL查询来确定这是否是已知用户：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TrackingId <span class="keyword">FROM</span> TrackedUsers <span class="keyword">WHERE</span> TrackingId <span class="operator">=</span> <span class="string">&#x27;u5YD3PapBcR4lN3e7Tj4&#x27;</span></span><br></pre></td></tr></table></figure></li>
 <li><p>此查询易受SQL注入攻击，但查询结果不会返回给用户。但是应用程序的行为确实会有所不同，具体取决于查询是否返回数据。如果提交一个已识别的<code>TrackingId</code>，查询将返回数据，并且将在响应中收到一条“welcome back”的消息。</p>
 </li>
@@ -855,6 +855,104 @@
 </ul>
 </li>
 </ul>
+<h2 id="基于错误的SQL注入-报错盲注"><a href="#基于错误的SQL注入-报错盲注" class="headerlink" title="基于错误的SQL注入(报错盲注)"></a>基于错误的SQL注入(报错盲注)</h2><ul>
+<li>基于错误的SQL注入是指您能够使用错误消息从数据库中提取或推断敏感数据的情况，即使在盲目的上下文中也是如此。可能性取决于数据库的配置和您能够触发的错误类型：<ul>
+<li>您可以根据布尔表达式的结果，引导应用程序返回特定的错误响应。你可以像我们在上一节中看到的条件响应一样利用这一点。有关更多信息，请参见通过触发条件错误利用SQL盲注入。</li>
+<li>您可能能够触发错误消息，输出查询返回的数据。这有效地将原本盲目的SQL注入漏洞变成了可见的漏洞。有关详细信息，请参阅通过详细SQL错误消息提取敏感数据。</li>
+</ul>
+</li>
+</ul>
+<h3 id="通过触发条件错误利用SQL盲目注入"><a href="#通过触发条件错误利用SQL盲目注入" class="headerlink" title="通过触发条件错误利用SQL盲目注入"></a>通过触发条件错误利用SQL盲目注入</h3><ul>
+<li>有些应用程序执行SQL查询，但无论查询是否返回任何数据，它们的行为都不会改变。上一节中的技术将不起作用，因为注入不同的布尔条件对应用程序的响应没有影响。</li>
+<li>通常可以根据是否发生SQL错误来引导应用程序返回不同的响应。您可以修改查询，使其仅在条件为true时才导致数据库错误。通常，数据库抛出的未处理错误会导致应用程序的响应出现一些差异，例如错误消息。这使您能够推断注入条件的真实性。</li>
+<li>例如：<ul>
+<li>假设发送了两个请求，依次包含以下TrackingId cookie值：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">xyz<span class="string">&#x27; AND (SELECT CASE WHEN (1=2) THEN 1/0 ELSE &#x27;</span>a<span class="string">&#x27; END)=&#x27;</span>a</span><br><span class="line">xyz<span class="string">&#x27; AND (SELECT CASE WHEN (1=1) THEN 1/0 ELSE &#x27;</span>a<span class="string">&#x27; END)=&#x27;</span>a</span><br></pre></td></tr></table></figure></li>
+<li>这些输入使用CASE关键字来测试条件，并根据表达式是否为true返回不同的表达式：<ul>
+<li>对于第一个输入，CASE表达式的计算结果为’a’，这不会导致任何错误。</li>
+<li>对于第二个输入，它的计算结果为1&#x2F;0，这会导致被零除错误。</li>
+</ul>
+</li>
+<li>如果错误导致应用程序的HTTP响应不同，则可以使用它来确定注入的条件是否为true。</li>
+</ul>
+</li>
+<li>使用此技术，您可以通过一次测试一个字符来检索数据：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">xyz<span class="string">&#x27; AND (SELECT CASE WHEN (Username = &#x27;</span>Administrator<span class="string">&#x27; AND SUBSTRING(Password, 1, 1) &gt; &#x27;</span>m<span class="string">&#x27;) THEN 1/0 ELSE &#x27;</span>a<span class="string">&#x27; END FROM Users)=&#x27;</span>a</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="🧪实验10：带条件错误的SQL盲注入"><a href="#🧪实验10：带条件错误的SQL盲注入" class="headerlink" title="🧪实验10：带条件错误的SQL盲注入"></a>🧪实验10：带条件错误的SQL盲注入</h3><ul>
+<li><p>实验说明</p>
+<ul>
+<li>本实验包含一个SQL盲目注入漏洞。应用程序使用跟踪Cookie进行分析，并执行包含提交的Cookie值的SQL查询。</li>
+<li>SQL查询的结果不会返回，应用程序也不会根据查询是否返回任何行而做出任何不同的响应。如果SQL查询导致错误，则应用程序返回自定义错误消息。</li>
+<li>该数据库包含一个名为users的不同表，其中的列名为username和password。您需要利用SQL盲目注入漏洞来找出管理员用户的密码。</li>
+<li>要解决实验，请以<code>administrator</code>的身份登录。</li>
+</ul>
+</li>
+<li><p>注意：本实验使用Oracle数据库。有关更多信息，请参阅SQL注入备忘单。</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<h3 id="通过详细的SQL错误消息提取敏感数据"><a href="#通过详细的SQL错误消息提取敏感数据" class="headerlink" title="通过详细的SQL错误消息提取敏感数据"></a>通过详细的SQL错误消息提取敏感数据</h3><ul>
+<li>数据库的错误配置有时会导致详细的错误消息。这些可能会提供对攻击者有用的信息。例如，考虑以下错误消息，它在将单引号注入id参数后出现：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Unterminated string literal started at position 52 in SQL SELECT * FROM tracking WHERE id = &#x27;&#x27;&#x27;. Expected char</span><br></pre></td></tr></table></figure></li>
+<li>这显示了应用程序使用我们的输入构造的完整查询。我们可以看到，在本例中，我们将注入到WHERE语句中的单引号字符串中。这使得构造包含恶意负载的有效查询变得更加容易。注释掉查询的其余部分可以防止多余的单引号破坏语法。</li>
+<li>有时候，您可能会导致应用程序生成一条错误消息，其中包含查询返回的某些数据。这有效地将一个原本是盲目的SQL注入漏洞变成了一个可见的漏洞。</li>
+<li>您可以使用CAST()函数来实现这一点。它使您能够将一种数据类型转换为另一种数据类型。例如，假设一个查询包含以下语句：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CAST</span>((<span class="keyword">SELECT</span> example_column <span class="keyword">FROM</span> example_table) <span class="keyword">AS</span> <span class="type">int</span>)</span><br></pre></td></tr></table></figure></li>
+<li>通常，你试图读取的数据是一个字符串。尝试将其转换为不兼容的数据类型（如int）可能会导致类似以下的错误：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">ERROR: invalid input syntax <span class="keyword">for</span> type <span class="type">integer</span>: &quot;Example data&quot;</span><br></pre></td></tr></table></figure></li>
+<li>如果字符限制阻止您触发条件响应，这种类型的查询也可能很有用。</li>
+</ul>
+<h3 id="🧪实验11：可视的基于错误的SQL注入"><a href="#🧪实验11：可视的基于错误的SQL注入" class="headerlink" title="🧪实验11：可视的基于错误的SQL注入"></a>🧪实验11：可视的基于错误的SQL注入</h3><ul>
+<li><p>实验说明</p>
+<ul>
+<li>本实验包含SQL注入漏洞。应用程序使用跟踪Cookie进行分析，并执行包含提交的Cookie值的SQL查询。不返回SQL查询的结果。</li>
+<li>数据库包含一个不同的表，名为users，列名为username和password。要解决这个实验，找到一种方法来泄露administrator用户的密码，然后登录到他们的帐户。</li>
+</ul>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<h2 id="通过触发时间延迟来利用SQL盲目注入"><a href="#通过触发时间延迟来利用SQL盲目注入" class="headerlink" title="通过触发时间延迟来利用SQL盲目注入"></a>通过触发时间延迟来利用SQL盲目注入</h2><ul>
+<li><p>如果应用程序在执行SQL查询时捕获数据库错误并妥善处理它们，则应用程序的响应不会有任何差异。这意味着前面的诱导条件错误的技术将不起作用。</p>
+</li>
+<li><p>在这种情况下，通常可以通过根据注入条件为true还是false触发时间延迟来利用SQL盲注入漏洞。由于SQL查询通常由应用程序同步处理，因此延迟SQL查询的执行也会延迟HTTP响应。这允许您根据接收HTTP响应所花费的时间来确定注入条件的真实性。</p>
+</li>
+<li><p>触发时间延迟的技术特定于所使用的数据库类型。例如，在Microsoft SQL Server上，您可以使用以下内容来测试条件并根据表达式是否为true触发延迟：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;; IF (1=2) WAITFOR DELAY &#x27;</span><span class="number">0</span>:<span class="number">0</span>:<span class="number">10</span><span class="string">&#x27;--</span></span><br><span class="line"><span class="string">&#x27;</span>; IF (<span class="number">1</span><span class="operator">=</span><span class="number">1</span>) WAITFOR DELAY <span class="string">&#x27;0:0:10&#x27;</span><span class="comment">--</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>在这种情况下，第一个查询将不会触发延迟，而第二个查询将会触发10秒的延迟。</li>
+</ul>
+</li>
+<li><p>使用这种技术，我们可以通过一次测试一个字符来检索数据：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;; IF (SELECT COUNT(Username) FROM Users WHERE Username = &#x27;</span>Administrator<span class="string">&#x27; AND SUBSTRING(Password, 1, 1) &gt; &#x27;</span>m<span class="string">&#x27;) = 1 WAITFOR DELAY &#x27;</span><span class="number">0</span>:<span class="number">0</span>:&#123;delay&#125;<span class="string">&#x27;--</span></span><br></pre></td></tr></table></figure></li>
+<li><p>在SQL查询中触发时间延迟的方法有很多种，不同的技术适用于不同类型的数据库。有关详细信息，请参阅SQL注入备忘单。</p>
+</li>
+</ul>
+<h3 id="🧪实验12：带时间延迟的SQL盲注入和信息检索"><a href="#🧪实验12：带时间延迟的SQL盲注入和信息检索" class="headerlink" title="🧪实验12：带时间延迟的SQL盲注入和信息检索"></a>🧪实验12：带时间延迟的SQL盲注入和信息检索</h3><ul>
+<li>实验说明</li>
+<li>解题过程</li>
+</ul>
+<h2 id="利用带外（OAST）技术进行SQL盲注入"><a href="#利用带外（OAST）技术进行SQL盲注入" class="headerlink" title="利用带外（OAST）技术进行SQL盲注入"></a>利用带外（OAST）技术进行SQL盲注入</h2><ul>
+<li><p>应用程序可能执行与上一个示例相同的SQL查询，但异步执行。应用程序继续在原始线程中处理用户的请求，并使用另一个线程使用跟踪cookie执行SQL查询。该查询仍然容易受到SQL注入的攻击，但目前为止所描述的技术都不起作用。应用程序的响应不依赖于查询是否返回任何数据、是否发生数据库错误或执行查询所花费的时间。</p>
+</li>
+<li><p>在这种情况下，通常可以通过触发与您控制的系统的带外网络交互来利用SQL盲注入漏洞。这些可以基于注入的条件来触发，以每次推断一条信息。更有用的是，数据可以直接在网络交互中泄露。</p>
+</li>
+<li><p>多种网络协议可用于此目的，但通常最有效的是DNS（域名服务）。许多生产网络允许DNS查询的自由出口，因为它们对于生产系统的正常运行至关重要。</p>
+</li>
+</ul>
+<h3 id="🧪实验13：带外交互的SQL盲注入"><a href="#🧪实验13：带外交互的SQL盲注入" class="headerlink" title="🧪实验13：带外交互的SQL盲注入"></a>🧪实验13：带外交互的SQL盲注入</h3><h3 id="🧪实验14：带外数据渗出的SQL盲注入"><a href="#🧪实验14：带外数据渗出的SQL盲注入" class="headerlink" title="🧪实验14：带外数据渗出的SQL盲注入"></a>🧪实验14：带外数据渗出的SQL盲注入</h3><h2 id="不同上下文中的SQL注入"><a href="#不同上下文中的SQL注入" class="headerlink" title="不同上下文中的SQL注入"></a>不同上下文中的SQL注入</h2><h3 id="通过XML编码绕过过滤器的SQL注入"><a href="#通过XML编码绕过过滤器的SQL注入" class="headerlink" title="通过XML编码绕过过滤器的SQL注入"></a>通过XML编码绕过过滤器的SQL注入</h3><h2 id="二阶SQL注入"><a href="#二阶SQL注入" class="headerlink" title="二阶SQL注入"></a>二阶SQL注入</h2><ul>
+<li>当应用程序处理来自HTTP请求的用户输入并以不安全的方式将输入合并到SQL查询中时，就会发生一阶SQL注入。</li>
+<li>当应用程序从HTTP请求中获取用户输入并将其存储以备将来使用时，就会发生二阶SQL注入。这通常是通过将输入放入数据库来完成的，但在存储数据的位置不会出现漏洞。稍后，当处理不同的HTTP请求时，应用程序检索存储的数据，并以不安全的方式将其合并到SQL查询中。因此，二阶SQL注入也被称为存储SQL注入。</li>
+<li>二阶SQL注入通常发生在开发人员意识到SQL注入漏洞的情况下，因此可以安全地处理输入到数据库中的初始位置。当数据稍后被处理时，它被认为是安全的，因为它以前被安全地放置在数据库中。在这一点上，数据是以一种不安全的方式处理的，因为开发人员错误地认为它是可信的。</li>
+</ul>
+<h2 id="如何防止SQL注入"><a href="#如何防止SQL注入" class="headerlink" title="如何防止SQL注入"></a>如何防止SQL注入</h2><ul>
+<li>您可以使用<strong>参数化查询</strong>而不是查询中的字符串连接来防止大多数SQL注入实例。这些参数化查询也称为”预准备语句”。</li>
+<li>以下代码容易受到SQL注入攻击，因为用户输入直接连接到查询中：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">query</span> <span class="operator">=</span> <span class="string">&quot;SELECT * FROM products WHERE category = &#x27;&quot;</span>+ input + <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line"><span class="type">Statement</span> <span class="variable">statement</span> <span class="operator">=</span> connection.createStatement();</span><br><span class="line"><span class="type">ResultSet</span> <span class="variable">resultSet</span> <span class="operator">=</span> statement.executeQuery(query);</span><br></pre></td></tr></table></figure></li>
+<li>您可以重写此代码，以防止用户输入干扰查询结构：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">PreparedStatement</span> <span class="variable">statement</span> <span class="operator">=</span> connection.prepareStatement(<span class="string">&quot;SELECT * FROM products WHERE category = ?&quot;</span>);</span><br><span class="line">statement.setString(<span class="number">1</span>, input);</span><br><span class="line"><span class="type">ResultSet</span> <span class="variable">resultSet</span> <span class="operator">=</span> statement.executeQuery();</span><br></pre></td></tr></table></figure></li>
+<li>对于不受信任的输入在查询中显示为数据的任何情况，包括WHERE子句和INSERT或UPDATE语句中的值，都可以使用参数化查询。它们不能用于处理查询的其他部分中的不受信任的输入，如表或列名，或ORDER BY子句。将不受信任的数据放入查询的这些部分的应用程序功能需要采取不同的方法，例如：<ul>
+<li>将允许的输入值列入白名单。</li>
+<li>使用不同的逻辑来交付所需的行为。</li>
+</ul>
+</li>
+<li>为了使参数化查询能够有效地防止SQL注入，查询中使用的字符串必须始终是硬编码的常量。它绝不能包含来自任何来源的任何可变数据。不要试图逐个确定数据项是否可信，对于被认为安全的情况，请继续在查询中使用字符串连接。很容易在数据的可能来源上犯错误，或者在其他代码中的更改会污染可信数据。</li>
+</ul>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="https://www.freebuf.com/articles/web/287481.html">PortSwigger之SQL注入实验室笔记 - FreeBuf网络安全行业门户</a></li>
 <li><a href="https://portswigger.net/web-security/learning-paths/sql-injection/sql-injection-retrieving-hidden-data/sql-injection/lab-retrieve-hidden-data">SQL injection - PortSwigger</a></li>
@@ -862,76 +960,6 @@
 <li><a href="https://blog.csdn.net/weixin_52796034/article/details/133746733">渗透测试—手把手教你SQL注入(4)–DNSLOG外带注入</a></li>
 <li><a href="https://blog.csdn.net/kongzhian/article/details/110001836">SQL注入——二次注入的原理 利用以及防御</a></li>
 </ul>
-<!-- ## SQL注入学习
-
-### 简介
-
-[SQL 注入就是借助网站上不健全的 SQL 拼接语句，将攻击者自己的 payload 拼接到原有的 SQL 语句中，使其在服务器上执行恶意 SQL 语句，使得攻击者可以对数据库进行网站运营者预料之外的增、删、改、查操作。](https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ)
-
-
-### 原理
-
-[简单来说，造成SQL注入的原因就是由于应用程序在构造SQL查询语句时未正确过滤或转义用户输入的数据、或未使用预编译等方法，造成了攻击者构造的恶意语句被应用程序执行。](https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ)
-
-
-### 危害
-
-1. 脱库
-2. 查询隐藏数据
-3. 新增管理账户
-4. getshell，获取服务器权限
-
-> 脱库:本来是数据库领域的专用语，指从数据库中导出数据。而现在它被用来指网站遭到入侵后，黑客窃取数据库的行为。也就是网站被入侵以后数据库信息泄露了。
-
-
-### 测试方法（简单）
-
-| 测试方法 | 说明 |
-| --- | --- |
-| 单双引号 | ' " ，查看是否报错 |
-| 算数运算 | 比如在id=2的地方输入id=1+1，查看返回数据是否一致，一致说明可能存在注入点 |
-| 布尔条件 | 比如 OR 1=1 和 OR 1=2 ，比较两个响应是否有差异，如果存在注入点，前者返回的数据通常是比后者多的 |
-| 时间延迟 | 比如 sleep(5)，如果存在注入点，那么携带 payload 的请求，其响应时间应该会比正常的请求慢 5 秒 |
-| 带外测试（？） | 查看你的带外平台是否收到了对应的数据 |
-
-
-### 修复方法
-
-- 使用参数化查询或预编译语句
-- 输入验证和过滤
-- 最小化特权
-- 使用ORM框架
-- 避免动态拼接SQL语句
-- 错误处理和日志记录
-
-
-### 分类
-
-- 基于攻击原理进行分类
-| 分类 | 说明 |
-| --- | --- |
-| 报错注入 | 页面会返回报错信息，或把SQL语句直接返回在页面中。常用的函数有：ExtractValue、UpdateXml、concat |
-| 联合注入 | 可以执行`UNICON SELECT`语句 |
-| 延时注入 | 又叫时间型盲注，通过执行如 sleep(5) 之类的函数，使得存在漏洞的响应会明显慢于正常响应 |
-| 布尔盲注 | 布尔盲注不会直接返回查询结果，而是通过应用程序的响应或行为差异来推断查询结果的真假 |
-| 堆叠注入 | 简单地说就是使用`;`分号分隔两个SQL语句，在应用程序执行完原有语句之后，再执行我们的 payload |
-| 二次注入 | [SQL注入——二次注入的原理 利用以及防御](https://blog.csdn.net/kongzhian/article/details/110001836) |
-- 基于数据类型进行分类
-  - 数字型
-  - 字符型
-  - 搜索型
-- 基于提交方式进行分类
-  - GET
-  - POST
-  - Cookie
-  - Header
-
-### 参考资料
-
-- [一篇文章学会手工注入（万字介绍SQL注入）](https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ)
-- [渗透测试---手把手教你SQL注入(4)--DNSLOG外带注入](https://blog.csdn.net/weixin_52796034/article/details/133746733)
-- [SQL注入——二次注入的原理 利用以及防御](https://blog.csdn.net/kongzhian/article/details/110001836) -->
-
 ]]></content>
       <categories>
         <category>CTF-WriteUp</category>
